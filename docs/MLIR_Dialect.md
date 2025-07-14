@@ -320,6 +320,7 @@ builtin 是 MLIR 的内建基础 Dialect。它提供了最核心的抽象元素�
 **主要OP**
 
 `builtin.module` 和`func.func` 最常用。module 是顶层容器，代表一段 IR 单元。不支持嵌套，一个 module 内不能再有 module,通常作为 mlir-opt 或 mlir-translate 的输入单元。`func`是函数Op，可以包含多个 block。
+
 | Op                                   | 说明                                                                     |
 | ------------------------------------ | ---------------------------------------------------------------------- |
 | `builtin.module`                     | 模块顶层容器                   |
@@ -329,6 +330,7 @@ builtin 是 MLIR 的内建基础 Dialect。它提供了最核心的抽象元素�
 **主要类型Type**
 
 这些都是内建的类型，都是由 builtin Dialect 统一提供。
+
 | 类型                         | 示例                  | 说明                     |
 | -------------------------- | ------------------- | ---------------------- |
 | `i32`, `i64`, `f32`, `f64` | `i32`, `f32`        | 基本整数和浮点类型              |
@@ -358,7 +360,9 @@ arith 是 MLIR 中用于标量级算术运算的 Dialect。提供了熟悉的加
 
 ### 2.2 提供内容
 **主要Op**
+
 **基础运算类**
+
 | 操作 | Op 名                             | 示例                             |
 | -- | -------------------------------- | ------------------------------ |
 | 加法 | `arith.addi` / `arith.addf`      | `%r = arith.addi %a, %b : i32` |
@@ -369,12 +373,14 @@ arith 是 MLIR 中用于标量级算术运算的 Dialect。提供了熟悉的加
 **常量定义类**
 
 一个 Op 实现了所有标量常量定义，支持任意整数、浮点值。
+
 | 操作   | Op 名             | 示例                                |
 | ---- | ---------------- | --------------------------------- |
 | 整数常量 | `arith.constant` | `%c1 = arith.constant 1 : i32`    |
 | 浮点常量 | `arith.constant` | `%cf = arith.constant 3.14 : f32` |
 
 **比较类**
+
 | 操作   | Op 名         | 示例                                    |
 | ---- | ------------ | ------------------------------------- |
 | 浮点比较 | `arith.cmpf` | `%cmp = arith.cmpf olt, %a, %b : f32` |
@@ -410,7 +416,9 @@ func.func @example() -> i32 {
 scf提供了 MLIR 中的控制流结构：循环、分支、条件跳转。不是类似汇编那样的“goto”风格，而是更像高级语言里的 if、for、while 结构，结构化，没有 scf Dialect就没法写有控制逻辑的 MLIR 程序。
 
 ### 3.2 提供内容
+
 **常用Op**
+
 | Op 名                 | 用途            | 类比 C 语言                           |
 | -------------------- | ------------- | --------------------------------- |
 | `scf.if`             | 条件执行分支        | `if (cond) {...} else {...}`      |
@@ -420,7 +428,9 @@ scf提供了 MLIR 中的控制流结构：循环、分支、条件跳转。不�
 | `scf.execute_region` | 封闭可嵌套计算块      | 用于嵌套或 region 封闭操作                 |
 
 ### 3.3 使用示例
+
 **计数循环**
+
 %i 是循环变量，循环从 0 到 <10（不含10），步长为1每次循环中执行一次 %i + %i 的计算
 ```
 %zero = arith.constant 0 : i32
@@ -474,6 +484,7 @@ memref 是 MLIR 中描述内存布局与访问的专用 Dialect。主要负责 M
 
 ### 4.2 内容
 **常见Op**
+
 | Op 名称                     | 作用简介                       |
 | ------------------------- | -------------------------- |
 | `memref.alloc`            | 在堆上动态分配一段内存        |
@@ -483,6 +494,7 @@ memref 是 MLIR 中描述内存布局与访问的专用 Dialect。主要负责 M
 | `memref.store`            | 将值写入 memref                |
 
 **常见Type**
+
 | Type 名称                         | 示例                                            | 含义说明                         |
 | ------------------------------- | --------------------------------------------- | ---------------------------- |
 | `memref<shape x element>`       | `memref<4x4xf32>`                             | 多维数组，带形状和元素类型                |
@@ -536,7 +548,9 @@ module {
 tensor Dialect 提供了一组操作和类型，用来描述不可变（immutable）的多维张量。
 
 ### 5.2 内容
+
 **常见Op**
+
 | Op 名称                   | 作用简介                       |
 | ----------------------- | -------------------------- |
 | `tensor.empty`          | 创建一个空张量（用于构建新张量）           |
@@ -552,6 +566,7 @@ tensor Dialect 提供了一组操作和类型，用来描述不可变（immutabl
 | `tensor.collapse_shape` | 降低维度（压缩）                   |
 
 **常见Type**
+
 | Type 名称                   | 示例                | 含义说明                   |
 | ------------------------- | ----------------- | ---------------------- |
 | `tensor<shape x type>`    | `tensor<4x4xf32>` | 固定形状的张量                |
@@ -592,6 +607,7 @@ linalg（Linear Algebra Dialect）提供了线性代数层级的操作描述，�
 
 ### 6.2 内容
 **常见Op**
+
 | Op 名称                      | 作用简述                        |
 | -------------------------- | --------------------------- |
 | `linalg.matmul`            | 标准矩阵乘法（2D \* 2D -> 2D）      |
@@ -614,7 +630,6 @@ func.func @fill_tensor(%cst: f32) -> tensor<4x4xf32> {
 }
 ```
 
-
 # 三、优化
 
 ## 1. MLIR优化框架
@@ -998,384 +1013,5 @@ std::unique_ptr<Pass> createRemoveMyAddZeroPass() {
 
 
 
-# 三、优化
 
-## 1. MLIR优化框架
-
-### 1.1 优化的概念
-
-**优化**：在 MLIR 中，优化本质上就是修改 IR 以更高效地执行。
-
-比如：
-
-- 常量折叠（`x + 0 -> x`）
-- 死代码消除（不再被使用的变量删掉）
-- 循环展开、内联函数、表达式简化……
-
-**Pass**：在 MLIR 中， **Pass 就是对 IR 执行的某个优化逻辑**，也就是优化是目标，Pass是我们实现优化的过程。
-
-
-
-**优化举例：**
-
-优化前的 IR：
-
-```mlir
-%0 = arith.constant 0 : i32
-%1 = arith.addi %x, %0 : i32
-
-```
-
-CSE/ConstantFold Pass 优化后：
-
-```
-%1 = %x  // 折叠掉了“加0”这个无意义的操作
-```
-
-### 1.2 MLIR常用优化Pass
-
-| Pass 名称      | 功能说明                                                   |
-| -------------- | ---------------------------------------------------------- |
-| `canonicalize` | Canonicalization：进行标准化模式匹配（Pattern-based 重写） |
-| `cse`          | Common Subexpression Elimination，合并重复表达式           |
-| `inline`       | 内联函数体（`func.call` -> 函数体替换）                    |
-| `symbol-dce`   | 删除未使用的符号（函数、全局变量等）                       |
-| `loop-unroll`  | 展开循环体，加快执行（主要是 `scf.for`）                   |
-
-**1.2.1 Canonicalize**
-
-**作用**：对 IR 进行模式匹配式的重写，把表达式转成“标准形式”，简化逻辑。
-
-**举例：**
-
-```
-%0 = arith.constant 0 : i32
-%1 = arith.addi %x, %0 : i32
-```
-
-**优化：**
-
-```
-%1 = %x
-```
-
-**1.2.2 CSE**
-
-**作用**：找到并合并重复的计算。
-
-**举例：**
-
-```
-%1 = arith.addi %a, %b : i32
-%2 = arith.addi %a, %b : i32
-```
-
-**优化：**
-
-```
-%1 = arith.addi %a, %b : i32
-%2 = %1
-```
-
-**1.2.3 Inlining**
-
-**作用**：将函数调用点替换为函数体本身，减少函数调用开销。
-
-**举例：**
-
-```
-func.func @add(%a: i32, %b: i32) -> i32 {
-  %0 = arith.addi %a, %b : i32
-  return %0 : i32
-}
-
-%1 = func.call @add(%x, %y) : (i32, i32) -> i32
-
-```
-
-**优化：**
-
-```
-%0 = arith.addi %x, %y : i32
-%1 = %0
-```
-
-
-
-### 1.3 使用方法
-
-用`mlir-opt` 工具来运行优化 Pass：
-
-```
-mlir-opt input.mlir -canonicalize -cse -o output.mlir
-```
-
-这个命令将 `input.mlir` 文件依次执行两个优化 Pass：
-
-先进行标准化（canonicalize）
-
-再进行公共子表达式消除（cse）
-
-
-
-## 2. Pass编写基础
-
-### 2.1 为什么要自行编写Pass？
-
-MLIR 提供的  `canonicalize`, `cse`, `inline` 等Pass处理的是对应的dialect，无法识别自定义dialect的内容。
-
-**举例：**
-
-定义了一个自己的 dialect `toy.add`，表示张量加法，那么：
-
-```
-%1 = toy.add %a, %b
-%2 = toy.add %a, %b
-```
-
-自带的 `cse` 不认识 `toy.add`，不会处理它, 需要自己写 Pass，去识别、重写这些逻辑。
-
-### 2.2 构建方式
-
-MLIR 中的 Pass 是一个 **C++ 类**，继承了 `mlir::PassWrapper`并重写其 `runOnOperation()` 方法：
-
-```c++
-struct MyPass : public mlir::PassWrapper<MyPass, mlir::FunctionPass> {
-  void runOnFunction() override {
-    // 这里写具体的优化逻辑
-  }
-};
-```
-
-Pass 可以有几种作用域：`OperationPass<FuncOp>`：操作函数体,`ModulePass`：操作整个模块等等
-
-
-
-### 2.3 编写Pass
-
-写一个自定义 Dialect `mydialect`，定义一个 Op：`mydialect.addi`，它模拟 `x + y` 的整数加法。然后编写一个 Pass，优化掉其中 `x + 0` 或 `0 + x` 的加法。
-
-#### 2.3.1 定义Dialect和Op（前面部分教程）
-
-#### 2.3.2 准备测试用的 IR 文件
-
-```
-module {
-  func.func @test(%arg0: i32) -> i32 {
-    %c0 = arith.constant 0 : i32
-    %sum = mydialect.addi %arg0, %c0 : i32
-    return %sum : i32
-  }
-}
-```
-
-#### 2.3.3 编写自定义Pass
-
-`include/MyPass.h`
-
-```c++
-#ifndef MY_PASS_H
-#define MY_PASS_H
-
-#include "mlir/Pass/Pass.h"
-
-namespace mlir {
-std::unique_ptr<OperationPass<func::FuncOp>> createRemoveMyAddZeroPass();
-}
-
-#endif
-```
-
- `lib/MyPass.cpp`
-
-```c++
-#include "MyPass.h"
-#include "mydialect/MyOps.h.inc"
-
-#include "mlir/Dialect/Arith/IR/Arith.h"
-#include "mlir/IR/Builders.h"
-#include "mlir/Pass/Pass.h"
-
-using namespace mlir;
-
-namespace {
-
-struct RemoveMyAddZeroPass
-    : public PassWrapper<RemoveMyAddZeroPass, OperationPass<func::FuncOp>> {
-  void runOnOperation() override {
-    func::FuncOp func = getOperation();
-    OpBuilder builder(func.getContext());
-
-    func.walk([&](mydialect::AddIOp op) {
-      Value lhs = op.getLhs();
-      Value rhs = op.getRhs();
-
-      auto isZeroConst = [](Value val) -> bool {
-        if (auto cst = val.getDefiningOp<arith::ConstantOp>()) {
-          if (auto attr = cst.getValue().dyn_cast<IntegerAttr>())
-            return attr.getValue().isZero();
-        }
-        return false;
-      };
-
-      if (isZeroConst(lhs)) {
-        op.replaceAllUsesWith(rhs);
-        op.erase();
-      } else if (isZeroConst(rhs)) {
-        op.replaceAllUsesWith(lhs);
-        op.erase();
-      }
-    });
-  }
-};
-
-} // namespace
-
-std::unique_ptr<OperationPass<func::FuncOp>> mlir::createRemoveMyAddZeroPass() {
-  return std::make_unique<RemoveMyAddZeroPass>();
-}
-
-```
-
-#### 2.3.4 注册并运行 Pass
-
-```c++
-#include "mlir/Support/MlirOptMain.h"
-#include "mlir/InitAllDialects.h"
-#include "mlir/InitAllPasses.h"
-
-#include "mydialect/MyDialect.h"
-#include "MyPass.h"
-
-int main(int argc, char **argv) {
-  mlir::DialectRegistry registry;
-  registry.insert<mlir::func::FuncDialect, mlir::arith::ArithDialect, mlir::mydialect::MyDialect>();
-
-  mlir::registerAllPasses();
-  mlir::PassRegistration<mlir::RemoveMyAddZeroPass>();
-
-  return mlir::MlirOptMain(argc, argv, "My Pass Tool\n", registry);
-}
-
-```
-
-### 2.3.5 优化
-
-```
-./bin/my-opt test/test.mlir -remove-my-add-zero
-```
-
-输出 IR 会把 `mydialect.addi %x, %c0` 删除
-
-
-
-## 3 Rewrite Pattern
-
-### 3.1 基本定义
-
- `RewritePattern` 系统，这是MLIR 编写 Pass 最推荐的优化方式，是对 IR 中某种“模式”的识别和替换的描述。由 MLIR 提供的机制自动完成匹配、替换、遍历等工作。
-
-**依然是前面的案例，前面写的 Pass 是自己匹配 `if (...)`，然后 `op.erase()`，现在用 Rewrite Pattern 实现更简单**
-
-**一个 Rewrite Pattern 通常包含以下几个要素：**
-
-| 组成部分                         | 含义                                    |
-| -------------------------------- | --------------------------------------- |
-| `OpRewritePattern<T>`            | 表示这个 Pattern 是匹配某种 Op 的       |
-| `matchAndRewrite()`              | 定义匹配和重写的具体逻辑                |
-| `PatternRewriter`                | 替换 IR 的工具类，自动管理 use-def 链等 |
-| `applyPatternsAndFoldGreedily()` | 在 Pass 中统一应用所有 Pattern          |
-
-### 3.2 具体步骤
-
-#### 3.2.1 定义Pattern
-
-这里代码有几个关键部分，`OpRewritePattern<mydialect::AddIOp>`
-
-表明这个 Pattern 匹配的是 `mydialect.addi`, `matchAndRewrite()`标明匹配之后如何替换，`rewriter.replaceOp(op, newValue)`替换原始 op 所有 uses, `success()` / `failure()`告诉 MLIR 是否成功重写
-
-`MyPatterns.cpp`
-
-```c++
-#include "mlir/IR/PatternMatch.h"
-#include "mlir/Dialect/Arith/IR/Arith.h"
-#include "mydialect/MyOps.h.inc" // 包含 AddIOp 定义
-
-using namespace mlir;
-
-// 定义一个用于优化 mydialect.addi 的 Rewrite Pattern
-struct RemoveAddZeroPattern : OpRewritePattern<mydialect::AddIOp> {
-  using OpRewritePattern::OpRewritePattern;
-
-  LogicalResult matchAndRewrite(mydialect::AddIOp op,
-                                PatternRewriter &rewriter) const override {
-    Value lhs = op.getLhs();
-    Value rhs = op.getRhs();
-
-    // 判断是否为常量 0（左边或右边）
-    auto isZeroConst = [](Value val) -> bool {
-      if (auto cst = val.getDefiningOp<arith::ConstantOp>()) {
-        if (auto attr = cst.getValue().dyn_cast<IntegerAttr>())
-          return attr.getValue().isZero();
-      }
-      return false;
-    };
-
-    // 优化规则：如果 rhs 是 0，结果就是 lhs
-    if (isZeroConst(rhs)) {
-      rewriter.replaceOp(op, lhs);  // 替换整个 Op 为 lhs
-      return success();
-    }
-
-    // 规则2：如果 lhs 是 0，结果是 rhs
-    if (isZeroConst(lhs)) {
-      rewriter.replaceOp(op, rhs);
-      return success();
-    }
-
-    // 否则不优化
-    return failure();
-  }
-};
-```
-
-#### 3.2.2 注册并应用 Pattern
-
-需要将这个Pattern注册到自己的Pass里
-
-`MyPass.cpp`
-
-```c++
-#include "MyPass.h"
-#include "mlir/IR/PatternMatch.h"
-#include "mlir/Transforms/GreedyPatternRewriteDriver.h"
-#include "mydialect/MyOps.h.inc"
-
-namespace mlir {
-namespace {
-
-struct RemoveMyAddZeroPass
-    : public PassWrapper<RemoveMyAddZeroPass, OperationPass<func::FuncOp>> {
-
-  void runOnOperation() override {
-    func::FuncOp func = getOperation();
-    MLIRContext *ctx = &getContext();
-
-    RewritePatternSet patterns(ctx);
-    patterns.add<RemoveAddZeroPattern>(ctx); // <<< 注册 Pattern
-
-    if (failed(applyPatternsAndFoldGreedily(func, std::move(patterns))))
-      signalPassFailure();
-  }
-};
-
-} // namespace
-
-std::unique_ptr<Pass> createRemoveMyAddZeroPass() {
-  return std::make_unique<RemoveMyAddZeroPass>();
-}
-
-} // namespace mlir
-
-```
 
