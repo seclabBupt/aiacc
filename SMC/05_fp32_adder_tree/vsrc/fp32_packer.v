@@ -1,6 +1,6 @@
 // 将内部格式的结果打包成 FP32 格式
 // 接收来自 normalizer/rounder 的信号以及顶层判断的特殊标志
-`include "fp32_defines.vh"
+`include "../define/fp32_defines.vh"
 
 module fp32_packer (
     // 输入来自规格化/舍入阶段 或 顶层逻辑

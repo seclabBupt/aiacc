@@ -1,5 +1,5 @@
 `timescale 1ns/1ps
-`include "fp32_defines.vh"
+`include "../define/fp32_defines.vh"
 
 module tb_fp32_adder_tree_8_inputs_softfloat;
 

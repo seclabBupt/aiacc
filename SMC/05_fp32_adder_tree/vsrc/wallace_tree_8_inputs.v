@@ -1,4 +1,4 @@
-`include "fp32_defines.vh"
+`include "../define/fp32_defines.vh"
 
 module wallace_tree_8_inputs #(
     parameter NUM_INPUTS = 8,  

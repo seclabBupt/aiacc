@@ -1,12 +1,12 @@
 #!/bin/bash
 
 echo "清理之前的仿真文件..."
-rm -rf sim_output_softfloat
-mkdir -p sim_output_softfloat
-cd sim_output_softfloat
+rm -rf sim_output
+mkdir -p sim_output
+cd sim_output
 
 # 使用一体化脚本编译 DPI-C 文件
-/home/Sunny/SMC/compile_softfloat_dpi.sh ../softfloat_fp32_dpi.c libruntime.so
+/home/Sunny/SMC/compile_softfloat_dpi.sh ../csrc/softfloat_fp32_dpi.c libruntime.so
 
 if [ $? -ne 0 ]; then
     echo "错误: DPI-C 文件编译失败"
@@ -14,7 +14,7 @@ if [ $? -ne 0 ]; then
 fi
 
 # 复制库文件到上级目录，确保VCS可以找到它
-cp ./libruntime.so ../libruntime.so
+#cp ./libruntime.so ../libruntime.so
 
 echo "设置库路径..."
 # 设置LD_LIBRARY_PATH以便VCS能找到共享库
@@ -31,15 +31,15 @@ vcs -sverilog +v2k -full64 +fsdb -debug_access+all \
     -timescale=1ns/1ps \
     +incdir+.. \
     +define+DUMP_FSDB \
-    ../tb_fp32_adder_tree_8_inputs_softfloat.v \
-    ../fp32_adder_tree_8_inputs.v \
-    ../fp32_unpacker.v \
-    ../fp32_aligner.v \
-    ../wallace_tree_8_inputs.v \
-    ../full_adder.v \
-    ../final_adder.v \
-    ../fp32_normalizer_rounder.v \
-    ../fp32_packer.v \
+    ../vsrc/tb_fp32_adder_tree_8_inputs_softfloat.v \
+    ../vsrc/fp32_adder_tree_8_inputs.v \
+    ../vsrc/fp32_unpacker.v \
+    ../vsrc/fp32_aligner.v \
+    ../vsrc/wallace_tree_8_inputs.v \
+    ../vsrc/full_adder.v \
+    ../vsrc/final_adder.v \
+    ../vsrc/fp32_normalizer_rounder.v \
+    ../vsrc/fp32_packer.v \
     -o simv_softfloat \
     -CFLAGS "-I$SOFTFLOAT_INCLUDE" \
     $LIB_PATH/libruntime.so
