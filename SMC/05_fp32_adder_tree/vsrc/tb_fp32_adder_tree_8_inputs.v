@@ -1,4 +1,4 @@
-`include "fp32_defines.vh" // 包含浮点数相关的定义文件
+`include "../define/fp32_defines.vh"
 
 // 测试平台模块定义
 module tb_fp32_adder_tree_8_inputs;

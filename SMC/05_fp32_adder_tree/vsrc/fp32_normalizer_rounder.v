@@ -1,5 +1,5 @@
 // 修正后的完整规格化舍入模块
-`include "fp32_defines.vh"
+`include "../define/fp32_defines.vh"
 
 module fp32_normalizer_rounder #(
     parameter IN_WIDTH = `FULL_SUM_WIDTH + 1 // 

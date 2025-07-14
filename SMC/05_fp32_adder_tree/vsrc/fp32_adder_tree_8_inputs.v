@@ -1,4 +1,4 @@
-`include "fp32_defines.vh"
+`include "../define/fp32_defines.vh"
 
 
 module fp32_adder_tree_8_inputs (

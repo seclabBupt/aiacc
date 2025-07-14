@@ -1,5 +1,5 @@
 // 将 FP32 输入分解为符号、指数和尾数
-`include "fp32_defines.vh"
+`include "../define/fp32_defines.vh"
 
 module fp32_unpacker (
     input wire [`FP32_WIDTH-1:0] fp_in,       // FP32 输入
