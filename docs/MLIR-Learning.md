@@ -2369,10 +2369,10 @@ void CH8() {  // 初始化方言注册器
 
 | 用途                         | 举例说明                                     |
 | ---------------------------- | -------------------------------------------- |
-| ✅ 算子融合                   | 把连续的 `add -> mul` 合并为一个 `fma` 操作  |
-| ✅ 优化图转换                 | 将 inefficient 的实现替换为 efficient 的实现 |
-| ✅ Canonicalization（规范化） | 比如 `x + 0 -> x`，`x * 1 -> x`              |
-| ✅ Dialect 转换               | 将 `TF.add` 转为 `linalg.add`                |
+| 算子融合                   | 把连续的 `add -> mul` 合并为一个 `fma` 操作  |
+| 优化图转换                 | 将 inefficient 的实现替换为 efficient 的实现 |
+| Canonicalization（规范化） | 比如 `x + 0 -> x`，`x * 1 -> x`              |
+| Dialect 转换               | 将 `TF.add` 转为 `linalg.add`                |
 
 ​	在 C++ 中，重写模式是通过继承以下基类来定义的：
 
