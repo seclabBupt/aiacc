@@ -11,3 +11,6 @@
 * [Dialect入门二](MLIR_Dialect_Notes-2.md) 
 * [FIFO学习](FIFO_study.md)
 * [TPU-MLIR代码学习](TPU_MLIR_study.md)
+* [Linux系统(服务器)常用指令](Linux_Command_Line.md)
+* [.sh文件解释/Shell脚本常用语法](shell_study.md)
+* [VCS_coverage_report_read](VCS_coverage_report_read.md)
