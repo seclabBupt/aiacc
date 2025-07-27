@@ -16,3 +16,4 @@
 * [Linux系统(服务器)常用指令](Linux_Command_Line.md)
 * [.sh文件解释/Shell脚本常用语法](shell_study.md)
 * [VCS_coverage_report_read](VCS_coverage_report_read.md)
+* [TPU-MLIR学习记录（一）](https://github.com/seclabBupt/aiacc/blob/main/docs/TPU-MLIR%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95%EF%BC%88%E4%B8%80%EF%BC%89.md)
