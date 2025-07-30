@@ -1989,3 +1989,1057 @@ module {		//ModuleOp，是 MLIR IR 的顶层操作。		{ : 表示 module 包含�
 ​	3.Block ：Block 是一个 顺序执行的指令列表，并带有 SSA 参数和一个 terminator。Block 内容有Block 参数（参数是 Value）、Operation 序列（中间指令）、			Terminator Operation（最后一条必须是终止指令）
 
 ​	4.Value（SSA 值）：所有操作的输入和输出都是 `Value`。Value 是一个 **SSA 值**（Single Static Assignment），只定义一次，可以使用多次。
+# 第七章.Pass的运行与定义
+
+​	Pass是MLIR 中的核心概念之一：它是 MLIR 构建编译器最重要的模块单位之一，和 Rewrite Pattern 配合使用，承担整个 IR 优化与转换的核心职责。
+
+​	Pass 是对 MLIR IR 进行遍历、分析、重写、优化的一段封装逻辑。可以把 Pass 看作“操作 IR 的程序函数”。
+
+​	Pass的一些作用如下
+
+| 作用                | 举例                                     |
+| ------------------- | ---------------------------------------- |
+| IR 优化             | 消除死代码、常量折叠、算子融合           |
+| IR 转换             | 将 High-Level IR 转为 Low-Level IR       |
+| Dialect Lowering    | 将自定义方言转为 linalg、LLVM IR         |
+| 分析                | 比如内存分析、依赖分析、设备 placement   |
+| Debug/打印/检测用途 | 比如打印所有 tensor 类型，验证 IR 合法性 |
+
+​	Pass 的基本分类：
+
+| 类型                      | 示例类名     | 作用单位                           |
+| ------------------------- | ------------ | ---------------------------------- |
+| `OperationPass<ModuleOp>` | 模块级别     | 处理整个 `module`                  |
+| `OperationPass<FuncOp>`   | 函数级别     | 处理 `func.func @main()`           |
+| `OperationPass<Block>`    | 基本块级     | 比较少用                           |
+| `FunctionLikePass`        | 兼容函数接口 | 可以作用在所有 FunctionLike 操作上 |
+
+​	Pass 的生命周期：1.注册 Pass（名字/标志）2.遍历 IR（Operation、Block）3.应用 Rewrite Pattern 或分析逻辑 4.修改 IR 或记录分析信息 5.可选：打印输出或报错验证
+
+​	MLIR中定义Pass的基础模版文件为third_party\llvm-project\mlir\include\mlir\Pass\PassBase.td，下面是部分代码
+
+```tablegen
+//===-- PassBase.td - Base pass definition file ------------*- tablegen -*-===//
+//
+// Part of the LLVM Project, under the Apache License v2.0 with LLVM Exceptions.
+// See https://llvm.org/LICENSE.txt for license information.
+// SPDX-License-Identifier: Apache-2.0 WITH LLVM-exception
+//
+//===----------------------------------------------------------------------===//
+//
+// This file contains definitions for defining pass registration and other
+// mechanisms.
+//
+//===----------------------------------------------------------------------===//
+
+#ifndef MLIR_PASS_PASSBASE
+#define MLIR_PASS_PASSBASE
+
+//===----------------------------------------------------------------------===//
+// Options
+//===----------------------------------------------------------------------===//
+
+// 这是一段 TableGen 类定义，用于在 .td 文件中描述 Pass 支持的命令行参数。
+// 例如Option<"enableSoftmax", "enable-softmax", "bool", "true", "启用 softmax">;会被 MLIR 的 mlir-tblgen 工具转换为 C++ Pass 类中的如下成员
+// ::mlir::Pass::Option<bool> enableSoftmax{
+//	 *this, "enable-softmax",
+//	 llvm::cl::desc("启用 softmax"),
+//	 llvm::cl::init(true)
+// };
+class Option<string varName, string arg, string valueType, string default,
+             string desc, string additionalFlags = ""> {
+  // The name for the C++ option variable.
+  string cppName = varName;		// C++ 中变量名
+
+  // The command line argument to use for this option.
+  string argument = arg;		// 命令行参数名（用户传入）
+
+  // The C++ type of the option.
+  string type = valueType;		// 	参数类型（C++ 类型）
+
+  // The default value of the option. "" corresponds to no default.
+  string defaultValue = default;
+
+  // A description for this option.
+  string description = desc;	// 命令行参数描述
+
+  // A set of additional flags to pass along to the option constructor.
+  string additionalOptFlags = additionalFlags;		// 	附加属性
+}
+
+class ListOption<string varName, string arg, string valueType,		// ListOption 表示参数是一个列表 继承自 Option，但默认 default=""
+                 string desc, string additionalFlags = "">
+  : Option<varName, arg, valueType, /*default=*/"", desc, additionalFlags> {}
+
+//===----------------------------------------------------------------------===//
+// Statistics
+//===----------------------------------------------------------------------===//
+// 用于定义统计指标，比如：操作数融合次数、成功优化次数等。
+class Statistic<string varName, string statName, string desc> {
+  // The C++ variable name for the statistic.
+  string cppName = varName;
+
+  // The displayed name of the statistic, similar to the argument of an option.
+  string name = statName;
+
+  // The description of the statistic.
+  string description = desc;
+}
+
+//===----------------------------------------------------------------------===//
+// Pass
+//===----------------------------------------------------------------------===//
+
+class PassBase<string passArg, string base> {		// Pass 的基础描述类，其他具体的 OperationPass 或 InterfacePass 会从此继承。
+  // The command line argument of the pass.
+  string argument = passArg;		// passArg 命令行中用于开启此 Pass 的参数
+
+  // The C++ base class for the pass.		// Pass 所继承的 C++ 基类
+  string baseClass = base;
+
+  // A short 1-line summary of the pass.
+  string summary = "";
+
+  // A human readable description of the pass.
+  string description = "";
+
+  // A C++ constructor call to create an instance of this pass.
+  // If empty, the default constructor declarations and definitions
+  // 'createPassName()' and 'createPassName(const PassNameOptions &options)'
+  // will be generated and the former will be used for the pass instantiation.
+  // 构造器代码片段。如果不写，会自动生成形如createMyPass()	createMyPass(const MyPassOptions&)	的构造函数
+  code constructor = "";
+
+  // A list of dialects this pass may produce entities in.
+  list<string> dependentDialects = [];		// Pass 依赖的 Dialect
+
+  // A set of options provided by this pass.
+  list<Option> options = [];		// Pass 支持的命令行参数, 填入上面定义的 Option 实例
+
+  // A set of statistics provided by this pass.
+  list<Statistic> statistics = [];		// Pass 提供的统计指标。
+}
+
+// This class represents an mlir::OperationPass.
+// Pass 类（OperationPass 封装）
+// 例如Tablegen中Pass<"my-opt", "func::FuncOp">， 相当于C++中	class MyOptPass : public mlir::OperationPass<mlir::func::FuncOp> { ... };
+class Pass<string passArg, string operation = "">
+  : PassBase<passArg, "::mlir::OperationPass<" # operation # ">">;
+
+// This class represents an mlir::InterfacePass.
+// 表示一个实现了某个 Pass Interface 的 Pass。
+class InterfacePass<string passArg, string interface>
+  : PassBase<passArg, "::mlir::InterfacePass<" # interface # ">">;
+
+#endif // MLIR_PASS_PASSBASE
+
+```
+
+​	定义两个Pass，文件为Passes.td，路径为8-define_pass\include\Dialect\NorthStar\Transforms\Passes.td
+
+```tablegen
+//    Copyright 2025 时光丶人爱
+
+//    Licensed under the Apache License, Version 2.0 (the "License");
+//    you may not use this file except in compliance with the License.
+//    You may obtain a copy of the License at
+
+//        http://www.apache.org/licenses/LICENSE-2.0
+
+//    Unless required by applicable law or agreed to in writing, software
+//    distributed under the License is distributed on an "AS IS" BASIS,
+//    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+//    See the License for the specific language governing permissions and
+//    limitations under the License.
+//
+
+#ifndef DIALECT_NORTH_STAR_TRANSFORMS_PASSES_TD
+#define DIALECT_NORTH_STAR_TRANSFORMS_PASSES_TD
+include "mlir/Pass/PassBase.td"
+
+// 定义一个名为 MarkDistributeParallelParametersPass 的 Operation Pass，适用于 mlir::ModuleOp。
+def MarkDistributeParallelParametersPass : Pass<"mark-distribute-parallel-parameters","::mlir::ModuleOp"> {
+  let summary = "标记全局并行参数";
+  let description = [{
+    "标记全局并行参数。";
+  }];
+  
+  // 此 Pass 需要用到的 Dialect，会自动向 MLIRContext 注册。NorthStar 是自定义方言，tensor 是内建 dialect。
+  let dependentDialects = [
+    "::mlir::north_star::NorthStarDialect",
+    "::mlir::tensor::TensorDialect"
+  ];
+  
+  // 定义两个参数选项,可通过命令行传入	注册了这个 Pass 后，可以像这样在命令行运行mlir-opt --my-pass --DP=4 --TP=2 input.mlir
+  let options = [
+    Option<"DPNums", "DP", "std::int64_t", /*default=*/"1", "DPNums des">,
+    Option<"TPNums", "TP", "std::int64_t", /*default=*/"1", "TPNums des">
+  ];
+  
+  // 定义一个运行时统计项
+  let statistics = [
+    Statistic<"EPNums", "ep-nums", "Number of EP">
+  ];
+}
+
+def ApplyDistributeTransformPass : Pass<"apply-distribute-transform","::mlir::func::FuncOp"> {
+  let summary = "根据标记的并行参数进行变换";
+  let description = [{
+    "根据标记的并行参数进行变换。"
+  }];
+  let dependentDialects = [
+    "::mlir::north_star::NorthStarDialect",
+    "::mlir::tensor::TensorDialect"
+  ];
+  let constructor = "mlir::north_star::createApplyDistributeTransformPass()";
+}
+
+
+#endif  // DIALECT_NORTH_STAR_TRANSFORMS_PASSES_TD
+```
+
+​	`MarkDistributeParallelParametersPass` 的C++ 实现部分，路径为8-define_pass\src\Dialect\NorthStar\Transforms\MarkDistributeParallelParameters.cpp
+
+```cpp
+//    Copyright 2025 时光丶人爱
+
+//    Licensed under the Apache License, Version 2.0 (the "License");
+//    you may not use this file except in compliance with the License.
+//    You may obtain a copy of the License at
+
+//        http://www.apache.org/licenses/LICENSE-2.0
+
+//    Unless required by applicable law or agreed to in writing, software
+//    distributed under the License is distributed on an "AS IS" BASIS,
+//    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+//    See the License for the specific language governing permissions and
+//    limitations under the License.
+//
+#include <memory>
+
+#include "Dialect/NorthStar/IR/NorthStarAttrs.h"
+#include "Dialect/NorthStar/IR/NorthStarDialect.h"
+#include "Dialect/NorthStar/Transforms/Passes.h"
+#include "Utils/Key.h"
+#include "llvm/Support/raw_ostream.h"
+#include "mlir/Dialect/Func/IR/FuncOps.h"
+namespace mlir::north_star {
+#define GEN_PASS_DEF_MARKDISTRIBUTEPARALLELPARAMETERSPASS
+#include "Dialect/NorthStar/Transforms/Passes.h.inc"
+
+}  // namespace mlir::north_star
+using namespace ::mlir;
+using namespace ::mlir::north_star;
+
+// 继承自 TableGen 生成的基类模板 MarkDistributeParallelParametersPassBase,在文件build\8-define_pass\include\Dialect\NorthStar\Transforms\Passes.h.inc中
+struct MarkDistributeParallelParametersPass
+    : ::mlir::north_star::impl::MarkDistributeParallelParametersPassBase<
+          MarkDistributeParallelParametersPass> {
+  using MarkDistributeParallelParametersPassBase<
+      MarkDistributeParallelParametersPass>::
+      MarkDistributeParallelParametersPassBase;
+  void runOnOperation() override;	// 重写 runOnOperation()，这是 Pass 的执行入口。
+};
+
+void MarkDistributeParallelParametersPass::runOnOperation() {
+  llvm::outs() << "run in: " << getPassName() << "\n";	// 调用当前 Pass 基类的成员函数，返回 StringRef，是当前 Pass 名称字符串
+  auto module = getOperation();		// PassBase 提供的成员函数，返回当前被处理的操作指针，类型为 Operation *。
+  llvm::outs() << "root op: " << module->getName() << "\n";		// module->	解引用指针，访问指针指向的对象成员。	getName()	Operation 的成员函数，返回操作名称
+  llvm::outs() << "DPNums: " << DPNums << "\n";		// 输出选项成员变量 DPNums
+  llvm::outs() << "TPNums: " << TPNums << "\n";		// 输出选项成员变量 TPNums
+  llvm::outs() << "EPNums: " << EPNums << "\n";		// 输出统计成员变量 EPNums
+
+  if (TPNums != 1) llvm::errs() << "TPNums not supported currently!\n";
+  if (DPNums != 1) {
+    // 创建 DataParallelismAttr	DataParallelismAttr::get(&getContext(), DPNums);调用静态成员函数生成属性对象。&getContext()	取当前 Pass 所属 MLIRContext 的地址。	DPNums	传入数据并行度参数值。
+    auto dp_attr = DataParallelismAttr::get(&getContext(), DPNums);
+    // 遍历 Module 中所有函数并设置属性	将数据并行度属性附加给所有函数。
+    module->walk([&dp_attr](func::FuncOp op) {
+      op->setAttr(KDPAttrName, dp_attr);		// 给函数操作 op 设置属性。
+    });
+  }
+  llvm::outs() << "run out: " << getPassName() << "\n\n";
+}
+
+```
+
+​	ApplyDistributeTransformPass的C++ 实现部分，路径为8-define_pass\src\Dialect\NorthStar\Transforms\ApplyDistributeTransform.cpp
+
+```cpp
+//    Copyright 2025 时光丶人爱
+
+//    Licensed under the Apache License, Version 2.0 (the "License");
+//    you may not use this file except in compliance with the License.
+//    You may obtain a copy of the License at
+
+//        http://www.apache.org/licenses/LICENSE-2.0
+
+//    Unless required by applicable law or agreed to in writing, software
+//    distributed under the License is distributed on an "AS IS" BASIS,
+//    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+//    See the License for the specific language governing permissions and
+//    limitations under the License.
+//
+
+#include "Dialect/NorthStar/IR/NorthStarDialect.h"
+#include "Dialect/NorthStar/Transforms/Passes.h"
+#include "Interfaces/DistributeParallelismInterfaces.h"
+#include "Utils/Key.h"
+#include "llvm/Support/ErrorHandling.h"
+#include "llvm/Support/raw_ostream.h"
+#include "mlir/Dialect/Func/IR/FuncOps.h"
+namespace mlir::north_star {
+#define GEN_PASS_DEF_APPLYDISTRIBUTETRANSFORMPASS
+#include "Dialect/NorthStar/Transforms/Passes.h.inc"
+
+}  // namespace mlir::north_star
+using namespace ::mlir;
+using namespace ::mlir::north_star;
+
+struct ApplyDistributeTransformPass
+    : ::mlir::north_star::impl::ApplyDistributeTransformPassBase<
+          ApplyDistributeTransformPass> {
+  using ApplyDistributeTransformPassBase<
+      ApplyDistributeTransformPass>::ApplyDistributeTransformPassBase;
+  void runOnOperation() override;
+};
+
+void ApplyDistributeTransformPass::runOnOperation() {
+  llvm::outs() << "run in: " << getPassName() << "\n";
+  auto func = getOperation();
+  llvm::outs() << "root op: " << func->getName() << "\n";
+  auto dp_attr = llvm::dyn_cast_or_null<mlir::DistributeParallelAttr>(
+      func->getAttr(KDPAttrName));	// 将通用 Attribute 转换为具体类型 DistributeParallelAttr，如果失败返回 nullptr。
+  if (!dp_attr) llvm_unreachable("error!");		// 如果没有 dp 属性，就中断运行并输出 "error!"。
+  func->walk([&](mlir::Operation* op) {		//  遍历当前函数中的每个 Operation
+    // 判断DistributeParallelOp是否实现了 DistributeParallelismInterface 的 Op。表示当前操作是否“支持数据并行调度”
+    if (auto dis_op = llvm::dyn_cast_or_null<mlir::DistributeParallelOp>(op)) {
+      // 如果当前操作 dis_op 能够在 dp_attr 数据并行属性下，成功应用并行转换,那么就打印重写成功的操作名称
+      if (dis_op.applyDistributeParallelism(dp_attr).succeeded()) {
+        llvm::outs() << "Apply DataParallelism to " << op->getName() << "\n";
+        op->erase();	// 删除原始操作
+      };
+    }
+  });
+  llvm::outs() << "run out: " << getPassName() << "\n\n";
+}
+
+std::unique_ptr<::mlir::Pass>
+mlir::north_star::createApplyDistributeTransformPass() {
+  return std::make_unique<ApplyDistributeTransformPass>();
+}
+```
+
+​	下面是main文件CH-8部分	
+
+```cpp
+void CH8() {  // 初始化方言注册器
+  mlir::DialectRegistry registry;
+  // 初始化上下文环境
+  mlir::MLIRContext context(registry);
+  // 加载/注册方言
+  context.getOrLoadDialect<mlir::north_star::NorthStarDialect>();
+  context.getOrLoadDialect<mlir::func::FuncDialect>();
+  mlir::OpBuilder builder(&context);		// OpBuilder：构建 MLIR IR 的类
+  auto loc = builder.getUnknownLoc();		// getUnknownLoc()：创建一个无源代码位置信息的 Location，可以传给 IR 创建函数。
+  auto module = getModule(builder);			// getModule（）自定义的方法，里面有两个串行的softmaxOp
+  mlir::PassManager pm(&context);		// 创建 PassManager	PassManager 是 MLIR 的 Pass 调度器，会按照添加顺序运行所有 Pass。
+  mlir::north_star::MarkDistributeParallelParametersPassOptions
+      mark_distribute_parallel_option{.DPNums = 3, .TPNums = 1};		// 构造分布式标记 Pass 的参数对象
+  pm.addPass(mlir::north_star::createMarkDistributeParallelParametersPass(
+      mark_distribute_parallel_option));		//  添加 MarkDistributeParallelParametersPass
+  pm.addNestedPass<mlir::func::FuncOp>(
+      mlir::north_star::createApplyDistributeTransformPass());		// 添加 ApplyDistributeTransformPass
+  module->dump();		// module->dump();
+  if (pm.run(module).failed()) {		// 执行 PassManager	pm.run() 开始运行所有注册的 pass	如果任何一个 pass signalPassFailure()，这里就会报错
+    llvm::outs() << "run pass error!\n";
+  };
+  llvm::outs() << "after pass:\n";
+  module->dump();		// 打印变换后的 IR
+}
+```
+
+
+
+# 第八章.Rewrite Pattern
+
+​	Rewrite Pattern 是 MLIR 中的一种机制，用于匹配某些 Operation（操作）模式，并将其替换成等价或优化后的新模式。
+
+​	重写模式提供了以下用途
+
+| 用途                         | 举例说明                                     |
+| ---------------------------- | -------------------------------------------- |
+| 算子融合                   | 把连续的 `add -> mul` 合并为一个 `fma` 操作  |
+| 优化图转换                 | 将 inefficient 的实现替换为 efficient 的实现 |
+| Canonicalization（规范化） | 比如 `x + 0 -> x`，`x * 1 -> x`              |
+| Dialect 转换               | 将 `TF.add` 转为 `linalg.add`                |
+
+​	在 C++ 中，重写模式是通过继承以下基类来定义的：
+
+```cpp
+struct RewritePattern : public mlir::RewritePattern {
+  RewritePattern(StringRef rootOpName, PatternBenefit benefit, MLIRContext *context);
+  
+  LogicalResult matchAndRewrite(Operation *op, PatternRewriter &rewriter) const override;
+};
+```
+
+​	关键字段解释
+
+| 字段 / 方法       | 含义                                                         |
+| ----------------- | ------------------------------------------------------------ |
+| `rootOpName`      | 指定要匹配的 op 类型，比如 `"mydialect.add"`                 |
+| `benefit`         | 一个整数值，表示该 pattern 的应用优先级（值越大越优先）      |
+| `matchAndRewrite` | 重写逻辑的核心函数，成功时返回 success()，失败返回 failure() |
+| `PatternRewriter` | 提供修改 IR 的 API，例如 `replaceOp()`、`create()`、`eraseOp()` 等 |
+
+下面是DeviceRegionFusion.cpp文件，路径为9-rewrite_pattern\src\Dialect\NorthStar\Transforms\DeviceRegionFusion.cpp
+
+```c++
+//    Copyright 2025 时光丶人爱
+
+//    Licensed under the Apache License, Version 2.0 (the "License");
+//    you may not use this file except in compliance with the License.
+//    You may obtain a copy of the License at
+
+//        http://www.apache.org/licenses/LICENSE-2.0
+
+//    Unless required by applicable law or agreed to in writing, software
+//    distributed under the License is distributed on an "AS IS" BASIS,
+//    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+//    See the License for the specific language governing permissions and
+//    limitations under the License.
+//
+#include <cstdint>
+#include <memory>
+
+#include "Dialect/NorthStar/IR/NorthStarAttrs.h"
+#include "Dialect/NorthStar/IR/NorthStarDialect.h"
+#include "Dialect/NorthStar/IR/NorthStarOps.h"
+#include "Dialect/NorthStar/IR/NorthStarTypes.h"
+#include "Dialect/NorthStar/Transforms/Passes.h"
+#include "Interfaces/DistributeParallelismInterfaces.h"
+#include "Utils/Key.h"
+#include "llvm/ADT/SetVector.h"
+#include "llvm/ADT/SmallVector.h"
+#include "llvm/ADT/StringRef.h"
+#include "llvm/Support/Error.h"
+#include "llvm/Support/LogicalResult.h"
+#include "llvm/Support/ScopedPrinter.h"
+#include "llvm/Support/raw_ostream.h"
+#include "mlir/Dialect/Func/IR/FuncOps.h"
+#include "mlir/IR/BuiltinAttributes.h"
+#include "mlir/IR/BuiltinTypes.h"
+#include "mlir/IR/Operation.h"
+#include "mlir/IR/PatternMatch.h"
+#include "mlir/Transforms/GreedyPatternRewriteDriver.h"
+namespace mlir::north_star {
+#define GEN_PASS_DEF_DEVICEREGIONFUSIONPASS
+#include "Dialect/NorthStar/Transforms/Passes.h.inc"
+
+}  // namespace mlir::north_star
+using namespace ::mlir;
+using namespace ::mlir::north_star;
+
+namespace {
+
+namespace {
+
+// 根据多个操作 ops 的名称和输入 shape 生成融合函数名
+// llvm::SmallString<4>	LLVM 提供的高效小字符串容器，4 是初始容量，自动扩展
+// getFusionName	函数名，生成用于 fusion 的 operation name
+// mlir::ArrayRef<::mlir::Operation*> ops	参数类型是一个轻量不可变数组视图，元素是 Operation*，表示多个 MLIR 操作的指针
+static inline llvm::SmallString<4> getFusionName(
+    mlir::ArrayRef<::mlir::Operation*> ops) {
+  llvm::SmallString<4> name;		//定义一个llvm::SmallString ，名字为name
+  for (auto op : ops) {		// 遍历所有操作
+    name.append(op->getName().stripDialect()); // name.append(...)	往 name 字符串中添加一段字符串	op->getName() 获取操作名	.stripDialect() 去除操作名中的 dialect 前缀如 "north_star.buffer_cast" → "buffer_cast"
+    name.append("_");	// 添加下划线分隔符
+    for (auto type : op->getOperandTypes()) {		//	getOperandTypes()	获取所有操作输入值的类型
+      if (auto shaped = llvm::dyn_cast_or_null<ShapedType>(type)) {		//判断是否是ShapedType
+        for (auto index : llvm::index_range(0, shaped.getRank())) {		//shaped.getRank() 获取张量维度个数		llvm::index_range(a, b)	相当于 Python 的 range(a, b)，这里是从 0 到 rank-1
+          if (shaped.isDynamicDim(index)) {		//  判断维度是否动态
+            name.append("d_");
+          } else {
+            name.append(llvm::to_string(shaped.getDimSize(index)));		//静态维度直接转为字符串拼接进 name
+            name.append("_");
+          }
+        }
+      }
+    }
+  }
+  return name;		// 最终返回构造好的 name
+}
+
+// 这个函数的作用是:   从传入的 MLIR 操作列表 ops 中，获取最后一个操作的第一个返回值类型，尝试将它转换为自定义类型 NSTensorType，然后提取该类型的 device_id。
+// 返回值为int，表示device_id		getDeviceid是函数名		mlir::ArrayRef<::mlir::Operation*> ops	参数是一个不可变引用数组，内部元素是 MLIR 操作指针 Operation*。表示要分析的一批 IR 操作
+static inline int getDeviceid(mlir::ArrayRef<::mlir::Operation*> ops) {
+  // ops.back() 获取 ops 中的最后一个操作		->getResultTypes() 获取该操作的返回类型列表		.front() 获取返回类型列表中的第一个类型
+  // 定义一个tensor，将最后一个操作的第一个类型转换为NSTensorType然后赋值给tensor		llvm::cast_or_null<T> LLVM 中的安全转换工具。尝试将指针转换为 T 类型，如果为空或类型不对，则返回空指针
+  if (auto tensor = llvm::cast_or_null<north_star::NSTensorType>(
+          ops.back()->getResultTypes().front())) {
+    return tensor.getDeviceId();		//如果类型转换成功，那么调用 NSTensorType 上定义的成员函数 getDeviceId()，返回这个 tensor 绑定的设备编号
+  }
+  llvm_unreachable("");		// LLVM 提供的宏，表示这个代码逻辑“不可能执行到”这里；如果真的执行到这里，就会直接 abort()
+  return -1;
+}
+
+    
+// llvm::MapVector<Value, std::pair<Operation*, int>>	返回值是一个有序映射容器：Key = Value（SSA 值，代表外部输入）	Value = pair<Operation*, int>：指明该 Value 来自哪个 op、是它的第几个 operand
+static inline llvm::MapVector<Value, std::pair<Operation*, int>>
+getFusionInputs(mlir::ArrayRef<::mlir::Operation*> ops) {
+  // SetVector是 MLIR 提供的容器，既像 set（无重复），又像 vector（保持顺序）	op_set 用来存储当前的融合区域中所有操作
+  mlir::SetVector<Operation*> op_set(ops.begin(), ops.end());
+  // 初始化结果容器	res	记录所有外部输入
+  llvm::MapVector<Value, std::pair<Operation*, int>> res;
+
+  // 双层遍历操作和其输入值
+  // for (auto op : ops)	遍历所有操作		llvm::enumerate(container)	LLVM 提供的工具函数，用于对容器进行索引 + 元素的并行遍历。
+  for (auto op : ops) {
+    for (auto [index, operand] : llvm::enumerate(op->getOperands())) {
+      if (isa<BlockArgument>(operand))		// 判断 SSA 值是不是 block 的参数，比如函数参数 / block 入口
+        res[operand] = std::make_pair(nullptr, 0);	//说明这个输入不来自 op，而是来自“函数/块的输入”，没有来源操作，因此 op = nullptr，index = 0
+      if (op_set.contains(operand.getDefiningOp())) continue;	//判断是否是内部定义的 SSA 值	如果是，则continue跳过
+      res[operand] = std::make_pair(op, index);		//否则记录外部输入到res
+    }
+  }
+  return res;		// 返回结果
+}
+
+static inline llvm::MapVector<Value, std::pair<Operation*, int>>
+getFusionOutputs(mlir::ArrayRef<::mlir::Operation*> ops) {
+  mlir::SetVector<Operation*> op_set(ops.begin(), ops.end());
+  llvm::MapVector<Value, std::pair<Operation*, int>> outs;
+  for (auto op : ops) {
+    for (auto [index, res] : llvm::enumerate(op->getResults())) {
+      for (auto user : res.getUsers()) {
+        if (op_set.contains(user)) continue;
+        outs[res] = std::make_pair(op, index);
+        break;
+      }
+    }
+  }
+  return outs;
+}
+}  // namespace
+    
+// FusionOps 函数名，表明它的作用是“融合操作”		::mlir::RewriterBase& rewriter  MLIR 中所有 IR 修改器的基类，支持操作替换、插入等。	::mlir::Location loc	表示代码位置信息（比如文件、行号等），用于诊断与调试。
+void FusionOps(::mlir::RewriterBase& rewriter,
+               mlir::ArrayRef<::mlir::Operation*> ops, ::mlir::Location loc) {
+  if (ops.size() == 0) return;		// 如果操作列表为空，直接返回
+  auto context = rewriter.getContext();		// 获取上下文
+  auto insert_point = rewriter.saveInsertionPoint();	// 保存当前插入点（rewriter 当前插入 IR 的位置），方便稍后恢复。
+  auto name = getFusionName(ops);	// 调用自定义的 getFusionName 函数，为这批 ops 生成一个融合函数名
+  auto device_id = getDeviceid(ops);	// 提取这些操作的 device_id
+  name.append(llvm::to_string(device_id));	// 转换为字符串追加到 name 后面
+  auto inputs_map = getFusionInputs(ops);	// 提取 ops 所需的所有输入值，以及来源信息（哪个 op、哪个 operand index）。
+  auto outputs_map = getFusionOutputs(ops);	// 提取所有这些 ops 的输出，和它们的写出位置（用于替换 call 后的结果）。
+  llvm::SmallVector<Value> inputs_val;	// 融合函数的所有输入值
+  llvm::SmallVector<Value> output_val;	// 融合函数的所有输出值
+  llvm::SmallVector<Type> outputs_type;	// 所有输入值的类型
+  llvm::SmallVector<Type> inputs_type;	// 所有输出值的类型
+  for (auto [key, val] : inputs_map) {	// 遍历输入inputs_map
+    inputs_val.push_back(key);	// 将输入的键key存入inputs_val
+    inputs_type.push_back(key.getType());	// 将输入的类型存入inputs_type
+  }
+  for (auto [key, val] : outputs_map) {		// 遍历输出outputs_map
+    outputs_type.push_back(key.getType());	// 对输出值取出类型放入 outputs_type
+  }
+  
+  // 在 MLIR 中，rewriter 是操作 IR（插入/替换/删除操作）的工具类，而 insertion point 是它插入新操作（比如 create<func::FuncOp>）的位置。MLIR 的插入点就是指定我们往哪段 IR 代码中添加新 Operation。
+  // (*ops.begin()) 取的是 ops 中第一个 op		.getParentOp()：得到这个 Operation 所在的上层Operation
+  rewriter.setInsertionPoint((*ops.begin())->getParentOp());
+  // 创建一个函数定义 func.func		名字为 name	类型为 FunctionType(inputs -> outputs)		插入点就是上一步设置的位置。
+  auto kernel = rewriter.create<func::FuncOp>(
+      loc, name, FunctionType::get(context, inputs_type, outputs_type));
+  kernel->setAttr(KDeviceFunc, UnitAttr::get(context));		// ->setAttr(...) 是 MLIR 的通用 API，用于给任何 Operation 设置属性
+  auto block = kernel.addEntryBlock();	// entry block 是一个函数的第一个 Block，相当于函数的“函数体”开头。这句的作用是在函数的 Region 中创建一个 Block，这个 block 被插入到函数的 region 中作为第一个 block
+  std::map<Operation*, Operation*> op_map;	// 定义了一个映射 op_map：记录原始操作 → 克隆操作的映射关系。
+  for (auto op : ops) {		// 遍历想融合的所有操作
+    auto clone_op = op->clone();	// 深拷贝一份 op，但 operand 是指向原始 IR 的。
+    block->push_back(clone_op);		// 把克隆的操作放入 block（即 func entry block）。
+    op_map[op] = clone_op;		// 记录映射：原始 → 克隆。
+    for (auto [index, operand] : llvm::enumerate(op->getOperands())) {		// 枚举当前操作的每一个输入值（operand），并带上 index。
+      if (isa<BlockArgument>(operand)) continue;	// 如果这个输入值是 block argument 就跳过
+      if (op_map.contains(operand.getDefiningOp())) {	// op_map.contains(...) 判断 map 中是否存在对应的键		operand.getDefiningOp()是 mlir::Value 的成员函数。它返回定义这个值的操作指针，类型是 Operation*。如果是块参数（BlockArgument），则返回 nullptr
+        // op_map[op]->setOperand(index, value)	表示设置某个输入参数（operand） 这句作用是给克隆操作的第 index 个输入设置新的值（来自对应的克隆操作输出）
+        op_map[op]->setOperand(
+            index,
+            // getResult 返回该操作的第n个输出	这里的n是由llvm::cast_or_null<OpResult>(operand).getResultNumber()得到
+            op_map[operand.getDefiningOp()]->getResult(
+                llvm::cast_or_null<OpResult>(operand).getResultNumber()));	// 将operand转换成 OpResult，然后获取它是所属操作的第几个输出
+      }
+    }
+  }
+  for (auto [key, val] : outputs_map) {		// outputs_map 中的每一项是 key: Value, val: (Operation *, int)
+    output_val.push_back(op_map[val.first]->getResult(val.second));		//val.first 是某个操作（在 kernel block 中）	val.second 是该操作的第几个结果（如 getResult(0)）	op_map[val.first] → 拿到对应 clone 后的操作	.getResult(val.second) → 拿到该 clone 操作的某个结果	push_back(...) → 加入输出值列表 output_val
+  }
+    
+  // 将 block 参数作为 operand 设置给 kernel 中的 op
+  for (auto [index, key] : llvm::enumerate(inputs_map)) {	// inputs_map 是一个列表，每个元素是 (op, operand_index)		llvm::enumerate(...)：遍历时自动加上 index（当前是第几个）
+    op_map[key.second.first]->setOperand(key.second.second,		
+                                         block->getArgument(index));	// block->getArgument(index)：拿到该 block 的第 index 个参数（即 kernel 的输入）	op_map[key.second.first]：这个 op 是 clone 后的版本		.setOperand(...)：设置该 op 的第 key.second.second 个 operand
+  }
+
+  // 在 block 尾部插入 return
+  rewriter.setInsertionPointToEnd(block);
+  rewriter.create<func::ReturnOp>(loc, output_val);
+  // 恢复插入点 & 创建 call	把 IR 构造的插入点恢复到调用点	创建一个 func::CallOp，调用你刚刚创建的 kernel 函数
+  rewriter.setInsertionPoint(insert_point.getBlock(), insert_point.getPoint());
+  auto call = rewriter.create<func::CallOp>(loc, kernel, inputs_val);
+  // 替换原 op 的输出
+  for (auto [index, key] : llvm::enumerate(outputs_map)) {
+    rewriter.replaceAllUsesWith(key.first, call->getResult(index));
+  }
+  return;
+}
+
+    
+// 这是一个继承自 OpRewritePattern<BufferCastOp> 的模式重写类，表示这个 pattern 只作用于 BufferCastOp。
+struct BufferCastOpDeviceRegionFusion
+    : public OpRewritePattern<::mlir::north_star::BufferCastOp> {
+  using OpRewritePattern::OpRewritePattern;		// 表示我们要使用父类 OpRewritePattern 的构造函数。
+  // 这是 MLIR 中重写规则必须实现的接口之一，用于模式匹配 + 替换。	::mlir::north_star::BufferCastOp op：当前被匹配到的 BufferCastOp 实例。
+  // PatternRewriter& rewriter：MLIR 提供的重写工具，可以插入、替换、删除操作。
+  virtual LogicalResult matchAndRewrite(::mlir::north_star::BufferCastOp op,
+                                        PatternRewriter& rewriter) const {
+    llvm::outs() << "match:" << getDebugName() << "\n";	// getDebugName() 是 MLIR 提供的一个 helper 函数，用于获取当前 Pattern 的调试名字。
+    auto loc = op->getLoc();	// 获取当前操作的源代码位置信息
+    // SetVector 是一个结合了 std::set 和 std::vector 特性的容器。	它能保证元素是唯一的（就像 std::set）。	它保持元素的插入顺序（就像 std::vector）。		op_list是一个二维列表，其中的每个元素都是一个 SetVector<Operation*>
+    llvm::SmallVector<llvm::SetVector<Operation*>> op_list;
+    for (auto res : op->getResults()) {
+      rewriter.setInsertionPointAfterValue(res);	// 设置插入点。之后的操作（rewriter.create）会在这个结果值之后插入。
+      llvm::SetVector<Operation*> ops;
+      for (auto use : res.getUsers()) {		// res.getUsers()：获取所有使用这个结果的操作（Use）。
+        addops(ops, use);		// 遍历每一个 use 调用 addops，这个函数是自定义的，通常递归添加有关联的操作
+      }
+      if (ops.size() != 0) op_list.push_back(ops);	// 如果有找到使用者，就把这个 ops 集合加入到 op_list。
+    }
+    if (op_list.size() == 0) return llvm::failure();	// 如果没有找到任何可融合的使用者，说明不匹配，终止 Pattern 应用。
+    for (auto ops : op_list) {
+      FusionOps(rewriter, ops.takeVector(), loc);		// 遍历收集到的操作集合，调用自定义的 FusionOps() 函数去融合它们。ops.takeVector()：把 SetVector 转成普通的 std::vector，并清空原 SetVector
+    }
+    return llvm::success();
+  }
+
+  void addops(llvm::SetVector<Operation*>& ops, Operation* op) const {
+    if (!isa<DistributeParallelOp>(op)) return;		// 检查 op 是否是 DistributeParallelOp 类型的操作
+    ops.insert(op);		// insert 是 SetVector 提供的一个方法，用于向容器中插入一个新的元素（op）。
+    for (auto user : op->getUsers()) {		//遍历所有 op 的用户操作。对于每一个用户操作 user，执行循环体内的代码。
+      addops(ops, user);	// 递归调用
+    }
+  }
+};
+
+struct BufferCastOpFold
+    : public OpRewritePattern<::mlir::north_star::BufferCastOp> {
+  using OpRewritePattern::OpRewritePattern;
+
+  virtual LogicalResult match(::mlir::north_star::BufferCastOp op) const {
+    llvm::outs() << "match:" << getDebugName() << "\n";
+    Operation* above_cast = nullptr;	// 用于存储第一个操作 operand 的定义操作。如果多个操作的 operand 来自相同的定义操作，那么我们可以折叠它们。
+    for (auto [index, operand] : llvm::enumerate(op->getOperands())) {		// 这段代码遍历 BufferCastOp 的所有操作数（operands）
+      if (isa<BlockArgument>(operand)) return llvm::failure();	// 检查 operand 是否是一个 BlockArgument	如果是，说明该操作数是一个区块参数，它不能作为折叠条件的一部分。此时返回 llvm::failure()，表示当前操作不能进行折叠。
+      if (!above_cast) {
+        above_cast = operand.getDefiningOp();	// 如果 above_cast 为空，则将当前操作数的定义操作 operand.getDefiningOp() 赋值给 above_cast。
+      } else {
+        if (operand.getDefiningOp() != above_cast) return llvm::failure();	// 判断当前操作数的定义操作是否与之前的 above_cast 相同。如果不相同，说明不能进行折叠，返回 llvm::failure()。
+      }
+      if (operand.getType() != above_cast->getResult(index).getType())
+        return llvm::failure();	// 检查当前操作数的类型是否与 above_cast 操作的结果类型一致。如果不一致，说明不能进行折叠，返回 llvm::failure()。
+      if (!above_cast->getResult(index).hasOneUse()) return llvm::failure();	// 检查 above_cast 的结果是否仅被一个操作使用。如果结果被多个操作使用，则不应折叠，返回 llvm::failure()
+    }
+    return llvm::success();		// 以上所有检查都通过，说明当前 BufferCastOp 可以进行折叠，返回 llvm::success()，表示匹配成功。
+  }
+
+  // rewrite: 这个方法是用来对匹配到的操作进行实际重写的。
+  virtual void rewrite(::mlir::north_star::BufferCastOp op,
+                       PatternRewriter& rewriter) const {
+    Operation* above_cast = op->getOperand(0).getDefiningOp();	// above_cast: 获取当前 op 操作的第一个操作数的定义操作（即它的源操作）。这是要被折叠的操作。
+    for (auto [index, res] : llvm::enumerate(op->getResults())) {	// 遍历 op 的所有结果，将 op 的每个结果替换为 above_cast 对应操作数的值。
+      rewriter.replaceAllUsesWith(res, above_cast->getOperand(index)); // replaceAllUsesWith(res, above_cast->getOperand(index)): 用 above_cast 的操作数替换 op 结果 res 的所有使用。
+    }
+    rewriter.eraseOp(op);	//删除当前操作 op。
+    rewriter.eraseOp(above_cast);	// rewriter.eraseOp(above_cast): 删除 above_cast 操作，因为它的结果已经被替换，所以不再需要。
+    llvm::outs() << "match:" << getDebugName() << "\n";
+  }
+};
+}  // namespace
+
+// populateDeviceRegionFusionPatterns，表示 “填充设备区域融合模式”。
+void ::mlir::north_star::populateDeviceRegionFusionPatterns(
+    RewritePatternSet& patterns) {
+  auto context = patterns.getContext();		// 获取 patterns 的上下文对象（MLIRContext*），用于构造 Pattern。
+  patterns.addWithLabel<BufferCastOpDeviceRegionFusion>(	// 向 patterns 中添加一个 label 为 "BufferCastOpDeviceRegionFusion" 的模式。	使用的是 addWithLabel<PatternClass> 模板函数：	BufferCastOpDeviceRegionFusion 是自定义的重写模式类，继承自 OpRewritePattern<BufferCastOp>。StringRef(...)：模式名称，调试或分析用；context：模式构造时所需的 MLIRContext*；100：该模式的优先级（benefit），值越大越优先被匹配。
+      StringRef("BufferCastOpDeviceRegionFusion"), context, 100);
+};
+
+// 注册函数，把某个重写规则加入 canonicalization 模式集合中。	populateBufferCastOpCanonicalizationPatterns：表示用于将 BufferCastOp 折叠（fold）成更简单结构。		canonicalization（规范化）将某个操作变换成更“标准”、更简洁、更容易优化的形式。
+void ::mlir::north_star::populateBufferCastOpCanonicalizationPatterns(
+    RewritePatternSet& patterns) {
+  auto context = patterns.getContext();
+  patterns.addWithLabel<BufferCastOpFold>(StringRef("BufferCastOpFold"),
+                                          context, 2);
+}
+
+struct DeviceRegionFusionPass
+    : ::mlir::north_star::impl::DeviceRegionFusionPassBase<
+          DeviceRegionFusionPass> {
+  using DeviceRegionFusionPassBase<
+      DeviceRegionFusionPass>::DeviceRegionFusionPassBase;
+  void runOnOperation() override;
+};
+
+void DeviceRegionFusionPass::runOnOperation() {
+  llvm::outs() << "run in: " << getPassName() << "\n";
+  auto module = getOperation();		// getOperation() 是获取当前 pass 处理的 IR 根节点
+  llvm::outs() << "root op: " << module->getName() << "\n";
+
+  RewritePatternSet buffer_cast_patterns(&getContext());	// 创建一个用于存储模式的容器。
+  ::mlir::north_star::populateBufferCastOpCanonicalizationPatterns(
+      buffer_cast_patterns);
+  GreedyRewriteConfig buffer_cast_config;		// 创建贪婪重写的配置。
+  buffer_cast_config.maxIterations = 10;		// maxIterations = 10：最多运行 10 轮（避免死循环）。
+  buffer_cast_config.useTopDownTraversal = true;	// topDown = true：从上往下匹配 IR 中的操作。
+  
+  // applyPatternsAndFoldGreedily 是 MLIR（Multi-Level IR）中的重写 API 之一,，它的作用可以简单总结为：反复应用 RewritePattern，直到无法再优化为止，同时尝试进行 constant folding 和 canonicalization。
+  // applyPatternsAndFoldGreedily() 会在整个 IR 上应用注册的重写规则：能匹配就重写；能折叠（如常量传播）就折叠；会尝试多轮（最多10轮）。如果出现错误（failed），则调用 signalPassFailure()，告诉 pass manager：这个 pass 执行失败。
+  if (failed(applyPatternsAndFoldGreedily(
+          getOperation(),
+          FrozenRewritePatternSet(std::move(buffer_cast_patterns)),
+          buffer_cast_config)))
+    signalPassFailure();
+
+  // 创建一个新规则集合；将你自定义的 DeviceRegionFusion（操作融合规则）注册进去，比如 BufferCastOpDeviceRegionFusion。
+  RewritePatternSet patterns(&getContext());
+  ::mlir::north_star::populateDeviceRegionFusionPatterns(patterns);
+  
+  // 又进行一次 贪婪模式匹配	如果匹配到了，可以重写或融合。	changed 会告诉你是否真的有 IR 被修改。
+  GreedyRewriteConfig config;
+  bool changed;
+  if (failed(applyPatternsAndFoldGreedily(
+          getOperation(), FrozenRewritePatternSet(std::move(patterns)), config,
+          &changed)))
+    signalPassFailure();
+  llvm::outs() << "region has changed: " << changed << "\n";
+  llvm::outs() << "run out: " << getPassName() << "\n\n";
+}
+
+```
+
+# 第九章.Pass管理器
+
+​	Pass 管理器是 MLIR 中用于组织、调度、运行多个 Pass 的统一入口。就像一个流程调度器，它维护着 Pass 的运行队列，控制它们按顺序、按作用对象一层层地运行在 MLIR IR 上。
+
+​	PassManager 的主要作用有
+
+| 功能                                                 | 说明                                                         |
+| ---------------------------------------------------- | ------------------------------------------------------------ |
+| 注册多个 Pass，按顺序组织运行                        | `PassManager` 可以依次添加多个 Pass，按顺序执行，每个 Pass 对 IR 做不同优化或转换处理。 |
+| 根据 IR 层级结构（Module/Func/Region）进行调度       | 可通过 `nest<OpType>()` 针对不同层级的 Operation（如 ModuleOp、FuncOp）注册不同的 Pass。 |
+| 支持嵌套 Pass（如 Module 内部的 Func 内的 Block）    | `PassManager` 支持嵌套 Pass，在 Module 层中嵌套函数层 Pass，甚至更深层的 Region/Block。 |
+| 提供 API 手动添加 Pass                               | 使用 `addPass(...)`、`nest<T>()` 等 API，用户可以自由构建 Pass Pipeline。 |
+| 支持调试、打印 IR（IR Dump）                         | 可启用 IR 打印功能，如 `enableIRPrinting()`，在每个 Pass 前后输出 IR 便于调试。 |
+| 允许控制 Pass 是否循环运行直到收敛（pass iteration） | 通过 `applyPatternsAndFoldGreedily()` 等函数，Pass 可以重复运行直到 IR 不再变化，达到优化收敛。 |
+
+​	MLIR 的 Pass 是按 IR 层级分层组织的，例如：
+
+```
+ModuleOp
+└── FuncOp
+    └── Block
+
+```
+
+​	于是可以建立如下嵌套 Pass 管理器结构：
+
+```cpp
+PassManager pm(context);                    // 顶层 ModuleOp
+pm.addPass(createCanonicalizerPass());     // 对整个 Module 做一次 canonicalize
+
+OpPassManager &funcPM = pm.nest<func::FuncOp>(); // 针对每个函数的 Pass
+funcPM.addPass(createCSEPass());           // 每个函数做一次公共子表达式消除
+funcPM.addPass(createMyCustomPass());      // 每个函数执行你的自定义逻辑
+
+```
+
+PassManager使用过程一般分为：
+
+​	1.构造阶段
+
+```cpp
+mlir::PassManager pm(context);
+```
+
+​	2.添加 Pass（支持嵌套）
+
+```cpp
+pm.addPass(...);          // Module 级 Pass
+pm.nest<func::FuncOp>().addPass(...);  // 函数级
+
+```
+
+​	3.应用到 IR
+
+```cpp
+LogicalResult result = pm.run(module);  // module 是一个 mlir::ModuleOp
+```
+
+​	 PassManager 例子
+
+```cpp
+void runMyPipeline(ModuleOp module, MLIRContext &context) {
+  PassManager pm(&context);
+  
+  // Enable printing IR before/after each pass
+  pm.enableIRPrinting();
+
+  // 添加一个 Module 级 Pass
+  pm.addPass(mlir::createCanonicalizerPass());
+
+  // 嵌套到 FuncOp，每个函数内部也跑 CSE 和你的 Pass
+  auto &funcPM = pm.nest<func::FuncOp>();
+  funcPM.addPass(mlir::createCSEPass());
+  funcPM.addPass(std::make_unique<MyPass>());
+
+  // 运行 Pass 管理器
+  if (failed(pm.run(module))) {
+    llvm::errs() << "Pipeline failed\n";
+  }
+}
+
+```
+
+​	Pipeline 是 MLIR Pass 系统中的一个关键概念，它是构建编译器优化流程的 逻辑组织单位。它是是一组按照顺序组合在一起的 Pass 集合，可以作为一个整体执行，表示一条完整的编译优化流程。比如一个优化过程包括上面的3个Pass，canonicalize → cse → bufferize。这个顺序就是一个 Pipeline。
+
+# 第十章.常量折叠和规范化
+
+​		常量折叠：一种编译期优化技术，它会在编译时将运算中涉及到的常量值表达式进行求值，并将其替换为计算结果，以减少运行时的计算成本。它是一种静态求值技术，本质上是“提前做运算”。
+
+​		例如	%1 = add %a, 0	可以规范化为	%1 = %a
+
+| 特征                       | 说明                              |
+| -------------------------- | --------------------------------- |
+| 输入值必须是静态已知常量   | 比如 `2 + 3`, `[1, 2] + [3, 4]`   |
+| 替换为一个更简单的 IR 表达 | 用结果 `5` 或 `[4, 6]` 替换原操作 |
+| 不改变语义                 | 表达式含义相同，仅提前求值        |
+| 本质是“值替换”             | 从操作变成值（`Op` → `Attr`）     |
+
+​		MLIR 中通过 Op::fold() 方法来支持常量折叠，返回类型是 OpFoldResult（可能是一个 Attribute、也可能是 Value）。
+
+​		例如
+
+```cpp
+OpFoldResult ConstOp::fold(FoldAdaptor adaptor) {
+  return getValueAttr();  // 直接返回常量值
+}
+```
+
+​		规范化：是一种基于等价变换的结构优化技术，其目标是将多个等价但形式不同的 IR 转换为统一、简洁、可优化性强的标准结构。它不做具体的“计算”，而是做语义保持下的结构重写。
+
+| 特征                             | 说明                            |
+| -------------------------------- | ------------------------------- |
+| 保持语义不变                     | 输入输出一致，但形式不同        |
+| 改变的是 IR 的“形态”             | 不改变结果，仅改变表达方式      |
+| 目标是“统一形式”                 | 简化 pattern 匹配、更好调度优化 |
+| 通常用于优化 pipeline 的早期阶段 | 提前清理低效结构                |
+
+​	下面是NorthStarCanonicalize.cpp文件，路径为14-fold_and_canonicalization\src\Dialect\NorthStar\IR\**NorthStarCanonicalize.cpp
+
+```cpp
+//    Copyright 2025 时光丶人爱
+//    Licensed under the Apache License, Version 2.0 (the "License");
+//    you may not use this file except in compliance with the License.
+//    You may obtain a copy of the License at
+
+//        http://www.apache.org/licenses/LICENSE-2.0
+
+//    Unless required by applicable law or agreed to in writing, software
+//    distributed under the License is distributed on an "AS IS" BASIS,
+//    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+//    See the License for the specific language governing permissions and
+//    limitations under the License.
+
+#include "Dialect/NorthStar/IR/NorthStarOps.h"
+#include "Dialect/NorthStar/IR/NorthStarTypes.h"
+#include "llvm/ADT/StringRef.h"
+#include "mlir/IR/BuiltinTypeInterfaces.h"
+#include "mlir/IR/OpDefinition.h"
+
+#define __USE_hasCanonicalizeMethod__ false
+
+namespace mlir::north_star {
+
+#if __USE_hasCanonicalizeMethod__
+
+LogicalResult BufferCastOp::canonicalize(BufferCastOp op,
+                                         PatternRewriter &rewriter) {
+  // patterns and rewrites go here.
+  Operation *above_cast = nullptr;
+  for (auto [index, operand] : llvm::enumerate(op->getOperands())) {		// 遍历 op 的所有操作数，使用结构化绑定得到索引和操作数。
+    if (isa<BlockArgument>(operand)) return llvm::failure();		// 如果操作数是块参数，返回失败，不规范化。
+    if (!above_cast) {		// 检查指针 above_cast 是否为空。为空时执行下面语句
+      above_cast = operand.getDefiningOp();		// ：第一次时，保存定义当前操作数的操作。operand.getDefiningOp()：获取定义该操作数的操作，即得到上层操作。
+    } else {
+      if (operand.getDefiningOp() != above_cast) return llvm::failure();		// 判断当前 operand 的定义操作是否和 above_cast 不同。如果不同，返回失败。
+    }
+    if (operand.getType() != above_cast->getResult(index).getType())		// 判断操作数类型与对应结果类型是否一致，不一致失败。
+      return llvm::failure();
+    if (!above_cast->getResult(index).hasOneUse()) return llvm::failure();	// 判断上层操作第 index 个结果是否只有一个使用。如果不是只有一个使用，返回失败。
+  }
+  above_cast = op->getOperand(0).getDefiningOp();
+  for (auto [index, res] : llvm::enumerate(op->getResults())) {		// 遍历当前操作的结果。
+    rewriter.replaceAllUsesWith(res, above_cast->getOperand(index));	// 用 above_cast 的对应输入替换当前结果的所有用法。
+  }
+  rewriter.eraseOp(op);		// 删除当前操作。
+  rewriter.eraseOp(above_cast);		// 删除 above_cast 操作。
+  return llvm::success();		// 成功返回。
+}
+
+#else
+
+namespace {
+struct BufferCastOpFold
+    : public OpRewritePattern< ::mlir::north_star::BufferCastOp> {		// 定义 BufferCastOpFold 结构体，继承自模板类 OpRewritePattern 专门匹配 BufferCastOp。
+  using OpRewritePattern::OpRewritePattern;		// 继承父类构造函数。
+
+  // match函数判断是否满足重写条件。判断方法与上面一致
+  virtual LogicalResult match(::mlir::north_star::BufferCastOp op) const {
+    Operation *above_cast = nullptr;
+    for (auto [index, operand] : llvm::enumerate(op->getOperands())) {
+      if (isa<BlockArgument>(operand)) return llvm::failure();
+      if (!above_cast) {
+        above_cast = operand.getDefiningOp();
+      } else {
+        if (operand.getDefiningOp() != above_cast) return llvm::failure();
+      }
+      if (operand.getType() != above_cast->getResult(index).getType())
+        return llvm::failure();
+      if (!above_cast->getResult(index).hasOneUse()) return llvm::failure();
+    }
+    return llvm::success();
+  }
+
+  // rewrite 虚函数 执行重写操作。	当前待重写的 BufferCastOp。
+  virtual void rewrite(::mlir::north_star::BufferCastOp op,
+                       PatternRewriter &rewriter) const {
+    Operation *above_cast = op->getOperand(0).getDefiningOp();	// 取第一个操作数 op->getOperand(0)。
+    for (auto [index, res] : llvm::enumerate(op->getResults())) {
+      rewriter.replaceAllUsesWith(res, above_cast->getOperand(index));		// 使用 rewriter.replaceAllUsesWith() 替换当前结果 res 的所有用法为：above_cast 的第 index 个操作数
+    }	
+    rewriter.eraseOp(op);		// 删除当前操作 op。
+    rewriter.eraseOp(above_cast);			// 删除上层操作 above_cast。
+  }
+};
+}  // namespace
+
+void mlir::north_star::BufferCastOp::getCanonicalizationPatterns(
+    ::mlir::RewritePatternSet &results, ::mlir::MLIRContext *context) {
+  results.addWithLabel<BufferCastOpFold>(StringRef("BufferCastOpFold"),
+                                         context);
+}
+
+#endif
+#undef __USE_hasCanonicalizeMethod__
+
+//isSplatZero函数，意思是是否全0展开	Type elemType：张量元素的类型。	DenseElementsAttr val：张量的密集元素属性，代表实际的数据。
+namespace {
+static bool isSplatZero(Type elemType, DenseElementsAttr val) {
+  if (llvm::isa<FloatType>(elemType)) {		// 判断elemType是否为浮点类型。
+    // val：确认val不是空。	val.isSplat()：检查val是否是“splat”，即所有元素是否都相同。	val.getSplatValue<APFloat>()：获取splat值，强制类型为APFloat（LLVM任意精度浮点）。		.isZero()：判断splat值是否是0。		满足val存在且所有元素相同且这个相同的值是浮点0时，返回true。
+    return val && val.isSplat() && val.getSplatValue<APFloat>().isZero();
+  }
+  if (llvm::isa<IntegerType>(elemType)) {	// 判断elemType是否为整数类型。
+    return val && val.isSplat() && val.getSplatValue<APInt>().isZero();
+  }
+  return false;		// 如果既不是浮点类型，也不是整数类型，或者不满足上述条件，返回false。
+}
+
+// 与第一个函数结构相同，判断是否为“全一展开”，即所有元素相同且值为1。
+static bool isSplatOne(Type elemType, DenseElementsAttr val) {
+  if (llvm::isa<FloatType>(elemType)) {
+    return val && val.isSplat() &&
+           (val.getSplatValue<APFloat>().convertToDouble() == 1);		// 取得splat浮点值，调用convertToDouble()转换成double类型。
+  }
+  if (llvm::isa<IntegerType>(elemType)) {		// 判断元素类型是否整数。
+    return val && val.isSplat() && val.getSplatValue<APInt>().isAllOnes();		// 判断整数类型的splat值是否是“全1位”，即二进制所有位都是1。
+  }
+  return false;
+}		// 这两个函数是判断张量元素的特殊值模式：是否全是0，或者是否全是1（浮点1或整数全1位）。这种判断可以帮助编译器做优化，比如跳过全零计算，或用更快的方式处理全一的情况。
+
+// DenseElementsAttr：这是函数的返回值类型，表示一个稠密元素张量常量,是 MLIR 中用来表示常量张量的属性对象。
+// returnTy：操作返回的类型，形状类型（ShapedType）
+// function_ref<APInt(llvm::APInt, llvm::APInt)> int_calculate：这是一个函数引用，接受两个 APInt 并返回一个 APInt，用于整数类型的二元计算逻辑（例如加法、乘法）。		function_ref<APFloat(llvm::APFloat, llvm::APFloat)> float_calculate：浮点数的二元计算逻辑（比如浮点加减乘除）。
+DenseElementsAttr splatDenseBinaryFolder(
+    DenseElementsAttr lhs, DenseElementsAttr rhs, ShapedType returnTy,
+    function_ref<APInt(llvm::APInt, llvm::APInt)> int_calculate,
+    function_ref<APFloat(llvm::APFloat, llvm::APFloat)> float_calculate) {
+  if (rhs && lhs && rhs.isSplat() && lhs.isSplat()) {	//检查lhs和rhs是否非空，是否是一个全值相同的常量张量
+    auto lhs_ele_type = llvm::cast<ShapedType>(lhs.getType()).getElementType(); // 把 lhs.getType() 显式地转为 ShapedType，再使用 ShapedType 的方法.getElementType()获取张量的元素类型
+    auto rhs_ele_type = llvm::cast<ShapedType>(rhs.getType()).getElementType();
+    if (lhs_ele_type != rhs_ele_type) return {};	// 若左右两个张量元素类型不一致，则无法计算，直接返回空。
+    if (llvm::isa<IntegerType>(lhs_ele_type)) {		// 判断 lhs 的元素类型是不是整数
+      APInt l = lhs.getSplatValue<APInt>();		// lhs.getSplatValue<APInt>()：获取 lhs 中唯一的那个值（所有元素都相同），类型为 APInt。
+      APInt r = rhs.getSplatValue<APInt>();
+      auto result = int_calculate(l, r);		// 将两个 APInt 输入给用户传入的计算函数
+      return DenseElementsAttr::get(returnTy, result);		// 构造新的张量属性，其中所有元素都是 result。
+    }
+    if (llvm::isa<FloatType>(lhs_ele_type)) {		// 与整数分支完全一样，只是类型换成 APFloat，函数也从 int_calculate 换成 float_calculate。
+      APFloat l = lhs.getSplatValue<APFloat>();
+      APFloat r = rhs.getSplatValue<APFloat>();
+      auto result = float_calculate(l, r);
+      return DenseElementsAttr::get(returnTy, result);
+    }
+  }
+  return {};
+}
+}  // namespace
+
+    
+// ConstOp 的常量折叠逻辑。
+// FoldAdaptor 提供访问操作数对应的常量属性。比如：adaptor.getLhs() = DenseElementsAttr 	if %lhs is constant
+// OpFoldResult 是折叠返回类型，允许返回 Attribute 或 Value，MLIR 会处理成 Value 或 Attr 替代原始 add。
+OpFoldResult ConstOp::fold(FoldAdaptor adaptor) { return getValueAttr(); }
+
+OpFoldResult AddOp::fold(FoldAdaptor adaptor) {
+  auto res_type = getType();
+  if (!isa<NSTensorType>(res_type)) return {};	// 这里要求返回值是 NSTensorType，否则拒绝折叠。意思是仅对 NorthStar 自定义张量类型启用该优化。
+  if (isa<ShapedType>(res_type)) {		// 检查 res_type 是否是 MLIR 里的张量/形状类型（如 tensor<4xf32>）
+    auto lhs_type = llvm::dyn_cast<ShapedType>(getLhs().getType());		// 把 lhs, rhs, result 的类型都转成 ShapedType，方便获取 getElementType()。
+    auto rhs_type = llvm::dyn_cast<ShapedType>(getRhs().getType());
+    auto result_type = llvm::dyn_cast<ShapedType>(getType());
+    // 只支持对 整数、index、float 类型 的元素进行常量折叠。
+    if (!lhs_type.getElementType().isIntOrIndexOrFloat() ||
+        !rhs_type.getElementType().isIntOrIndexOrFloat())
+      return {};
+    // 获取常量属性
+    auto lhs_attr =
+        llvm::dyn_cast_if_present<DenseElementsAttr>(adaptor.getLhs());
+    auto rhs_attr =
+        llvm::dyn_cast_if_present<DenseElementsAttr>(adaptor.getRhs());
+    
+    // 常量折叠优化规则	1：add(x, 0) → x		2：add(0, x) → x
+    // add(x, 0) -> x
+    if (lhs_type == result_type &&
+        isSplatZero(result_type.getElementType(), rhs_attr))		//如果 rhs 是全 0（比如 dense<0.0>），并且类型相同（不需要 cast），那么直接返回左边。实现了“加 0 优化”。
+      return getLhs();
+    // add(0, x) -> x
+    if (rhs_type == result_type &&
+        isSplatZero(result_type.getElementType(), lhs_attr))
+      return getRhs();
+    if (!lhs_attr || !rhs_attr) return {};		// 如果有一个不是常量，直接返回
+      
+    // 执行数值折叠	splatDenseBinaryFolder 是刚才定义的函数
+    return splatDenseBinaryFolder(
+        lhs_attr, rhs_attr, result_type,
+        [](const APInt &a, const APInt &b) { return a + b; },
+        [](const APFloat &a, const APFloat &b) { return a + b; });
+  }
+  return {};
+}
+}  // namespace mlir::north_star
+
+```
+
+
+

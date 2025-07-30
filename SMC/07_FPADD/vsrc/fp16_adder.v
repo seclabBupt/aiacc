@@ -11,7 +11,7 @@ wire b_sign = b[15];
 wire[4:0] a_exp = a[14:10];
 wire[4:0] b_exp = b[14:10];
 wire[9:0] a_frac = a[9:0];
-wire[9:0] b_frac = b[9:0];
+wire[9:0] b_frac = b[9:0]; 
 
 // 特殊值检测（优化零值判断）
 wire a_nan = (a_exp == 5'h1F) && (a_frac != 0);
