@@ -162,6 +162,45 @@ endmodule
 ```
 
 2. 学习计算机组成原理对开发riscv部分是有帮助的，至少要知道riscv core的组成部分，如何去修改DTS，还有openocd的概念与使用：有时间可以看看一生一芯
+### RISC-V core
+#### 取指单元
+功能：从内存读取指令（通过ICache或AXI总线）；处理指令地址预测（PC+4或分支预测）
+关键组件：PC寄存器：存储当前指令地址
+分支预测器（可选）：静态预测（总是跳转）或动态预测（BHT）
+典型代码：
+```verilog
+always @(posedge clk) begin
+  if (branch_taken) pc <= branch_target;
+  else pc <= pc + 4;
+end
+```
+
+#### 译码单元
+功能：解析32位指令（识别opcode/funct3/funct7）；读取寄存器堆（RegFile）数据
+关键逻辑：立即数生成：支持I/S/B/U/J型立即数；控制信号生成：ALU操作类型、内存访问类型等
+RISC-V指令格式示例：
+```text
+add x1, x2, x3  => [31:25]=0, [24:20]=x3, [19:15]=x2, [14:12]=0, [11:7]=x1, [6:0]=0110011
+```
+
+#### 执行单元
+ALU子系统：支持算术运算（ADD/SUB）、逻辑运算（AND/OR/XOR）；可扩展乘法器（M扩展）和除法器
+分支处理：计算分支目标地址（PC + imm_b）；比较条件（BEQ/BNE/BLT等）
+数据通路示例：
+```text
+alu_result = (op_add) ? (rs1 + rs2) : 
+            (op_sub) ? (rs1 - rs2) :
+            (op_and) ? (rs1 & rs2) : ...;
+```
+
+#### 访存单元
+功能：处理内存读写（通过DCache或AXI总线）；对齐检查（RISC-V要求自然对齐）
+访问类型：LB/LH/LW（加载字节/半字/字）；SB/SH/SW（存储字节/半字/字）
+原子操作：LR/SC（Load-Reserved/Store-Conditional）；AMOADD/AMOXOR等
+
+#### 写回单元
+数据选择器： ALU结果、内存加载数据、CSR读取数据
+冲突处理： 检测RAW（Read After Write）冲突；通过流水线停顿或数据旁路解决
 
 3. 网络驱动开发基础请大致了解，理解网卡的5个队列：发送/接收 ，发送完成、接收完成，事件队列
 ### 发送队列
