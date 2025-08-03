@@ -5,6 +5,9 @@
 * [TableGen 的用法](TableGen.md)
 * [P4基础](P4tutorial.md) 
 * [Dialect基础](MLIR_Dialect.md)
+* [Dialect入门](MLIR_Dialect_Getting_Started_Notes.md) 
+* [FIFO学习](FIFO_study.md)
+* [TPU-MLIR代码学习](TPU_MLIR_study.md)
 * [Dialect入门一](MLIR_Dialect_Getting_Started_Notes.md) 
 * [Dialect入门一配套Lab1](Lab_1_Simple-Dialect.md)
 * [Dialect入门一配套Lab2](Lab_2_Simple-Dialect.md) 
@@ -17,3 +20,4 @@
 * [.sh文件解释/Shell脚本常用语法](shell_study.md)
 * [VCS_coverage_report_read](VCS_coverage_report_read.md)
 * [TPU-MLIR学习记录（一）](https://github.com/seclabBupt/aiacc/blob/main/docs/TPU-MLIR%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95%EF%BC%88%E4%B8%80%EF%BC%89.md)
+

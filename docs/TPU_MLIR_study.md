@@ -1,5 +1,8 @@
 @Craig
 
+
+# 一 前端部分
+
 ## 1. `BaseConverter`
 
 用于处理 AI 编译器中数据的转换工作，涉及到对张量（tensor）的操作和管理。`BaseConverter` 将某种形式的模型转换为另一种形式，例如从 ONNX 格式转换为 MLIR，管理输入输出的张量、操作数、形状等。
@@ -622,5 +625,279 @@ self.ops = {
     ...
 }
 
+```
+
+
+# 二、MLIR部分
+# TopToTpuPass.cpp runOnOperation
+## 1、初始化逻辑
+
+**源代码：**
+
+```c++
+  module_ = getOperation();
+  ctx_ = &getContext();
+  mainFunc_ = module::getMainFuncOp(module_);
+  LoweringConfig::isQuantized = false;
+  module::setGroupQuantInfo(quantGroupSize, quantSymmetric);
+  if (weightFileName != "") {
+    module::setWeightFileName(weightFileName);
+  }
+  int64_t flops = module::getFLOPs();
+
+```
+
+首先需要获取当前执行的顶层操作，确定pass 被应用在哪个模块上的操作
+
+
+
+```mlir
+module {
+  func.func @main() {
+    ...
+  }
+}
+```
+
+
+
+这里整个 `module {}` 就是 `getOperation()` 返回的对象，也就是`mlir::ModuleOp module_;`
+
+
+
+然后获取 MLIR 的全局 `MLIRContext` 上下文对象，从 module 中找到主函数 `main`，类型是 `FuncOp`。
+
+mlir中的典型主函数：
+
+
+
+```mlir
+func.func @main(%arg0: tensor<1x3x224x224xf32>) -> () {
+  ...
+}
+```
+
+
+
+然后设置一个是否量化的全局标志， `LoweringConfig::isQuantized = false;`把量化的分组信息（Group Size 和是否 symmetric）写入 module 的属性中。后续如果有其它 Pass 需要知道量化设置，可以通过属性来读取这些信息，而不用全局变量。
+
+会把类似下面的属性加到 `module` 上：
+
+
+
+```mlir
+module attributes {quant.group_size = 64, quant.symmetric = true} {
+  ...
+}
+```
+
+
+
+如果设置了权重文件名（比如从命令行参数传入），就把它记录在 module 属性中，供后续保存模型时使用。
+
+
+
+**源码：**
+
+```c++
+int64_t flops = module::getFLOPs();
+if (flops == 0) {
+  mainFunc_.walk([&](FlopsInterface op) {
+    flops += op.getFLOPs();
+  });
+  module::setFLOPs(flops);
+}
+
+```
+
+如果还没有统计 FLOPs遍历一次主函数中的 Op，**自动计算 FLOPs 总量**并写入 `Module` 属性中。
+
+通过 `getFLOPs()` **读取 module 上是否存在某个属性（如 flops 值）**。比如module IR可能有以下属性，此时则会返回12345678：
+
+```mlir
+module attributes { flops = 12345678 } {
+  ...
+}
+```
+
+
+
+如果当前没有统计过 FLOPs（默认为 0），就开始进行 FLOPs 的自动统计，因为有的模型可能在构建时就已经加过flops属性了。
+
+通过 `mainFunc_.walk(...)` 遍历主函数中的所有操作（Op）；某个 Op 实现了 `FlopsInterface` 接口，就调用其 `getFLOPs()` 方法，累加到 `flops` 中，把刚刚统计出来的总 FLOPs 写回 Module 的属性中。
+
+
+
+## 2、转换逻辑一
+
+对 Top Dialect 中的部分 Op 应用 Tile 插入优化的 Rewrite Pattern。
+
+
+
+```c++
+  RewritePatternSet patterns(ctx_);
+  patterns.clear();
+  patterns.add<TryInsertTileBinaryPattern<top::SubOp>,
+               TryInsertTileBinaryPattern<top::MaxOp>,
+               TryInsertTileBinaryPattern<top::MinOp>,
+               TryInsertTileBinaryPattern<top::CompareOp>,
+               TryInsertTileMatMulPattern>(ctx_);
+  if (!module::isBM1684XFamily()) {
+    patterns.add<TryInsertTileBinaryPattern<top::AddOp>,
+                 TryInsertTileBinaryPattern<top::MulOp>>(ctx_);
+  }
+  applyPatternsAndFoldGreedily(module_, std::move(patterns));
+  patterns.clear();
+```
+
+这部分就是MLIR中的Pass的知识，往 `patterns` 中添加多个 Pattern 类，
+
+每个 Pattern 负责识别并转换一个特定的 TopOp，例如 `top.sub`、`top.max` 等。
+
+ `TryInsertTileBinaryPattern`是一个用于匹配二元操作（如 add/sub/max/min）并尝试在其前后插入tile 操作的 Pattern。
+
+如果当前目标芯片不是 BM1684X 系列，就多加两个 Pattern：`Add` 和 `Mul`。
+
+通过`applyPatternsAndFoldGreedily`应用pattern到 `module_` 中的所有 Op
+
+**转换举例：**
+
+```
+%1 = top.sub %a, %b
+```
+
+转换为：
+
+```
+%a_tiled = top.tile %a
+%b_tiled = top.tile %b
+%1 = top.sub %a_tiled, %b_tiled
+```
+
+然后清空pattern准备下一个pattern应用。
+
+
+
+## 3、转换逻辑二
+
+- **是否开启Winograd卷积算法优化**
+
+首先判断是否开启Winograd卷积优化算法，如果 `doWinograd` 参数有值就使用它，否则默认关闭
+
+什么是 Winograd？是一种快速卷积算法，能显著减少乘加数量，提升性能；
+
+
+
+- **初始化量化表**
+
+用于计算每个张量的量化参数，如 scale、zero-point、data type。可能存储的内容如下
+
+
+
+| Tensor Name | Scale | Zero Point | Type |
+| ----------- | ----- | ---------- | ---- |
+| conv1_out   | 0.12  | 128        | int8 |
+| input_0     | 0.007 | 0          | int8 |
+
+
+
+- **判断当前模型是否已经量化**
+
+检查当前模型的状态state是不是 `TOP_QUANTIZED`，判断模型是否在更早阶段就已经做了静态量化处理。
+
+**补充模型状态：**是 `module` 里用来标记阶段的一个属性枚举，可能包括：
+
+`TOP_F32`：浮点模型      `TOP_CALIBRATED`：已经校准（收集过 activation 范围）          `TOP_QUANTIZED`：已经量化（已经转为 int8 等整数模型)                                     `TPU_LOWERED`：已完成向 TPU dialect 的转换
+
+
+
+在模型已经量化的情况下，设置为非对称量化（asymmetric=true），默认采用非对称模式；
+
+在模型未量化的情况下，明确当前模型还是浮点状态，然后设置非对称量化的标志位，并执行校准流程 calibration。
+
+
+
+- **为特定硬件执行量化逻辑**
+
+总体结构大致划分：
+
+```c++
+if ((isBM1684X || isBM1688) && 模型未量化 && 模式为 INT8/UINT8) {
+  1. MatMul 设置 per-channel 属性；
+  2. MatMul + Add 设置 output_int16 属性；
+  3. 检测 YOLO 模型结构并设置 int16；
+}
+```
+
+**给`top::MatMulOp`设置per-channel属性**
+
+per-channel quantization针对每个通道（channel）设置不同的 scale，适合 MatMul 和 Conv，提高精度，这个属性在 lowering 阶段被读取，从而改变生成的 MLIR/TPU 指令结构。
+
+**给 MatMul 设置 int16 输出条件**
+
+有些硬件不支持 float 中间结果，需要明确指示中间输出使用 int16，如果 MatMul 后面接的是 Add（加 bias），并且目标是 F16/BF16（量化的一种形式），则把中间输出设置为 int16；
+
+**检测是否是 YOLO 结构，并设置 int16 输出**（待补充）
+
+**针对MARS3和SGTPUV8的内容**
+
+
+
+- **形状转换**
+
+根据芯片型号（BM1684X 或 BM1684）来注册不同的 shape 类算子的转换规则，从 `top.shape` 等 op 转为 `tpu.shape` 相关 op
+
+内部依然是通过 `.add<...>(ctx_)` 添加进 `RewritePatternSet patterns` 的。
+
+**shape的转换为什么要单独拿出来？**
+
+
+
+
+
+## 4、转换逻辑四
+
+这里是将 Top Dialect 中的大部分算子（Op）转换为 Tpu Dialect 中的对应实现，首先依旧是按照芯片类型注册转换规则Pattern，默认 `applyPatternsAndFoldGreedily` 会 **一直应用 Pattern，直到没有任何变化为止**（可能会无限循环），这里显式地限制它最多迭代 1 次，避免某些 Pattern 自身或互相之间产生死循环。
+
+```c++
+if (module::isBM1684XFamily() || module::isBM1690Family()) { 
+    bm1684x::populateTopToTpuConversionPatterns(&patterns);
+  } else if (module::isBM1684Family()) {
+    bm1684::populateTopToTpuConversionPatterns(&patterns);
+  } else if (module::isCV18xx()) {
+    cv18xx::populateTopToTpuConversionPatterns(&patterns);
+  } else {
+    // 如果芯片类型不匹配，则直接报错
+    llvm_unreachable("Not Implemented");
+  }
+  // 设置 GreedyRewrite 配置，只执行一次重写
+  auto config = GreedyRewriteConfig();
+  // 每个 pattern 只执行一次，避免死循环
+  config.maxIterations = 1; // apply each pattern only once.
+  // 应用 top → tpu 的转换 pattern，进行结构重写与常量折叠
+  applyPatternsAndFoldGreedily(module_, std::move(patterns), config);
+  // adjust reshape
+  patterns.clear();
+```
+
+
+
+最后通过`module::updateModuleTypes()`重新整理并同步 Module 中所有 Operation 的类型信息，确保类型一致性。比如某些pattern在rewrite过程中改写了输出类型，那么需要检查每个 Operation 的输出类型。
+
+同时将当前 Module 设置为 已完成 Top → TPU 的转换，就是一个标志位，是TPU-MLIR里的一个state枚举。
+
+最后检查是否还有 `top::Op` 未被转换，遍历主函数中所有 Operation并且忽略掉非计算节点，对于其他的Operation则检查它所属的Dialect等等。
+
+```c++
+bool hasTopOp = false;
+mainFunc_.walk([&](Operation *op) {
+  if (isa<top::WeightOp, top::NoneOp, top::InputOp, ModuleOp, FuncOp, ReturnOp>(op)) {
+    return;
+  }
+  if (!isa<tpu::TpuDialect>(op->getDialect())) {
+    op->dump();
+    hasTopOp = true;
+  }
+});
 ```
 
