@@ -265,8 +265,51 @@ alu_result = (op_add) ? (rs1 + rs2) :
 #### DMA使用
   队列描述符通常通过DMA与主机内存交互，减少CPU开销
 4. 需要能看懂dpdk代码：请参考学长学姐的笔记
+
 5. verilog的基本语法，基本激励文件编写
 
 6. 对于应用层：根据自己的应用学习相关的知识，比如spark
+### Spark核心概念
+#### RDD（弹性分布式数据集）
+创建方式：paralleize（），textFile()等。  
+
+转换操作：(map、filter、flatMap)与行动操作 (count、collect、reduce)。  
+
+持久化策略(cache()、persist())。  
+
+宽依赖与窄依赖。
+#### 实际案例
+```python
+# 统计文本词频
+text_file = sc.textFile("hdfs://...")
+counts = text_file.flatMap(lambda line: line.split(" ")) \
+                 .map(lambda word: (word, 1)) \
+                 .reduceByKey(lambda a, b: a + b)
+counts.saveAsTextFile("hdfs://...")
+```
+
+### DataFrame ALI
+#### 核心概念 
+创建DataFrame(从RDD、CSV、JSON等)
+
+常用操作：select、filter、groupBy、agg
+
+UDF函数编写
+
+数据缓存：df.cache()
+
+#### 案例示例
+```python
+from pyspark.sql import functions as F
+
+df = spark.read.csv("data.csv", header=True)
+result = df.groupBy("department").agg(
+    F.avg("salary").alias("avg_salary"),
+    F.max("age").alias("max_age")
+)
+```
+
+
+
 
 
