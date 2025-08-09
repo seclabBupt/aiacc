@@ -1,4 +1,4 @@
-# MLIR 附带 Dialect 学习笔记
+# MLIR Dialect 学习笔记 模块二 MLIR附带Dialect
 ---
 
 ## 1. builtin Dialect 详解
