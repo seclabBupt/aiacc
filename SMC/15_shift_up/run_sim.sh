@@ -16,7 +16,6 @@ PROJ_ROOT=$SCRIPT_DIR
 OUTPUT_DIR="$PROJ_ROOT/sim_output"
 DUT_FILE="$PROJ_ROOT/vsrc/shift_up.v"
 TB_FILE="$PROJ_ROOT/vsrc/tb_shift_up.v"
-# home/zwz/Oliver/SMC/15_shift_up/vsrc/shift_up.v
 
 # 依赖检查
 check_dependencies() {
