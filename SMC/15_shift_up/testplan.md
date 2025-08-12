@@ -78,7 +78,7 @@
 |II-03|无效指令2|{0,data_D,TEST_ID+5,1}|{1,data_B,TEST_ID,0}(保持前值)|data_B(保持前值)|
 
 >parameter TEST_SMC_ID = 2; // 表中简写为TEST_ID
->表中data_X统一为128位数据
+>表中data_X统一为128位的数据
 
 ---
 

@@ -301,4 +301,5 @@ module tb_shift_up();
         $dumpfile("tb_shift_up.vcd");
         $dumpvars(0, tb_shift_up);
     end
+
 endmodule
