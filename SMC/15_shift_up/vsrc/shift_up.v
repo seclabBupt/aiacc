@@ -8,7 +8,7 @@
 `timescale 1ns / 1ps
 module shift_up #(
     parameter PARAM_UR_WORD_CNT = 4,    // User register宽度的字数，每个字为32bit
-    parameter SMC_ID = 0                // SMC ID for this module
+    parameter SMC_ID = 0                // 当前SMC_ID 
 )(
     input wire clk,        // Clock input
     input wire rst_n,      // Active low reset

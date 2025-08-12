@@ -25,7 +25,7 @@ SHIFT_UP 模块是一个用于处理上行指令和数据的分发系统组件�
 
 ```verilog
 module shift_up #(
-    parameter PARAM_UR_WORD_CNT = 4,    // 用户寄存器字数（每字32位）
+    parameter PARAM_UR_WORD_CNT = 4,    // 用户寄存器的字数（每字32bit）
     parameter SMC_ID = 0                // 模块的SMC-ID
 )(
     input wire clk,                     // 时钟输入

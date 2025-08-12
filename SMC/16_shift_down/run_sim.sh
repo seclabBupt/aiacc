@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # ================================================================
-# shift_up 模块仿真脚本 
+# shift_down 模块仿真脚本
 # ================================================================
 
 # 配置参数
@@ -14,14 +14,20 @@ DEBUG=true
 SCRIPT_DIR=$(cd $(dirname "${BASH_SOURCE[0]}") && pwd)
 PROJ_ROOT=$SCRIPT_DIR
 OUTPUT_DIR="$PROJ_ROOT/sim_output"
-DUT_FILE="$PROJ_ROOT/vsrc/shift_up.v"
-TB_FILE="$PROJ_ROOT/vsrc/tb_shift_up.v"
+DUT_FILE="$PROJ_ROOT/vsrc/shift_down.v"
+TB_FILE="$PROJ_ROOT/vsrc/tb_shift_down.v"
+COV_DIR="$OUTPUT_DIR/coverage_report"
 
 # 依赖检查
 check_dependencies() {
     if ! command -v vcs &> /dev/null; then
         echo "[ERROR] VCS not found! Please ensure VCS is installed and in PATH"
         return 1
+    fi
+    
+    if [ "$COVERAGE" = true ] && ! command -v urg &> /dev/null; then
+        echo "[WARNING] urg not found! Coverage reporting will be disabled"
+        COVERAGE=false
     fi
     return 0
 }
@@ -36,6 +42,9 @@ clean_workspace() {
     find . -name "*.log" -delete
     find . -name "simv" -delete
     find . -name "simv.daidir" -delete
+    find . -name "cov_work" -delete
+    find . -name "vcs.key" -delete
+    rm -rf urgReport  # 清理URG默认报告目录
 }
 
 # 文件检查
@@ -54,7 +63,7 @@ check_files() {
     return 0
 }
 
-# 修复后的编译函数
+# 优化编译函数
 compile_design() {
     cd "$OUTPUT_DIR" || exit 1
     
@@ -62,11 +71,15 @@ compile_design() {
         "-sverilog" "+v2k" "-full64"
         "-debug_access+all"
         "-timescale=1ns/1ps"
+        "-lca"  # 启用VCS 18的高级功能
     )
     
-    # 旧版VCS兼容的覆盖率选项
+    # 覆盖率选项 - 仅启用实际存在的覆盖类型
     if [ "$COVERAGE" = true ]; then
-        vcs_opts+=("-cm" "line+cond+fsm+tgl")
+        vcs_opts+=(
+            "-cm" "line+tgl"  # 仅保留实际支持的覆盖类型
+            "-cm_dir" "coverage.vdb"
+        )
     fi
     
     # 波形选项
@@ -81,7 +94,7 @@ compile_design() {
     
     echo "Compiling design with VCS..."
     
-    # 使用标准重定向记录日志（修复核心错误）
+    # 使用标准重定向记录日志
     vcs "${vcs_opts[@]}" "$DUT_FILE" "$TB_FILE" -o simv > compile.log 2>&1
     
     if [ $? -ne 0 ]; then
@@ -102,13 +115,14 @@ run_simulation() {
     local sim_opts=("-l" "sim.log")
     
     if [ "$COVERAGE" = true ]; then
-        sim_opts+=("-cm" "line+cond+fsm+tgl")
+        sim_opts+=("-cm" "line+tgl")  # 与实际编译选项匹配
+        sim_opts+=("-cm_dir" "coverage.vdb")
     fi
     
     echo "Starting simulation..."
     ./simv "${sim_opts[@]}"
     
-    if grep -q "All tests passed" sim.log; then
+    if grep -q "All shift_down tests passed" sim.log; then
         echo "✅ 所有测试通过!"
         return 0
     else
@@ -119,10 +133,61 @@ run_simulation() {
     fi
 }
 
+# 兼容VCS 2018的覆盖率报告生成
+generate_coverage_report() {
+    if [ "$COVERAGE" != true ]; then
+        echo "Coverage reporting disabled"
+        return 0
+    fi
+    
+    cd "$OUTPUT_DIR" || exit 1
+    
+    echo "Generating coverage report..."
+    mkdir -p "$COV_DIR"
+    
+    # 使用基本URG命令（不指定-report选项）
+    urg -dir coverage.vdb -format both > coverage_urg.log 2>&1
+    
+    # 检查URG是否生成了默认报告目录
+    if [ -d "urgReport" ]; then
+        echo "✅ 覆盖率报告已生成"
+        
+        # 复制报告到指定目录
+        cp -r urgReport/* "$COV_DIR/"
+        
+        # 检查HTML报告
+        if [ -f "$COV_DIR/index.html" ]; then
+            echo "    HTML报告: file://$(readlink -f "$COV_DIR/index.html")"
+        fi
+        
+        # 检查文本报告
+        if [ -f "$COV_DIR/dashboard.txt" ]; then
+            echo "    文本报告: $COV_DIR/dashboard.txt"
+            echo "=== 覆盖率摘要 ==="
+            head -n 20 "$COV_DIR/dashboard.txt"
+        fi
+    else
+        echo "[WARNING] 未找到覆盖率报告目录"
+        echo "查看URG日志: $OUTPUT_DIR/coverage_urg.log"
+        
+        # 尝试直接生成文本报告
+        urg -dir coverage.vdb -format text > "$COV_DIR/coverage.txt" 2>&1
+        if [ -s "$COV_DIR/coverage.txt" ]; then
+            echo "基本覆盖率报告: $COV_DIR/coverage.txt"
+            echo "=== 覆盖率摘要 ==="
+            head -n 20 "$COV_DIR/coverage.txt"
+        else
+            echo "[INFO] 无法生成覆盖率报告，但仿真已完成"
+        fi
+    fi
+    
+    return 0
+}
+
 # 主流程
 main() {
     echo "========================================"
-    echo "        Shift_Up 模块仿真"
+    echo "        Shift_Down 模块仿真"
     echo "========================================"
     
     # 执行检查
@@ -140,10 +205,16 @@ main() {
         exit 1
     fi
     
+    # 生成覆盖率报告
+    generate_coverage_report
+    
     echo "========================================"
     echo "      仿真成功完成!"
     echo "      输出目录: $OUTPUT_DIR"
-    echo "      波形文件: $OUTPUT_DIR/tb_shift_up.vcd"
+    echo "      波形文件: $OUTPUT_DIR/tb_shift_down.vcd"
+    if [ "$COVERAGE" = true ]; then
+        echo "      覆盖率报告: $COV_DIR"
+    fi
     echo "========================================"
 }
 
