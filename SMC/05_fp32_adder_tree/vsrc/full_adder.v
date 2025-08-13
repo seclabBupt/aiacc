@@ -1,4 +1,4 @@
-// 全加器模块 - 用于华莱士树实现
+// 全加器模块 
 module full_adder (
     input wire a,
     input wire b,

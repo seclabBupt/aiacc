@@ -1,0 +1,11 @@
+/home/Sunny/SMC/05_fp32_adder_tree/define/fp32_defines.vh
+/home/Sunny/SMC/05_fp32_adder_tree/vsrc/final_adder.v
+/home/Sunny/SMC/05_fp32_adder_tree/vsrc/fp32_adder_tree_8_inputs.v
+/home/Sunny/SMC/05_fp32_adder_tree/vsrc/fp32_aligner.v
+/home/Sunny/SMC/05_fp32_adder_tree/vsrc/fp32_normalizer_rounder.v
+/home/Sunny/SMC/05_fp32_adder_tree/vsrc/fp32_packer.v
+/home/Sunny/SMC/05_fp32_adder_tree/vsrc/fp32_unpacker.v
+/home/Sunny/SMC/05_fp32_adder_tree/vsrc/full_adder.v
+/home/Sunny/SMC/05_fp32_adder_tree/vsrc/tb_fp32_adder_tree_8_inputs.v
+/home/Sunny/SMC/05_fp32_adder_tree/vsrc/wallace_tree_8_inputs.v
+/home/Sunny/SMC/global_defines.v
