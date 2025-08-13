@@ -1,8 +1,8 @@
 //---------------------------------------------------------------------
 // Filename: logical.v
 // Author: cypher
-// Date: 2025-8-8
-// Version: 1.1
+// Date: 2025-8-13
+// Version: 1.2
 // Description: This is a module that supports basic microinstructions.
 //---------------------------------------------------------------------
 `timescale 1ns/1ps
@@ -98,10 +98,10 @@ always @(*) begin
                     dst_32[ch] = (src0_32[ch] << shift32) |
                                  (src0_32[ch] >> (32 - shift32));
                 end
-                op_get_first_one   : dst_32[ch] = (src0_32[ch] | src1_32[ch]) ?
-                                                  {31'b0, $clog2(src0_32[ch] | src1_32[ch])} : 32'b0;
-                op_get_first_zero  : dst_32[ch] = (src0_32[ch] & src1_32[ch]) ?
-                                                  {31'b0, $clog2(~(src0_32[ch] & src1_32[ch]))} : 32'b0;
+                op_get_first_one   : dst_32[ch] = (src0_32[ch]) ?
+                                                  {31'b0, $clog2(src0_32[ch])} : 32'b0;
+                op_get_first_zero  : dst_32[ch] = ~src0_32[ch] ?
+                                                  {31'b0, $clog2(~(src0_32[ch]))} : 32'b0;
                 default: dst_32[ch] = 32'b0;
             endcase
         end
@@ -131,10 +131,10 @@ always @(*) begin
                     dst_16[ch] = (src0_16[ch] << shift16) |
                                  (src0_16[ch] >> (16 - shift16));
                 end
-                op_get_first_one   : dst_16[ch] = (src0_16[ch] | src1_16[ch]) ?
-                                                  {15'b0, $clog2(src0_16[ch] | src1_16[ch])} : 16'b0;
-                op_get_first_zero  : dst_16[ch] = (src0_16[ch] & src1_16[ch]) ?
-                                                  {15'b0, $clog2(~(src0_16[ch] & src1_16[ch]))} : 16'b0;
+                op_get_first_one   : dst_16[ch] = (src0_16[ch]) ?
+                                                  {15'b0, $clog2(src0_16[ch])} : 16'b0;
+                op_get_first_zero  : dst_16[ch] = (src0_16[ch]) ?
+                                                  {15'b0, $clog2(~src0_16[ch])} : 16'b0;
                 default: dst_16[ch] = 16'b0;
             endcase
         end

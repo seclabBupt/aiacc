@@ -106,8 +106,8 @@ task test_case;
                     sh = sh % 32;
                     exp32[ch] = (a << sh) | (a >> (32 - sh));
                 end
-                op_get_first_one   : exp32[ch] = (a | b) ? {31'b0, $clog2(a | b)} : 32'b0;
-                op_get_first_zero  : exp32[ch] = (a & b) ? {31'b0, $clog2(~(a & b))} : 32'b0;
+                op_get_first_one   : exp32[ch] = a ? {31'b0, $clog2(a)} : 32'b0;
+                op_get_first_zero  : exp32[ch] = ~a ? {31'b0, $clog2(~a)} : 32'b0;
                 op_select_great    : exp32[ch] = per_chan_status[ch][2] ? a : b;
                 op_select_equal    : exp32[ch] = per_chan_status[ch][1] ? a : b;
                 op_select_less     : exp32[ch] = per_chan_status[ch][0] ? a : b;
@@ -138,8 +138,8 @@ task test_case;
                     sh = sh % 16;
                     exp16[ch] = (a << sh) | (a >> (16 - sh));
                 end
-                op_get_first_one   : exp16[ch] = (a | b) ? {15'b0, $clog2(a | b)} : 16'b0;
-                op_get_first_zero  : exp16[ch] = (a & b) ? {15'b0, $clog2(~(a & b))} : 16'b0;
+                op_get_first_one   : exp16[ch] = a ? {15'b0, $clog2(a)} : 16'b0;
+                op_get_first_zero  : exp16[ch] = ~a ? {15'b0, $clog2(~a)} : 16'b0;
                 op_select_great    : exp16[ch] = per_chan_status[ch][2] ? a : b;
                 op_select_equal    : exp16[ch] = per_chan_status[ch][1] ? a : b;
                 op_select_less     : exp16[ch] = per_chan_status[ch][0] ? a : b;
