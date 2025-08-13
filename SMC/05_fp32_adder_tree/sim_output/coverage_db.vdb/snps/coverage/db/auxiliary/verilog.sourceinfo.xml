@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!DOCTYPE cov SYSTEM "ucdb_srcinfo.dtd">
+  <srcinfo name="/home/Sunny/SMC/05_fp32_adder_tree/sim_output"  >
+    <ucapi_version  major_ver="13"  minor_ver="1"  patch_str="O-2018.09-SP2"  />
+      <fileinfo name="../vsrc/tb_fp32_adder_tree_8_inputs.v"  id="0"  />
+      <fileinfo name="../define/fp32_defines.vh"  id="1"  />
+      <fileinfo name="../../global_defines.v"  id="2"  />
+      <fileinfo name="../vsrc/fp32_adder_tree_8_inputs.v"  id="3"  />
+      <fileinfo name="../vsrc/fp32_unpacker.v"  id="4"  />
+      <fileinfo name="../vsrc/fp32_aligner.v"  id="5"  />
+      <fileinfo name="../vsrc/wallace_tree_8_inputs.v"  id="6"  />
+      <fileinfo name="../vsrc/full_adder.v"  id="7"  />
+      <fileinfo name="../vsrc/final_adder.v"  id="8"  />
+      <fileinfo name="../vsrc/fp32_normalizer_rounder.v"  id="9"  />
+      <fileinfo name="../vsrc/fp32_packer.v"  id="10"  />
+    </srcinfo>
