@@ -1,12 +1,15 @@
 module add8 (
-    input  [127:0] src0,        
-    input  [127:0] src1,        
-    input  [127:0] src2,        
-    input          sign_s0,     
-    input          sign_s1,     
-    input          sign_s2,     
-    output [127:0] dst0,        
-    output [127:0] dst1         
+    input         clk,         // 新增时钟
+    input         rst_n,       // 新增复位
+    input  [127:0] src0,
+    input  [127:0] src1,
+    input  [127:0] src2,
+    input          sign_s0,
+    input          sign_s1,
+    input          sign_s2,
+    output [127:0] dst0,
+    output [127:0] dst1,
+    output [127:0] st          // 新增状态寄存器
 );
 
     genvar i;
@@ -35,5 +38,8 @@ module add8 (
             assign dst1[i*4 +: 4] = sum_sat[7:4];
         end
     endgenerate
+
+    // 4+8bit模式不更新状态寄存器，输出0
+    assign st = 128'd0;
 
 endmodule
