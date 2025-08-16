@@ -18,6 +18,7 @@
 * [Dialect入门二配套Lab8](Lab_8_Tensor.md)
 * [Dialect入门二配套Lab9](Lab_9_Linalg.md)
 * [Dialect入门三](MLIR_Dialect_Notes_module3.md)
+* [Dialect入门三配套Lab10](Lab_10_Optimization.md)
 * [FIFO学习](FIFO_study.md)
 * [TPU-MLIR代码学习](TPU_MLIR_study.md)
 * [Linux系统(服务器)常用指令](Linux_Command_Line.md)
