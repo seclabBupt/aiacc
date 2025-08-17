@@ -159,5 +159,3 @@ sim_output\coverage_report\dashboard.html
 ```
 
 ---
-
-
