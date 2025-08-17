@@ -2,7 +2,7 @@
 
 ## Shift Up 模块测试计划
 
->版本：V1.0
+>版本：V1.0  
 >作者：Oliver
 
 ### 1. 测试概述
@@ -77,7 +77,7 @@
 |II-02|无效指令1|{0,data_C,TEST_ID,0}|{1,data_B,TEST_ID,0}(保持前值)|data_B(保持前值)|
 |II-03|无效指令2|{0,data_D,TEST_ID+5,1}|{1,data_B,TEST_ID,0}(保持前值)|data_B(保持前值)|
 
->parameter TEST_SMC_ID = 2; // 表中简写为TEST_ID
+>parameter TEST_SMC_ID = 2; // 表中简写为TEST_ID  
 >表中data_X统一为128位的数据
 
 ---
@@ -108,5 +108,5 @@
 
 > 附件:
 >
-> 1. [代码shift_up.v](./vsrc/shift_up.v)
+> 1. [代码shift_up.v](./vsrc/shift_up.v)  
 > 2. [测试平台tb_shift_up.v](./vsrc/tb_shift_up.v)

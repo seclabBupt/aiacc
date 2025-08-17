@@ -13,10 +13,10 @@ module shift_down #(
     input wire clk,        // Clock input
     input wire rst_n,      // Active low reset
 
-    input wire [133:0] crd_shiftdn_in, // 135=1+128+5+1,代表SHIFTDN上行指令寄存器
+    input wire [133:0] crd_shiftdn_in, // 134=1+128+5,代表SHIFTDN下行指令寄存器
     input wire [127:0] dvr_shiftdn_in, // 128,代表SHIFTDN计算输出数据
 
-    output wire [133:0] crd_shiftdn_out // 135=1+128+5+1,输出信号
+    output wire [133:0] crd_shiftdn_out // 134=1+128+5,代表SHIFTDN下行指令寄存器
 );
 
 // 寄存器定义
