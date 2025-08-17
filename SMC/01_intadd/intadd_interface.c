@@ -85,10 +85,8 @@ void add8_128bit(
     unsigned long long src2_high, unsigned long long src2_low,
     int sign_s0, int sign_s1, int sign_s2,
     unsigned long long* dst0_high, unsigned long long* dst0_low,
-    unsigned long long* dst1_high, unsigned long long* dst1_low,
-    unsigned long long* st_high, unsigned long long* st_low
+    unsigned long long* dst1_high, unsigned long long* dst1_low
 ) {
-    // 原有实现保持不变
     uint8_t a[32], b[32], c[32];
     uint8_t res0[32], res1[32];
     int i;
@@ -102,10 +100,6 @@ void add8_128bit(
         b[i+16]   = (src1_high >> (i*4)) & 0xF;
         c[i+16]   = (src2_high >> (i*4)) & 0xF;
     }
-
-    // 4+8bit模式不更新状态寄存器
-    *st_high = 0;
-    *st_low = 0;
 
     for (i = 0; i < 32; ++i) {
         // 4bit符号扩展到8bit

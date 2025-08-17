@@ -349,12 +349,28 @@ module intadd_tb;
             src_reg2 = {$random, $random, $random, $random};
             precision_s0 = 2'b00; precision_s1 = 2'b00; precision_s2 = 2'b00;
             sign_s0 = $random & 1; sign_s1 = $random & 1; sign_s2 = $random & 1;
-            inst_valid = 1; update_st = 0;
+            inst_valid = 1; update_st = 1;
             cru_intadd = {inst_valid, precision_s0, precision_s1, precision_s2,
                           sign_s0, sign_s1, sign_s2, update_st};
             #10;
             if (compare_and_log_4_8bit(dst_reg0, dst_reg1, st, src_reg0, src_reg1, src_reg2,
                                        sign_s0, sign_s1, sign_s2))
+                pass_cnt++;
+            total_cnt++;
+        end
+        // 测试4: 32bit 随机
+        for (i = 0; i < 1000; i++) begin
+            src_reg0 = {$random, $random, $random, $random};
+            src_reg1 = {$random, $random, $random, $random};
+           // src_reg2 = {$random, $random, $random, $random};
+            precision_s0 = 2'b11; precision_s1 = 2'b11; //precision_s2 = 2'b00;
+            sign_s0 = $random & 1; sign_s1 = $random & 1;// sign_s2 = $random & 1;
+            inst_valid = 1; update_st = 1;
+            cru_intadd = {inst_valid, precision_s0, precision_s1, precision_s2,
+                          sign_s0, sign_s1, sign_s2, update_st};
+            #10;
+            if (compare_and_log_32bit(dst_reg0, st, src_reg0, src_reg1,
+                                       sign_s0, sign_s1))
                 pass_cnt++;
             total_cnt++;
         end
