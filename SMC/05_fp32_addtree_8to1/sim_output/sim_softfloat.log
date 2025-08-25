@@ -1,0 +1,441 @@
+FP32 Adder Tree SoftFloat Simulation started at time                    0
+
+=== Starting Instruction Control Tests ===
+
+--- Testing Command Valid Bit ---
+Input data S0: 0x00000000000000000000000000000000
+Input data S1: 0x410040e040c040a04080404040003f80
+Expected FP32 inputs: 3f800000 40000000 40400000 40800000 40a00000 40c00000 40e00000 41000000
+Invalid Command Test: PASS - All outputs are zero when cmd_valid=0
+
+--- Testing Instruction Encoding ---
+Instruction 3'b100: DR_output=0x00000000000000000000000042100000
+  fp_sum[0]=0x42100000, fp_sum[1]=0x00000000, fp_sum[2]=0x00000000, fp_sum[3]=0x00000000
+Reg0 Target: PASS - Output in correct register (0x42100000)
+Instruction 3'b101: DR_output=0x00000000000000004210000000000000
+  fp_sum[0]=0x00000000, fp_sum[1]=0x42100000, fp_sum[2]=0x00000000, fp_sum[3]=0x00000000
+Reg1 Target: PASS - Output in correct register (0x42100000)
+Instruction 3'b110: DR_output=0x00000000421000000000000000000000
+  fp_sum[0]=0x00000000, fp_sum[1]=0x00000000, fp_sum[2]=0x42100000, fp_sum[3]=0x00000000
+Reg2 Target: PASS - Output in correct register (0x42100000)
+Instruction 3'b111: DR_output=0x42100000000000000000000000000000
+  fp_sum[0]=0x00000000, fp_sum[1]=0x00000000, fp_sum[2]=0x00000000, fp_sum[3]=0x42100000
+Reg3 Target: PASS - Output in correct register (0x42100000)
+
+--- Testing Instruction Timing ---
+After instruction: fp_sum[0]=0x42100000, DR_output=0x00000000000000000000000042100000
+Timing Test: PASS - Output appears after 2 clock cycles (0x42100000)
+After stop: DR_output=0x00000000000000000000000000000000
+Command Stop Test: PASS - Output cleared when command stops
+Instruction control tests completed.
+
+=== Starting Register Functionality Tests ===
+Testing Register 0 independence...
+Register 0: PASS - Output present (0x42100000)
+Register 1 (non-target): PASS - Correctly zero
+Register 2 (non-target): PASS - Correctly zero
+Register 3 (non-target): PASS - Correctly zero
+Testing Register 1 independence...
+Register 1: PASS - Output present (0x42100000)
+Register 0 (non-target): PASS - Correctly zero
+Register 2 (non-target): PASS - Correctly zero
+Register 3 (non-target): PASS - Correctly zero
+Testing Register 2 independence...
+Register 2: PASS - Output present (0x42100000)
+Register 0 (non-target): PASS - Correctly zero
+Register 1 (non-target): PASS - Correctly zero
+Register 3 (non-target): PASS - Correctly zero
+Testing Register 3 independence...
+Register 3: PASS - Output present (0x42100000)
+Register 0 (non-target): PASS - Correctly zero
+Register 1 (non-target): PASS - Correctly zero
+Register 2 (non-target): PASS - Correctly zero
+Register functionality tests completed.
+
+=== Starting Fixed Test Cases ===
+测试用例 0 (Reg0): PASS: expected=42100000 (flags=00000000), actual=42100000
+测试用例 0 (Reg1): PASS: expected=42100000 (flags=00000000), actual=42100000
+测试用例 0 (Reg2): PASS: expected=42100000 (flags=00000000), actual=42100000
+测试用例 0 (Reg3): PASS: expected=42100000 (flags=00000000), actual=42100000
+测试用例 1 (Reg0): PASS: expected=00000000 (flags=00000000), actual=00000000
+测试用例 1 (Reg1): PASS: expected=00000000 (flags=00000000), actual=00000000
+测试用例 1 (Reg2): PASS: expected=00000000 (flags=00000000), actual=00000000
+测试用例 1 (Reg3): PASS: expected=00000000 (flags=00000000), actual=00000000
+测试用例 2 (Reg0): PASS: expected=00000000 (flags=00000000), actual=00000000
+测试用例 2 (Reg1): PASS: expected=00000000 (flags=00000000), actual=00000000
+测试用例 2 (Reg2): PASS: expected=00000000 (flags=00000000), actual=00000000
+测试用例 2 (Reg3): PASS: expected=00000000 (flags=00000000), actual=00000000
+测试用例 3 (Reg0): PASS: expected=80000000 (flags=00000000), actual=80000000
+测试用例 3 (Reg1): PASS: expected=80000000 (flags=00000000), actual=80000000
+测试用例 3 (Reg2): PASS: expected=80000000 (flags=00000000), actual=80000000
+测试用例 3 (Reg3): PASS: expected=80000000 (flags=00000000), actual=80000000
+测试用例 4 (Reg0): PASS: expected=00000000 (flags=00000000), actual=00000000
+测试用例 4 (Reg1): PASS: expected=00000000 (flags=00000000), actual=00000000
+测试用例 4 (Reg2): PASS: expected=00000000 (flags=00000000), actual=00000000
+测试用例 4 (Reg3): PASS: expected=00000000 (flags=00000000), actual=00000000
+测试用例 5 (Reg0): PASS: expected=7f800000 (flags=00000000), actual=7f800000
+测试用例 5 (Reg1): PASS: expected=7f800000 (flags=00000000), actual=7f800000
+测试用例 5 (Reg2): PASS: expected=7f800000 (flags=00000000), actual=7f800000
+测试用例 5 (Reg3): PASS: expected=7f800000 (flags=00000000), actual=7f800000
+测试用例 6 (Reg0): PASS: expected=ff800000 (flags=00000000), actual=ff800000
+测试用例 6 (Reg1): PASS: expected=ff800000 (flags=00000000), actual=ff800000
+测试用例 6 (Reg2): PASS: expected=ff800000 (flags=00000000), actual=ff800000
+测试用例 6 (Reg3): PASS: expected=ff800000 (flags=00000000), actual=ff800000
+测试用例 7 (Reg0): PASS (NaN): expected=7fc00000 (flags=00000000), actual=7fc00000
+测试用例 7 (Reg1): PASS (NaN): expected=7fc00000 (flags=00000000), actual=7fc00000
+测试用例 7 (Reg2): PASS (NaN): expected=7fc00000 (flags=00000000), actual=7fc00000
+测试用例 7 (Reg3): PASS (NaN): expected=7fc00000 (flags=00000000), actual=7fc00000
+测试用例 8 (Reg0): PASS: expected=02000000 (flags=00000000), actual=02000000
+测试用例 8 (Reg1): PASS: expected=02000000 (flags=00000000), actual=02000000
+测试用例 8 (Reg2): PASS: expected=02000000 (flags=00000000), actual=02000000
+测试用例 8 (Reg3): PASS: expected=02000000 (flags=00000000), actual=02000000
+测试用例 9 (Reg0): PASS: expected=7f800000 (flags=00000005), actual=7f800000
+测试用例 9 (Reg1): PASS: expected=7f800000 (flags=00000005), actual=7f800000
+测试用例 9 (Reg2): PASS: expected=7f800000 (flags=00000005), actual=7f800000
+测试用例 9 (Reg3): PASS: expected=7f800000 (flags=00000005), actual=7f800000
+测试用例 10 (Reg0): PASS: expected=00000008 (flags=00000000), actual=00000008
+测试用例 10 (Reg1): PASS: expected=00000008 (flags=00000000), actual=00000008
+测试用例 10 (Reg2): PASS: expected=00000008 (flags=00000000), actual=00000008
+测试用例 10 (Reg3): PASS: expected=00000008 (flags=00000000), actual=00000008
+测试用例 11 (Reg0): PASS: expected=00000800 (flags=00000000), actual=00000800
+测试用例 11 (Reg1): PASS: expected=00000800 (flags=00000000), actual=00000800
+测试用例 11 (Reg2): PASS: expected=00000800 (flags=00000000), actual=00000800
+测试用例 11 (Reg3): PASS: expected=00000800 (flags=00000000), actual=00000800
+测试用例 12 (Reg0): PASS: expected=7f800000 (flags=00000005), actual=7f800000
+测试用例 12 (Reg1): PASS: expected=7f800000 (flags=00000005), actual=7f800000
+测试用例 12 (Reg2): PASS: expected=7f800000 (flags=00000005), actual=7f800000
+测试用例 12 (Reg3): PASS: expected=7f800000 (flags=00000005), actual=7f800000
+测试用例 13 (Reg0): PASS: expected=40800000 (flags=00000000), actual=40800000
+测试用例 13 (Reg1): PASS: expected=40800000 (flags=00000000), actual=40800000
+测试用例 13 (Reg2): PASS: expected=40800000 (flags=00000000), actual=40800000
+测试用例 13 (Reg3): PASS: expected=40800000 (flags=00000000), actual=40800000
+测试用例 14 (Reg0): PASS: expected=40000000 (flags=00000001), actual=40000000
+测试用例 14 (Reg1): PASS: expected=40000000 (flags=00000001), actual=40000000
+测试用例 14 (Reg2): PASS: expected=40000000 (flags=00000001), actual=40000000
+测试用例 14 (Reg3): PASS: expected=40000000 (flags=00000001), actual=40000000
+测试用例 15 (Reg0): PASS: expected=40000000 (flags=00000000), actual=40000000
+测试用例 15 (Reg1): PASS: expected=40000000 (flags=00000000), actual=40000000
+测试用例 15 (Reg2): PASS: expected=40000000 (flags=00000000), actual=40000000
+测试用例 15 (Reg3): PASS: expected=40000000 (flags=00000000), actual=40000000
+测试用例 16 (Reg0): PASS: expected=437f0000 (flags=00000000), actual=437f0000
+测试用例 16 (Reg1): PASS: expected=437f0000 (flags=00000000), actual=437f0000
+测试用例 16 (Reg2): PASS: expected=437f0000 (flags=00000000), actual=437f0000
+测试用例 16 (Reg3): PASS: expected=437f0000 (flags=00000000), actual=437f0000
+测试用例 17 (Reg0): PASS: expected=35800000 (flags=00000000), actual=35800000
+测试用例 17 (Reg1): PASS: expected=35800000 (flags=00000000), actual=35800000
+测试用例 17 (Reg2): PASS: expected=35800000 (flags=00000000), actual=35800000
+测试用例 17 (Reg3): PASS: expected=35800000 (flags=00000000), actual=35800000
+测试用例 18 (Reg0): PASS: expected=00000000 (flags=00000000), actual=00000000
+测试用例 18 (Reg1): PASS: expected=00000000 (flags=00000000), actual=00000000
+测试用例 18 (Reg2): PASS: expected=00000000 (flags=00000000), actual=00000000
+测试用例 18 (Reg3): PASS: expected=00000000 (flags=00000000), actual=00000000
+测试用例 19 (Reg0): PASS: expected=00000080 (flags=00000000), actual=00000080
+测试用例 19 (Reg1): PASS: expected=00000080 (flags=00000000), actual=00000080
+测试用例 19 (Reg2): PASS: expected=00000080 (flags=00000000), actual=00000080
+测试用例 19 (Reg3): PASS: expected=00000080 (flags=00000000), actual=00000080
+测试用例 20 (Reg0): PASS: expected=3f4ccccd (flags=00000000), actual=3f4ccccd
+测试用例 20 (Reg1): PASS: expected=3f4ccccd (flags=00000000), actual=3f4ccccd
+测试用例 20 (Reg2): PASS: expected=3f4ccccd (flags=00000000), actual=3f4ccccd
+测试用例 20 (Reg3): PASS: expected=3f4ccccd (flags=00000000), actual=3f4ccccd
+测试用例 21 (Reg0): PASS: expected=3fcccccd (flags=00000000), actual=3fcccccd
+测试用例 21 (Reg1): PASS: expected=3fcccccd (flags=00000000), actual=3fcccccd
+测试用例 21 (Reg2): PASS: expected=3fcccccd (flags=00000000), actual=3fcccccd
+测试用例 21 (Reg3): PASS: expected=3fcccccd (flags=00000000), actual=3fcccccd
+测试用例 22 (Reg0): PASS: expected=4019999a (flags=00000000), actual=4019999a
+测试用例 22 (Reg1): PASS: expected=4019999a (flags=00000000), actual=4019999a
+测试用例 22 (Reg2): PASS: expected=4019999a (flags=00000000), actual=4019999a
+测试用例 22 (Reg3): PASS: expected=4019999a (flags=00000000), actual=4019999a
+测试用例 23 (Reg0): PASS: expected=404ccccd (flags=00000000), actual=404ccccd
+测试用例 23 (Reg1): PASS: expected=404ccccd (flags=00000000), actual=404ccccd
+测试用例 23 (Reg2): PASS: expected=404ccccd (flags=00000000), actual=404ccccd
+测试用例 23 (Reg3): PASS: expected=404ccccd (flags=00000000), actual=404ccccd
+测试用例 24 (Reg0): PASS: expected=4099999a (flags=00000000), actual=4099999a
+测试用例 24 (Reg1): PASS: expected=4099999a (flags=00000000), actual=4099999a
+测试用例 24 (Reg2): PASS: expected=4099999a (flags=00000000), actual=4099999a
+测试用例 24 (Reg3): PASS: expected=4099999a (flags=00000000), actual=4099999a
+测试用例 25 (Reg0): PASS: expected=40b33333 (flags=00000000), actual=40b33333
+测试用例 25 (Reg1): PASS: expected=40b33333 (flags=00000000), actual=40b33333
+测试用例 25 (Reg2): PASS: expected=40b33333 (flags=00000000), actual=40b33333
+测试用例 25 (Reg3): PASS: expected=40b33333 (flags=00000000), actual=40b33333
+测试用例 26 (Reg0): PASS: expected=40cccccd (flags=00000000), actual=40cccccd
+测试用例 26 (Reg1): PASS: expected=40cccccd (flags=00000000), actual=40cccccd
+测试用例 26 (Reg2): PASS: expected=40cccccd (flags=00000000), actual=40cccccd
+测试用例 26 (Reg3): PASS: expected=40cccccd (flags=00000000), actual=40cccccd
+测试用例 27 (Reg0): PASS: expected=40e66666 (flags=00000000), actual=40e66666
+测试用例 27 (Reg1): PASS: expected=40e66666 (flags=00000000), actual=40e66666
+测试用例 27 (Reg2): PASS: expected=40e66666 (flags=00000000), actual=40e66666
+测试用例 27 (Reg3): PASS: expected=40e66666 (flags=00000000), actual=40e66666
+测试用例 28 (Reg0): PASS: expected=00000000 (flags=00000000), actual=00000000
+测试用例 28 (Reg1): PASS: expected=00000000 (flags=00000000), actual=00000000
+测试用例 28 (Reg2): PASS: expected=00000000 (flags=00000000), actual=00000000
+测试用例 28 (Reg3): PASS: expected=00000000 (flags=00000000), actual=00000000
+测试用例 29 (Reg0): PASS: expected=41b00000 (flags=00000000), actual=41b00000
+测试用例 29 (Reg1): PASS: expected=41b00000 (flags=00000000), actual=41b00000
+测试用例 29 (Reg2): PASS: expected=41b00000 (flags=00000000), actual=41b00000
+测试用例 29 (Reg3): PASS: expected=41b00000 (flags=00000000), actual=41b00000
+测试用例 30 (Reg0): PASS: expected=c1000000 (flags=00000000), actual=c1000000
+测试用例 30 (Reg1): PASS: expected=c1000000 (flags=00000000), actual=c1000000
+测试用例 30 (Reg2): PASS: expected=c1000000 (flags=00000000), actual=c1000000
+测试用例 30 (Reg3): PASS: expected=c1000000 (flags=00000000), actual=c1000000
+测试用例 31 (Reg0): PASS: expected=00000000 (flags=00000000), actual=00000000
+测试用例 31 (Reg1): PASS: expected=00000000 (flags=00000000), actual=00000000
+测试用例 31 (Reg2): PASS: expected=00000000 (flags=00000000), actual=00000000
+测试用例 31 (Reg3): PASS: expected=00000000 (flags=00000000), actual=00000000
+测试用例 32 (Reg0): PASS: expected=c1000000 (flags=00000000), actual=c1000000
+测试用例 32 (Reg1): PASS: expected=c1000000 (flags=00000000), actual=c1000000
+测试用例 32 (Reg2): PASS: expected=c1000000 (flags=00000000), actual=c1000000
+测试用例 32 (Reg3): PASS: expected=c1000000 (flags=00000000), actual=c1000000
+测试用例 33 (Reg0): PASS: expected=47800380 (flags=00000000), actual=47800380
+测试用例 33 (Reg1): PASS: expected=47800380 (flags=00000000), actual=47800380
+测试用例 33 (Reg2): PASS: expected=47800380 (flags=00000000), actual=47800380
+测试用例 33 (Reg3): PASS: expected=47800380 (flags=00000000), actual=47800380
+测试用例 34 (Reg0): PASS: expected=40490fdb (flags=00000000), actual=40490fdb
+测试用例 34 (Reg1): PASS: expected=40490fdb (flags=00000000), actual=40490fdb
+测试用例 34 (Reg2): PASS: expected=40490fdb (flags=00000000), actual=40490fdb
+测试用例 34 (Reg3): PASS: expected=40490fdb (flags=00000000), actual=40490fdb
+测试用例 35 (Reg0): PASS: expected=3fadf854 (flags=00000000), actual=3fadf854
+测试用例 35 (Reg1): PASS: expected=3fadf854 (flags=00000000), actual=3fadf854
+测试用例 35 (Reg2): PASS: expected=3fadf854 (flags=00000000), actual=3fadf854
+测试用例 35 (Reg3): PASS: expected=3fadf854 (flags=00000000), actual=3fadf854
+测试用例 36 (Reg0): PASS: expected=41008dfe (flags=00000000), actual=41008dfe
+测试用例 36 (Reg1): PASS: expected=41008dfe (flags=00000000), actual=41008dfe
+测试用例 36 (Reg2): PASS: expected=41008dfe (flags=00000000), actual=41008dfe
+测试用例 36 (Reg3): PASS: expected=41008dfe (flags=00000000), actual=41008dfe
+测试用例 37 (Reg0): PASS: expected=410091e6 (flags=00000000), actual=410091e6
+测试用例 37 (Reg1): PASS: expected=410091e6 (flags=00000000), actual=410091e6
+测试用例 37 (Reg2): PASS: expected=410091e6 (flags=00000000), actual=410091e6
+测试用例 37 (Reg3): PASS: expected=410091e6 (flags=00000000), actual=410091e6
+测试用例 38 (Reg0): PASS: expected=410095ce (flags=00000000), actual=410095ce
+测试用例 38 (Reg1): PASS: expected=410095ce (flags=00000000), actual=410095ce
+测试用例 38 (Reg2): PASS: expected=410095ce (flags=00000000), actual=410095ce
+测试用例 38 (Reg3): PASS: expected=410095ce (flags=00000000), actual=410095ce
+测试用例 39 (Reg0): PASS: expected=410099b6 (flags=00000000), actual=410099b6
+测试用例 39 (Reg1): PASS: expected=410099b6 (flags=00000000), actual=410099b6
+测试用例 39 (Reg2): PASS: expected=410099b6 (flags=00000000), actual=410099b6
+测试用例 39 (Reg3): PASS: expected=410099b6 (flags=00000000), actual=410099b6
+测试用例 40 (Reg0): PASS: expected=7f800000 (flags=00000005), actual=7f800000
+测试用例 40 (Reg1): PASS: expected=7f800000 (flags=00000005), actual=7f800000
+测试用例 40 (Reg2): PASS: expected=7f800000 (flags=00000005), actual=7f800000
+测试用例 40 (Reg3): PASS: expected=7f800000 (flags=00000005), actual=7f800000
+
+Fixed Test Cases Summary:
+Total fixed tests: 175
+Passed: 175
+Failed: 0
+
+=== Starting Random Tests ===
+随机测试 0 (Reg0): PASS: expected=46df90f7 (flags=00000001), actual=46df90f7
+随机测试 5 (Reg0): PASS: expected=eaa940a0 (flags=00000001), actual=eaa940a0
+随机测试 10 (Reg0): PASS: expected=ec0003aa (flags=00000001), actual=ec0003aa
+随机测试 15 (Reg0): PASS: expected=f682e602 (flags=00000001), actual=f682e602
+随机测试 20 (Reg0): PASS: expected=e3c530e5 (flags=00000001), actual=e3c530e5
+随机测试 25 (Reg0): PASS: expected=7a8c59f5 (flags=00000001), actual=7a8c59f5
+随机测试 30 (Reg0): PASS: expected=f249a4e4 (flags=00000001), actual=f249a4e4
+随机测试 35 (Reg0): PASS: expected=f287b6e5 (flags=00000001), actual=f287b6e5
+随机测试 40 (Reg0): PASS: expected=7b10367e (flags=00000001), actual=7b10367e
+随机测试 45 (Reg0): PASS: expected=fef064fd (flags=00000001), actual=fef064fd
+随机测试 50 (Reg0): PASS: expected=6851e5d0 (flags=00000001), actual=6851e5d0
+随机测试 55 (Reg0): PASS: expected=6d8b7268 (flags=00000001), actual=6d8b7268
+随机测试 60 (Reg0): PASS: expected=7c416b8e (flags=00000001), actual=7c416b8e
+随机测试 65 (Reg0): PASS: expected=7251dce6 (flags=00000001), actual=7251dce6
+随机测试 70 (Reg0): PASS: expected=5c7951b8 (flags=00000001), actual=5c7951b8
+随机测试 75 (Reg0): PASS: expected=5bd3dbb7 (flags=00000001), actual=5bd3dbb7
+随机测试 80 (Reg0): PASS: expected=7c306f73 (flags=00000001), actual=7c306f73
+随机测试 85 (Reg0): PASS: expected=f8c714f1 (flags=00000001), actual=f8c714f1
+随机测试 90 (Reg0): PASS: expected=f0ea70e2 (flags=00000001), actual=f0ea70e2
+随机测试 95 (Reg0): PASS: expected=64f2bdc9 (flags=00000001), actual=64f2bdc9
+随机测试 100 (Reg0): PASS: expected=ee8118dd (flags=00000001), actual=ee8118dd
+随机测试 105 (Reg0): PASS: expected=ef2081f4 (flags=00000001), actual=ef2081f4
+随机测试 110 (Reg0): PASS: expected=ff73cafe (flags=00000001), actual=ff73cafe
+随机测试 115 (Reg0): PASS: expected=fc4ca4f8 (flags=00000001), actual=fc4ca4f8
+随机测试 120 (Reg0): PASS (NaN): expected=7fdbb3ff (flags=00000000), actual=7fc00000
+随机测试 125 (Reg0): PASS: expected=74bbf715 (flags=00000001), actual=74bbf715
+随机测试 130 (Reg0): PASS: expected=ebb0f6be (flags=00000001), actual=ebb0f6be
+随机测试 135 (Reg0): PASS: expected=ed26b63c (flags=00000001), actual=ed26b63c
+随机测试 140 (Reg0): PASS: expected=6a5ddbd4 (flags=00000001), actual=6a5ddbd4
+随机测试 145 (Reg0): PASS: expected=5a0f27b4 (flags=00000001), actual=5a0f27b4
+随机测试 150 (Reg0): PASS: expected=c34ddc86 (flags=00000001), actual=c34ddc86
+随机测试 155 (Reg0): PASS: expected=5ec576cc (flags=00000001), actual=5ec576cc
+随机测试 160 (Reg0): PASS: expected=6ec2cb2c (flags=00000001), actual=6ec2cb2c
+随机测试 165 (Reg0): PASS: expected=fb311ff8 (flags=00000001), actual=fb311ff8
+随机测试 170 (Reg0): PASS: expected=7186abf4 (flags=00000001), actual=7186abf4
+随机测试 175 (Reg0): PASS: expected=75b801eb (flags=00000001), actual=75b801eb
+随机测试 180 (Reg0): PASS: expected=df07831e (flags=00000001), actual=df07831e
+随机测试 185 (Reg0): PASS: expected=7c9b37f9 (flags=00000001), actual=7c9b37f9
+随机测试 190 (Reg0): PASS: expected=7f4ce1fd (flags=00000001), actual=7f4ce1fd
+随机测试 195 (Reg0): PASS: expected=ee7e6adc (flags=00000001), actual=ee7e6adc
+随机测试 200 (Reg0): PASS: expected=6e37cde3 (flags=00000001), actual=6e37cde3
+随机测试 205 (Reg0): PASS: expected=7eddcdfd (flags=00000001), actual=7eddcdfd
+随机测试 210 (Reg0): PASS: expected=6e2a764a (flags=00000001), actual=6e2a764a
+随机测试 215 (Reg0): PASS: expected=f2b5e291 (flags=00000001), actual=f2b5e291
+随机测试 220 (Reg0): PASS: expected=fe589620 (flags=00000001), actual=fe58961f (±1 ULP tolerance)
+随机测试 225 (Reg0): PASS: expected=f92b04bf (flags=00000001), actual=f92b04bf
+随机测试 230 (Reg0): PASS: expected=788e979f (flags=00000001), actual=788e979f
+随机测试 235 (Reg0): PASS: expected=7ba55ff7 (flags=00000001), actual=7ba55ff7
+随机测试 240 (Reg0): PASS: expected=76109e88 (flags=00000001), actual=76109e88
+随机测试 245 (Reg0): PASS: expected=f175e1fd (flags=00000001), actual=f175e1fd
+随机测试 250 (Reg0): PASS: expected=59f2cbe3 (flags=00000001), actual=59f2cbe3
+随机测试 255 (Reg0): PASS: expected=feb99efd (flags=00000001), actual=feb99efd
+随机测试 260 (Reg0): PASS: expected=e959f0d0 (flags=00000001), actual=e959f0d0
+随机测试 265 (Reg0): PASS: expected=ec79acd8 (flags=00000001), actual=ec79acd8
+随机测试 270 (Reg0): PASS: expected=d96b3ab5 (flags=00000001), actual=d96b3ab5
+随机测试 275 (Reg0): PASS: expected=ed03d2da (flags=00000001), actual=ed03d2da
+随机测试 280 (Reg0): PASS: expected=78bbdf6e (flags=00000001), actual=78bbdf6e
+随机测试 285 (Reg0): PASS: expected=eb5d8dba (flags=00000001), actual=eb5d8dba
+随机测试 290 (Reg0): PASS: expected=f09c1ae2 (flags=00000001), actual=f09c1ae2
+随机测试 295 (Reg0): PASS: expected=79907c0e (flags=00000001), actual=79907c0e
+随机测试 300 (Reg0): PASS: expected=f5fae0eb (flags=00000001), actual=f5fae0eb
+随机测试 305 (Reg0): PASS: expected=7dbb99fb (flags=00000001), actual=7dbb99fb
+随机测试 310 (Reg0): PASS: expected=f8abf8f1 (flags=00000001), actual=f8abf8f1
+随机测试 315 (Reg0): PASS: expected=d74adb0a (flags=00000001), actual=d74adb0a
+随机测试 320 (Reg0): PASS: expected=74c74ae3 (flags=00000001), actual=74c74ae3
+随机测试 325 (Reg0): PASS: expected=f106b8db (flags=00000001), actual=f106b8db
+随机测试 330 (Reg0): PASS: expected=743f41ea (flags=00000001), actual=743f41ea
+随机测试 335 (Reg0): PASS: expected=ebdef630 (flags=00000001), actual=ebdef630
+随机测试 340 (Reg0): PASS: expected=776bf3da (flags=00000001), actual=776bf3da
+随机测试 345 (Reg0): PASS: expected=76c206c5 (flags=00000001), actual=76c206c5
+随机测试 350 (Reg0): PASS (NaN): expected=7fc09fff (flags=00000000), actual=7fc00000
+随机测试 355 (Reg0): PASS: expected=fb6014f6 (flags=00000001), actual=fb6014f6
+随机测试 360 (Reg0): PASS: expected=7df552ad (flags=00000001), actual=7df552ad
+随机测试 365 (Reg0): PASS: expected=7de9e9fb (flags=00000001), actual=7de9e9fb
+随机测试 370 (Reg0): PASS: expected=fadf00cb (flags=00000001), actual=fadf00cb
+随机测试 375 (Reg0): PASS: expected=7e13a5fc (flags=00000001), actual=7e13a5fc
+随机测试 380 (Reg0): PASS: expected=ed658ada (flags=00000001), actual=ed658ada
+随机测试 385 (Reg0): PASS: expected=e8c7cad3 (flags=00000001), actual=e8c7cad3
+随机测试 390 (Reg0): PASS: expected=7e8461fd (flags=00000001), actual=7e8461fd
+随机测试 395 (Reg0): PASS: expected=db06feb6 (flags=00000001), actual=db06feb6
+随机测试 400 (Reg0): PASS (NaN): expected=7ff703ff (flags=00000001), actual=7fc00000
+随机测试 405 (Reg0): PASS: expected=f1a39b2f (flags=00000001), actual=f1a39b2f
+随机测试 410 (Reg0): PASS: expected=fb4e74f7 (flags=00000001), actual=fb4e74f7
+随机测试 415 (Reg0): PASS: expected=7d7502c0 (flags=00000001), actual=7d7502c0
+随机测试 420 (Reg0): PASS: expected=e5e674ab (flags=00000001), actual=e5e674ab
+随机测试 425 (Reg0): PASS: expected=ee37fedc (flags=00000001), actual=ee37fedc
+随机测试 430 (Reg0): PASS: expected=5eb147bd (flags=00000001), actual=5eb147bd
+随机测试 435 (Reg0): PASS: expected=7dfdd5fb (flags=00000001), actual=7dfdd5fb
+随机测试 440 (Reg0): PASS: expected=f2c6c01e (flags=00000001), actual=f2c6c01e
+随机测试 445 (Reg0): PASS: expected=77df73ef (flags=00000001), actual=77df73ef
+随机测试 450 (Reg0): PASS: expected=ee5114dc (flags=00000001), actual=ee5114dc
+随机测试 455 (Reg0): PASS: expected=7f4655fe (flags=00000001), actual=7f4655fe
+随机测试 460 (Reg0): PASS: expected=fb4ce214 (flags=00000001), actual=fb4ce214
+随机测试 465 (Reg0): PASS: expected=fd9a86f7 (flags=00000001), actual=fd9a86f7
+随机测试 470 (Reg0): PASS: expected=515059a2 (flags=00000001), actual=515059a2
+随机测试 475 (Reg0): PASS: expected=7eaa97fd (flags=00000001), actual=7eaa97fd
+随机测试 480 (Reg0): PASS: expected=760cdbec (flags=00000001), actual=760cdbec
+随机测试 485 (Reg0): PASS: expected=7ca995f9 (flags=00000001), actual=7ca995f9
+随机测试 490 (Reg0): PASS: expected=7ce04622 (flags=00000001), actual=7ce04622
+随机测试 495 (Reg0): PASS: expected=f18b4ce3 (flags=00000001), actual=f18b4ce3
+随机测试 500 (Reg0): PASS: expected=e2ab7f17 (flags=00000001), actual=e2ab7f18 (±1 ULP tolerance)
+随机测试 505 (Reg0): PASS: expected=cb37a9ef (flags=00000001), actual=cb37a9ef
+随机测试 510 (Reg0): PASS: expected=700a93e0 (flags=00000001), actual=700a93e0
+随机测试 515 (Reg0): PASS: expected=e2137702 (flags=00000001), actual=e2137702
+随机测试 520 (Reg0): PASS: expected=59d23bb3 (flags=00000001), actual=59d23bb3
+随机测试 525 (Reg0): PASS: expected=7922bdf2 (flags=00000001), actual=7922bdf2
+随机测试 530 (Reg0): PASS: expected=7ef387fc (flags=00000001), actual=7ef387fc
+随机测试 535 (Reg0): PASS: expected=f2b57ee6 (flags=00000001), actual=f2b57ee6
+随机测试 540 (Reg0): PASS: expected=f24630e4 (flags=00000001), actual=f24630e4
+随机测试 545 (Reg0): PASS: expected=7f3aadfe (flags=00000001), actual=7f3aadfe
+随机测试 550 (Reg0): PASS: expected=70192fe8 (flags=00000001), actual=70192fe8
+随机测试 555 (Reg0): PASS: expected=fa0ad2f4 (flags=00000001), actual=fa0ad2f4
+随机测试 560 (Reg0): PASS: expected=f22606e4 (flags=00000001), actual=f22606e4
+随机测试 565 (Reg0): PASS: expected=c1702faf (flags=00000001), actual=c1702faf
+随机测试 570 (Reg0): PASS: expected=f0401ee0 (flags=00000001), actual=f0401ee0
+随机测试 575 (Reg0): PASS: expected=ec6618cb (flags=00000001), actual=ec6618cb
+随机测试 580 (Reg0): PASS: expected=d86f7aaf (flags=00000001), actual=d86f7aaf
+随机测试 585 (Reg0): PASS: expected=7b085df6 (flags=00000001), actual=7b085df6
+随机测试 590 (Reg0): PASS: expected=f7f2b4ef (flags=00000001), actual=f7f2b4ef
+随机测试 595 (Reg0): PASS: expected=f97c106a (flags=00000001), actual=f97c106a
+随机测试 600 (Reg0): PASS: expected=f2496ee4 (flags=00000001), actual=f2496ee4
+随机测试 605 (Reg0): PASS: expected=6393f1c7 (flags=00000001), actual=6393f1c7
+随机测试 610 (Reg0): PASS: expected=5b1d0aab (flags=00000001), actual=5b1d0aab
+随机测试 615 (Reg0): PASS: expected=622ebedd (flags=00000001), actual=622ebedd
+随机测试 620 (Reg0): PASS: expected=db3b1050 (flags=00000001), actual=db3b1050
+随机测试 625 (Reg0): PASS: expected=760249ec (flags=00000001), actual=760249ec
+随机测试 630 (Reg0): PASS: expected=fb9f1ef7 (flags=00000001), actual=fb9f1ef7
+随机测试 635 (Reg0): PASS: expected=e054ca43 (flags=00000001), actual=e054ca43
+随机测试 640 (Reg0): PASS: expected=7c8537f9 (flags=00000001), actual=7c8537f9
+随机测试 645 (Reg0): PASS: expected=eb686ad6 (flags=00000001), actual=eb686ad6
+随机测试 650 (Reg0): PASS: expected=68d8d521 (flags=00000001), actual=68d8d521
+随机测试 655 (Reg0): PASS: expected=7caeee3b (flags=00000001), actual=7caeee3b
+随机测试 660 (Reg0): PASS: expected=ee2c28dc (flags=00000001), actual=ee2c28dc
+随机测试 665 (Reg0): PASS: expected=f9b9cb3c (flags=00000001), actual=f9b9cb3c
+随机测试 670 (Reg0): PASS: expected=f16d50e2 (flags=00000001), actual=f16d50e2
+随机测试 675 (Reg0): PASS: expected=7a39632d (flags=00000001), actual=7a39632d
+随机测试 680 (Reg0): PASS: expected=5128bc33 (flags=00000001), actual=5128bc33
+随机测试 685 (Reg0): PASS: expected=65d917cb (flags=00000001), actual=65d917cb
+随机测试 690 (Reg0): PASS: expected=74ee71e9 (flags=00000001), actual=74ee71e9
+随机测试 695 (Reg0): PASS: expected=514bc3a2 (flags=00000001), actual=514bc3a2
+随机测试 700 (Reg0): PASS: expected=fd5ad6fa (flags=00000001), actual=fd5ad6fa
+随机测试 705 (Reg0): PASS: expected=53df19b3 (flags=00000001), actual=53df19b3
+随机测试 710 (Reg0): PASS: expected=fd661a49 (flags=00000001), actual=fd661a49
+随机测试 715 (Reg0): PASS: expected=67e9bfd0 (flags=00000001), actual=67e9bfd0
+随机测试 720 (Reg0): PASS: expected=f6da58ed (flags=00000001), actual=f6da58ed
+随机测试 725 (Reg0): PASS: expected=7429c1a7 (flags=00000001), actual=7429c1a7
+随机测试 730 (Reg0): PASS: expected=fb381af6 (flags=00000001), actual=fb381af6
+随机测试 735 (Reg0): PASS: expected=7850e9f0 (flags=00000001), actual=7850e9f0
+随机测试 740 (Reg0): PASS: expected=70c8705b (flags=00000001), actual=70c8705b
+随机测试 745 (Reg0): PASS: expected=f4102a2c (flags=00000001), actual=f4102a2c
+随机测试 750 (Reg0): PASS: expected=e9ea4eff (flags=00000001), actual=e9ea4eff
+随机测试 755 (Reg0): PASS: expected=fab82821 (flags=00000001), actual=fab82821
+随机测试 760 (Reg0): PASS: expected=fa2e50f3 (flags=00000001), actual=fa2e50f3
+随机测试 765 (Reg0): PASS: expected=76894ff9 (flags=00000001), actual=76894ff9
+随机测试 770 (Reg0): PASS: expected=6b061fd6 (flags=00000001), actual=6b061fd6
+随机测试 775 (Reg0): PASS: expected=fd854afb (flags=00000001), actual=fd854afb
+随机测试 780 (Reg0): PASS: expected=cf15d800 (flags=00000001), actual=cf15d800
+随机测试 785 (Reg0): PASS: expected=60873185 (flags=00000001), actual=60873185
+随机测试 790 (Reg0): PASS: expected=739bcdd4 (flags=00000001), actual=739bcdd4
+随机测试 795 (Reg0): PASS: expected=ff42683d (flags=00000001), actual=ff42683d
+随机测试 800 (Reg0): PASS: expected=7d06affa (flags=00000001), actual=7d06affa
+随机测试 805 (Reg0): PASS: expected=e64b0acb (flags=00000001), actual=e64b0acb
+随机测试 810 (Reg0): PASS: expected=7a90d1f7 (flags=00000001), actual=7a90d1f7
+随机测试 815 (Reg0): PASS: expected=7881d654 (flags=00000001), actual=7881d654
+随机测试 820 (Reg0): PASS: expected=ea2d5cd4 (flags=00000001), actual=ea2d5cd4
+随机测试 825 (Reg0): PASS: expected=7b9a43f7 (flags=00000001), actual=7b9a43f7
+随机测试 830 (Reg0): PASS (NaN): expected=7fe3ddff (flags=00000010), actual=7fc00000
+随机测试 835 (Reg0): PASS: expected=fa249cf4 (flags=00000001), actual=fa249cf4
+随机测试 840 (Reg0): PASS: expected=6a0bef4a (flags=00000001), actual=6a0bef4a
+随机测试 845 (Reg0): PASS: expected=640251c8 (flags=00000001), actual=640251c8
+随机测试 850 (Reg0): PASS (NaN): expected=ffc34cff (flags=00000011), actual=7fc00000
+随机测试 855 (Reg0): PASS: expected=ecb9a0d7 (flags=00000001), actual=ecb9a0d7
+随机测试 860 (Reg0): PASS: expected=f67ed6e6 (flags=00000001), actual=f67ed6e6
+随机测试 865 (Reg0): PASS: expected=7a0b1bf4 (flags=00000001), actual=7a0b1bf4
+随机测试 870 (Reg0): PASS: expected=757b391f (flags=00000001), actual=757b391f
+随机测试 875 (Reg0): PASS: expected=7a1acbf4 (flags=00000001), actual=7a1acbf4
+随机测试 880 (Reg0): PASS: expected=782cf0f4 (flags=00000001), actual=782cf0f4
+随机测试 885 (Reg0): PASS: expected=f97064f2 (flags=00000001), actual=f97064f2
+随机测试 890 (Reg0): PASS: expected=7c684220 (flags=00000001), actual=7c684220
+随机测试 895 (Reg0): PASS: expected=f0ee526f (flags=00000001), actual=f0ee526f
+随机测试 900 (Reg0): PASS: expected=f9afa4f4 (flags=00000001), actual=f9afa4f4
+随机测试 905 (Reg0): PASS: expected=f6cb05aa (flags=00000001), actual=f6cb05aa
+随机测试 910 (Reg0): PASS: expected=e2c316c5 (flags=00000001), actual=e2c316c5
+随机测试 915 (Reg0): PASS: expected=79bf15f3 (flags=00000001), actual=79bf15f3
+随机测试 920 (Reg0): PASS: expected=ff3fa6aa (flags=00000001), actual=ff3fa6aa
+随机测试 925 (Reg0): PASS: expected=7b221f84 (flags=00000001), actual=7b221f84
+随机测试 930 (Reg0): PASS: expected=fa691708 (flags=00000001), actual=fa691708
+随机测试 935 (Reg0): PASS: expected=60abdd78 (flags=00000001), actual=60abdd78
+随机测试 940 (Reg0): PASS: expected=716cd7e2 (flags=00000001), actual=716cd7e2
+随机测试 945 (Reg0): PASS: expected=549eb7a9 (flags=00000001), actual=549eb7a9
+随机测试 950 (Reg0): PASS: expected=fdb945c5 (flags=00000001), actual=fdb945c5
+随机测试 955 (Reg0): PASS: expected=70e87445 (flags=00000001), actual=70e87445
+随机测试 960 (Reg0): PASS: expected=628dda27 (flags=00000001), actual=628dda27
+随机测试 965 (Reg0): PASS: expected=f67594ec (flags=00000001), actual=f67594ec
+随机测试 970 (Reg0): PASS: expected=645bc1c8 (flags=00000001), actual=645bc1c8
+随机测试 975 (Reg0): PASS: expected=53ae3785 (flags=00000001), actual=53ae3785
+随机测试 980 (Reg0): PASS: expected=fc915c93 (flags=00000001), actual=fc915c93
+随机测试 985 (Reg0): PASS: expected=f583a2f3 (flags=00000001), actual=f583a2f3
+随机测试 990 (Reg0): PASS: expected=e70e4ace (flags=00000001), actual=e70e4ace
+随机测试 995 (Reg0): PASS: expected=d7b4dcaf (flags=00000001), actual=d7b4dcaf
+
+Random Test Summary:
+Total random tests: 1000
+Passed: 1000
+Failed: 0
+Pass rate: 1000/1000 (100.0%)
+
+=== Overall Test Summary ===
+Fixed tests - Passed: 175, Failed: 0
+Random tests - Passed: 1000, Failed: 0
+Total tests: 1175
+Total passed: 1175
+Total failed: 0
+
+PASSED: All test cases passed!
