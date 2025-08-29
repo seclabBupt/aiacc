@@ -35,9 +35,11 @@ module intadd (
         .sign_s1(sign_s1),
         .sign_s2(sign_s2),
         .dst0(add8_dst0),
-        .dst1(add8_dst1),
-        .st(add8_st)
+        .dst1(add8_dst1)
     );
+    
+    // add8模块没有st输出，设置为0
+    assign add8_st = 128'd0;
 
     add32 add32_unit (
         .clk(clk),
@@ -55,19 +57,16 @@ module intadd (
     always @(posedge clk or negedge rst_n) begin
         if (!rst_n) begin
             st_reg <= 128'd0;
-        end else if (inst_valid) begin
-            if (update_st) begin
-                if (precision_s0 == 2'b00 && precision_s1 == 2'b00 && precision_s2 == 2'b00) begin
-                    st_reg <= add8_st;  // 4+8bit模式
-                end else if (precision_s0 == 2'b11 && precision_s1 == 2'b11) begin
-                    st_reg <= add32_st; // 32bit模式
-                end else begin
-                    st_reg <= 128'd0;  // 其他模式
-                end
+        end else if (inst_valid && update_st) begin
+            if (precision_s0 == 2'b00 && precision_s1 == 2'b00 && precision_s2 == 2'b00) begin
+                st_reg <= add8_st;  // 4+8bit模式
+            end else if (precision_s0 == 2'b11 && precision_s1 == 2'b11) begin
+                st_reg <= add32_st; // 32bit模式
             end else begin
-                st_reg <= 128'd0; // 不更新状态寄存器
+                st_reg <= 128'd0;  // 其他模式
             end
         end
+        // 当update_st为0或inst_valid为0时，保持st_reg的当前值
     end
     assign st = st_reg;
 

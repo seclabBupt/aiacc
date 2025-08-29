@@ -78,7 +78,7 @@ void add32_128bit(
     *dst_high = ((uint64_t)res[3] << 32) | res[2];
 }
 
-// add8_128bit 保持不变
+// add8_128bit 适配当前的add8.v实现
 void add8_128bit(
     unsigned long long src0_high, unsigned long long src0_low,
     unsigned long long src1_high, unsigned long long src1_low,
@@ -127,3 +127,4 @@ void add8_128bit(
         *dst1_high |= ((uint64_t)res1[i+16]   & 0xF) << (i*4);
     }
 }
+

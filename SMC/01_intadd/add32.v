@@ -6,7 +6,7 @@ module add32 (
     input          sign_s0,
     input          sign_s1,
     output [127:0] dst,
-    output reg [127:0] st
+    output wire [127:0] st
 );
 
     genvar i;
@@ -35,33 +35,38 @@ module add32 (
         end
     endgenerate
 
-    // 单个组合过程生成 st（唯一驱动源，避免任何 assign st[...]）
-    integer j;
-    always @(*) begin
-        st = 128'b0; // 先清零所有位
-        for (j = 0; j < 4; j = j + 1) begin
-            reg [31:0] a32;
-            reg [31:0] b32;
+    // 为每组 32 位数据生成 3 位状态信号
+    reg [127:0] st_temp; // 使用reg类型确保所有位都有明确的驱动
+    
+    // 为每组 32 位数据生成 3 位状态信号
+    always_comb begin
+        // 先初始化所有位为0
+        st_temp = 128'b0;
+        
+        // 为每组 32 位数据生成 3 位状态信号
+        for (int j = 0; j < 4; j = j + 1) begin
+            // 在always块内不能声明wire，直接使用表达式
             reg gt, eq, ls;
-            a32 = src0[j*32 +: 32];
-            b32 = src1[j*32 +: 32];
-
+            
             if (sign_s0 || sign_s1) begin
-                // 有符号比较（32 位）
-                gt = ($signed(a32) > $signed(b32));
-                ls = ($signed(a32) < $signed(b32));
-                eq = (a32 == b32);
+                // 有符号比较
+                gt = ($signed(src0[j*32 +: 32]) > $signed(src1[j*32 +: 32]));
+                ls = ($signed(src0[j*32 +: 32]) < $signed(src1[j*32 +: 32]));
             end else begin
                 // 无符号比较
-                gt = (a32 > b32);
-                ls = (a32 < b32);
-                eq = (a32 == b32);
+                gt = (src0[j*32 +: 32] > src1[j*32 +: 32]);
+                ls = (src0[j*32 +: 32] < src1[j*32 +: 32]);
             end
-
-            // 按组写入 3-bit 状态（组0 -> st[2:0], 组1 -> st[34:32], ...）
-            st[j*32 +: 3] = {gt, eq, ls};
+            eq = (src0[j*32 +: 32] == src1[j*32 +: 32]);
+            
+            // 赋值对应的 3 位状态
+            st_temp[j*32 + 0] = ls;
+            st_temp[j*32 + 1] = eq;
+            st_temp[j*32 + 2] = gt;
         end
-        // 其它位已被 st = 128'b0 初始化为 0
     end
+    
+    // 最终赋值给输出端口
+    assign st = st_temp;
 
 endmodule
