@@ -87,8 +87,12 @@ extern void add8_128bit(
     unsigned long long src2_high, unsigned long long src2_low,
     int sign_s0, int sign_s1, int sign_s2,
     unsigned long long* dst0_high, unsigned long long* dst0_low,
-    unsigned long long* dst1_high, unsigned long long* dst1_low
+    unsigned long long* dst1_high, unsigned long long* dst1_low,
+    unsigned long long* st_high, unsigned long long* st_low
 ) {
+    // add8模块不产生状态信息，设置状态寄存器为0
+    *st_high = 0;
+    *st_low = 0;
     // 初始化输出结果
     *dst0_low = 0;
     *dst0_high = 0;
