@@ -1,0 +1,6 @@
+==== INTADD TB TEST START ====
+(仅记录失败的测试数据)
+
+==== SUMMARY ====
+PASS: 2002 / TOTAL: 2002
+==== END ====

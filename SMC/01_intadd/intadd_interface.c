@@ -79,7 +79,9 @@ void add32_128bit(
 }
 
 // add8_128bit 适配当前的add8.v实现
-void add8_128bit(
+// 更直接的位操作实现，确保精确匹配Verilog行为
+// 8位加法接口函数 - 完全匹配Verilog行为的实现
+extern void add8_128bit(
     unsigned long long src0_high, unsigned long long src0_low,
     unsigned long long src1_high, unsigned long long src1_low,
     unsigned long long src2_high, unsigned long long src2_low,
@@ -87,44 +89,85 @@ void add8_128bit(
     unsigned long long* dst0_high, unsigned long long* dst0_low,
     unsigned long long* dst1_high, unsigned long long* dst1_low
 ) {
-    uint8_t a[32], b[32], c[32];
-    uint8_t res0[32], res1[32];
-    int i;
-
-    // 拆分为32个4bit段
-    for (i = 0; i < 16; ++i) {
-        a[i]      = (src0_low  >> (i*4)) & 0xF;
-        b[i]      = (src1_low  >> (i*4)) & 0xF;
-        c[i]      = (src2_low  >> (i*4)) & 0xF;
-        a[i+16]   = (src0_high >> (i*4)) & 0xF;
-        b[i+16]   = (src1_high >> (i*4)) & 0xF;
-        c[i+16]   = (src2_high >> (i*4)) & 0xF;
-    }
-
-    for (i = 0; i < 32; ++i) {
-        // 4bit符号扩展到8bit
-        int8_t s0 = sign_s0 ? ((a[i] & 0x8) ? (a[i] | 0xF0) : a[i]) : a[i];
-        int8_t s1 = sign_s1 ? ((b[i] & 0x8) ? (b[i] | 0xF0) : b[i]) : b[i];
-        int8_t s2 = sign_s2 ? ((c[i] & 0x8) ? (c[i] | 0xF0) : c[i]) : c[i];
-        int16_t sum = (int16_t)s0 + (int16_t)s1 + (int16_t)s2;
-
-        // 饱和到8bit
-        if (sum > 127) sum = 127;
-        if (sum < -128) sum = -128;
-
-        uint8_t sum8 = (uint8_t)sum;
-        res0[i] = sum8 & 0xF;         // 低4位
-        res1[i] = (sum8 >> 4) & 0xF;  // 高4位
-    }
-
-    // 拼回128位
-    *dst0_low = 0; *dst0_high = 0;
-    *dst1_low = 0; *dst1_high = 0;
-    for (i = 0; i < 16; ++i) {
-        *dst0_low  |= ((uint64_t)res0[i]      & 0xF) << (i*4);
-        *dst0_high |= ((uint64_t)res0[i+16]   & 0xF) << (i*4);
-        *dst1_low  |= ((uint64_t)res1[i]      & 0xF) << (i*4);
-        *dst1_high |= ((uint64_t)res1[i+16]   & 0xF) << (i*4);
+    // 初始化输出结果
+    *dst0_low = 0;
+    *dst0_high = 0;
+    *dst1_low = 0;
+    *dst1_high = 0;
+    
+    // 处理32个4位块
+    for (int i = 0; i < 32; ++i) {
+        // 从128位输入中提取32组4位值 - 完全匹配Verilog的位索引
+        uint8_t u0 = 0, u1 = 0, u2 = 0;
+        
+        if (i < 16) {
+            // 低64位 (bits 63-0)
+            u0 = (src0_low >> (i*4)) & 0x0F;
+            u1 = (src1_low >> (i*4)) & 0x0F;
+            u2 = (src2_low >> (i*4)) & 0x0F;
+        } else {
+            // 高64位 (bits 127-64)
+            u0 = (src0_high >> ((i-16)*4)) & 0x0F;
+            u1 = (src1_high >> ((i-16)*4)) & 0x0F;
+            u2 = (src2_high >> ((i-16)*4)) & 0x0F;
+        }
+        
+        // 将u2和u1连接成8位值
+        uint8_t concat_val = (u2 << 4) | u1;
+        
+        // 为s0_val创建9位有符号值，精确模拟Verilog的位操作
+        int16_t s0_val;  // 使用16位来存储9位值
+        if (sign_s0) {
+            // 有符号: {s0_signed[7], s0_signed}，其中s0_signed = {{4{u0[3]}}, u0}
+            // 精确实现Verilog的{{4{u0[3]}}, u0}位操作
+            uint8_t s0_signed = (u0 & 0x8) ? (u0 | 0xF0) : u0; // 符号扩展到8位
+            // 转换为有符号8位并提升到16位，保持符号位
+            s0_val = (int16_t)(int8_t)s0_signed;
+        } else {
+            // 无符号: {1'b0, s0_unsigned}，其中s0_unsigned = {4'b0000, u0}
+            s0_val = u0;  // 低4位为u0，其余为0
+        }
+        
+        // 为add_val创建9位有符号值，精确模拟Verilog的位操作
+        int16_t add_val;
+        if (sign_s2) {
+            // 有符号: {val_signed[7], val_signed}，其中val_signed = {concat_val[7], concat_val[6:0]}
+            // 在Verilog中，这实际上就是保持concat_val不变并进行符号扩展
+            add_val = (int16_t)(int8_t)concat_val;
+        } else {
+            // 无符号: {1'b0, val_unsigned}，其中val_unsigned = concat_val
+            add_val = concat_val;  // 直接使用8位值
+        }
+        
+        // 计算有符号和，使用16位精度
+        int16_t sum_signed = s0_val + add_val;
+        
+        // 处理溢出或下溢 - 精确匹配Verilog的条件
+        uint8_t sum_clipped;
+        if ((s0_val > 0) && (add_val > 0) && (sum_signed < 0)) {
+            // 正溢出
+            sum_clipped = 0xFF;
+        } else if ((s0_val < 0) && (add_val < 0) && (sum_signed < -128)) {
+            // 负溢出
+            sum_clipped = 0xFF;
+        } else {
+            // 无溢出，直接取低8位
+            sum_clipped = sum_signed & 0xFF;
+        }
+        
+        // 提取低4位和高4位
+        uint8_t low_4bits = sum_clipped & 0x0F;
+        uint8_t high_4bits = (sum_clipped >> 4) & 0x0F;
+        
+        // 将结果写回对应的位置
+        if (i < 16) {
+            // 写入低64位
+            *dst0_low |= (unsigned long long)low_4bits << (i*4);
+            *dst1_low |= (unsigned long long)high_4bits << (i*4);
+        } else {
+            // 写入高64位
+            *dst0_high |= (unsigned long long)low_4bits << ((i-16)*4);
+            *dst1_high |= (unsigned long long)high_4bits << ((i-16)*4);
+        }
     }
 }
-

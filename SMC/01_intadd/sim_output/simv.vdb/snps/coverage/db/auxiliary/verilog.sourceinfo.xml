@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<!DOCTYPE cov SYSTEM "ucdb_srcinfo.dtd">
+  <srcinfo name="/home/zwz/zts/01_intadd/sim_output"  >
+    <ucapi_version  major_ver="13"  minor_ver="1"  patch_str="O-2018.09-SP2"  />
+      <fileinfo name="/home/zwz/zts/01_intadd/intadd.v"  id="0"  />
+      <fileinfo name="/home/zwz/zts/01_intadd/intadd_tb.v"  id="1"  />
+      <fileinfo name="/home/zwz/zts/01_intadd/add8.v"  id="2"  />
+      <fileinfo name="/home/zwz/zts/01_intadd/add32.v"  id="3"  />
+    </srcinfo>

@@ -1,0 +1,29 @@
+<session version="1.1" release="O-2018.09-SP2" timestp="2025-08-29 08:53:56 GMT">
+  <info>
+    <attr name="datetime" value="Fri Aug 29 16:53:57 2025
+"/>
+    <attr name="command" value="urg -dir simv.vdb -format both -report coverage_report"/>
+    <attr name="top_instance" value="intadd_tb"/>
+  </info>
+  <hvp>
+    <datadef>
+      <metdef name="Line" type="ratio" aggregator="average" builtin="1" />
+      <metdef name="Cond" type="ratio" aggregator="average" builtin="1" />
+      <metdef name="Toggle" type="ratio" aggregator="average" builtin="1" />
+      <metdef name="FSM" type="ratio" aggregator="average" builtin="1" />
+    </datadef>
+  </hvp>
+  <old_coverage>
+  <scope type="top" name="top">
+    <metric name="Line" value="139/152" />
+    <metric name="Cond" value="254/278" />
+    <metric name="Toggle" value="14570/16242" />
+  </scope>
+  <scope type="instance" name="top">
+  </scope>
+  <scope type="group" name="top">
+  </scope>
+  <scope type="assert" name="Statistics">
+  </scope>
+  </old_coverage>
+</session>
