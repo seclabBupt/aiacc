@@ -2,9 +2,10 @@
 // Filename: fpto_int_array.v
 // Author: [Sunny]
 // Editor: [Oliver]
-// Date: 2025-8-21
-// Version: 1.1
+// Date: 2025-8-30
+// Version: 1.2
 // Description: FP to INT conversion module, Modified the Input/Output port. 
+// 修正输出
 //----------------------------------------------------------------------------
 `timescale 1ns / 1ps
 module fpto_int_array (
@@ -86,14 +87,10 @@ always @(posedge clk or negedge rst_n) begin
     if (!rst_n) begin
         dr_fptoint_d_out <= 128'h0; // 复位时清空输出寄存器
     end else begin
-        if (inst_vld && result_vld[0]) dr_fptoint_d_out[127:96] = out_reg_0;
-        else dr_fptoint_d_out[127:96] = dr_fptoint_d_out[127:96]; // 保持原值
-        if (inst_vld && result_vld[1]) dr_fptoint_d_out[95:64] = out_reg_1;
-        else dr_fptoint_d_out[95:64] = dr_fptoint_d_out[95:64]; // 保持原值
-        if (inst_vld && result_vld[2]) dr_fptoint_d_out[63:32] = out_reg_2;
-        else dr_fptoint_d_out[63:32] = dr_fptoint_d_out[63:32]; // 保持原值
-        if (inst_vld && result_vld[3]) dr_fptoint_d_out[31:0] = out_reg_3;
-        else dr_fptoint_d_out[31:0] = dr_fptoint_d_out[31:0]; // 保持原值
+        dr_fptoint_d_out[127:96] = out_reg_0;
+        dr_fptoint_d_out[95:64] = out_reg_1;
+        dr_fptoint_d_out[63:32] = out_reg_2;
+        dr_fptoint_d_out[31:0] = out_reg_3;
     end
 end
 
