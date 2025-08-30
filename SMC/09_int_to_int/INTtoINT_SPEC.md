@@ -1,9 +1,9 @@
 # INTtoINT 模块设计规格文档
 
-> Author: [Oliver]
-> Editor: [Oliver]
-> Date: 2025-8-30
-> Version: 1.0
+> Author: [Oliver]  
+> Editor: [Oliver]  
+> Date: 2025-8-30  
+> Version: 1.0  
 
 ## 1 概述
 
