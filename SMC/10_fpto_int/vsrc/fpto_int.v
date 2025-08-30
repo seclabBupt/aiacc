@@ -3,10 +3,11 @@
 // Filename: fpto_int.v
 // Author: [Sunny]
 // Editor: [Oliver]
-// Date: 2025-8-22
-// Version: 1.1
+// Date: 2025-8-30
+// Version: 1.2
 // Description: FP to INT conversion module, Modified the Input/Output port. 
 // 结合子字并行模式与16to16转换，组成8个并行16位整数到16位浮点转换器
+// 修正输出
 //----------------------------------------------------------------------------
 module fpto_int (
     // 微指令控制信号
@@ -298,7 +299,7 @@ assign dst_data = dst_prec ? dst_data_32 : dst_data_16_result;
 // 与输入指令有效信号一致
 assign result_vld = inst_vld;
 
-// 指令无效时输出全0
-assign out_reg = inst_vld ? dst_data : in_reg;
+// 指令无效时输出为0
+assign out_reg = inst_vld ? dst_data : 32'h0;
 
 endmodule

@@ -199,7 +199,7 @@ initial begin
     @(posedge clk);
     #1;
     $fdisplay(log_file, "阵列测试: 指令无效");
-    $fdisplay(log_file, "  所有输出应保持原值");
+    $fdisplay(log_file, "  指令无效时输出为0");
     $fdisplay(log_file, "  输出0: 0x%08X, 输出1: 0x%08X", out_reg_0, out_reg_1);
     $fdisplay(log_file, "  输出2: 0x%08X, 输出3: 0x%08X", out_reg_2, out_reg_3);
     $fdisplay(log_file, "");
