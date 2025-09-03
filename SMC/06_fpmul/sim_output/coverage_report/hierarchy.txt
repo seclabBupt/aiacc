@@ -1,0 +1,27 @@
+Design Hierarchy
+
+
+----------------
+SCORE  LINE   COND   TOGGLE FSM    BRANCH          
+ 93.27  92.86  94.78  95.37 --      90.10 tb_fpmul 
+  
+  ----------------
+  SCORE  LINE   COND   TOGGLE FSM    BRANCH     
+   95.15 100.00  94.78  94.92 --      90.91 uut 
+    
+    ----------------
+    SCORE  LINE   COND   TOGGLE FSM    BRANCH            
+     94.44 100.00  93.94  94.23 --      89.58 u_fp16_mul 
+      
+      ----------------
+      SCORE  LINE   COND   TOGGLE FSM    BRANCH          
+      100.00 100.00 --     100.00 --     --     lzc_fp16 
+    
+    ----------------
+    SCORE  LINE   COND   TOGGLE FSM    BRANCH            
+     95.19 100.00  95.45  93.63 --      91.67 u_fp32_mul 
+      
+      ----------------
+      SCORE  LINE   COND   TOGGLE FSM    BRANCH          
+      100.00 100.00 --     100.00 --     --     lzc_fp32 
+

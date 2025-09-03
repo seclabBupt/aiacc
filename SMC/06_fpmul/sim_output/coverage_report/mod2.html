@@ -1,0 +1,863 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="Author" content="<username>"> <meta name="GENERATOR" content="urg/version [en] (platform name) [urg]">
+<title>Unified Coverage Report :: Module :: tb_fpmul</title>
+<link type="text/css" rel="stylesheet" href="css/.urg.css">
+<link type="text/css" rel="stylesheet" href="css/.layout.css">
+<link type="text/css" rel="stylesheet" href="css/.breadcrumb.css">
+<script type="text/javascript" src="js/.jquery.js"></script>
+<script type="text/javascript" src="js/.jquery-ui.js"></script>
+<script type="text/javascript" src="js/.sortable.js"></script>
+<script type="text/javascript" src="js/.layout.js"></script>
+<script type="text/javascript" src="js/.breadcrumb.js"></script>
+<script type="text/javascript">
+var layout, westLayout, centerLayout;
+$(document).ready(function () {
+  if ($("#north-bread-crumb")) {
+    $("#north-bread-crumb").jBreadCrumb({easing:'swing'})
+  }
+  layout = $("body").layout({ 
+    resizable: true,
+    spacing_open: 4,
+    spacing_closed: 4,
+    north: {
+      size: 76
+    },
+    south: {
+      size: 45,
+      initClosed: true
+    },
+    west: {
+      size: 500,
+      resizable: true,
+      initClosed: false
+    }
+  });
+  centerLayout = $('div.ui-layout-center').layout({
+    north__paneSelector: ".ui-layout-center-inner-north",
+    center__paneSelector: ".ui-layout-center-inner-center", 
+    north__size: 50,
+    spacing_open: 4,
+    spacing_closed: 4
+  });
+});
+</script>
+</head>
+<body onLoad="initPage();"><div class="ui-layout-north">
+<div class="logo"></div>
+<center class="pagetitle">Module Definition</center>
+<div align="center"><a href="dashboard.html" ><b>dashboard</b></a> | <a href="hierarchy.html" ><b>hierarchy</b></a> | <a href="modlist.html" ><b>modlist</b></a> | groups | <a href="tests.html" ><b>tests</b></a> | asserts</div>
+
+</div>
+<div class="ui-layout-west">
+<div name='tag_tb_fpmul'>
+<div class=modhdr>
+<br clear=all>
+<span class=titlename>Module : <a href="#"  onclick="showContent('tag_tb_fpmul')">tb_fpmul</a></span>
+<br clear=all>
+<table align=left>
+<tr class="sortablehead">
+<td>SCORE</td><td>LINE</td><td>COND</td><td>TOGGLE</td><td>FSM</td><td>BRANCH</td></tr><tr>
+<td class="s8 cl rt"> 80.66</td>
+<td class="s9 cl rt"><a href="mod2.html#Line" > 92.66</a></td>
+<td class="wht cl rt"></td>
+<td class="s9 cl rt"><a href="mod2.html#Toggle" > 99.32</a></td>
+<td class="wht cl rt"></td>
+<td class="s5 cl rt"><a href="mod2.html#Branch" > 50.00</a></td>
+</tr></table><br clear=all>
+<span class=repname>Source File(s) : </span>
+<br clear=all>
+<a href="javascript:void(0);"  onclick="openSrcFile('/home/Sunny/aiacc/SMC/06_fpmul/vsrc/tb_fpmul.v')">/home/Sunny/aiacc/SMC/06_fpmul/vsrc/tb_fpmul.v</a><br clear=all>
+<br clear=all>
+<span class=repname>Module self-instances :</span>
+<br clear=all>
+<table align=left>
+<tr class="sortablehead">
+<td class="alfsrt">NAME</td><td>SCORE</td><td>LINE</td><td>COND</td><td>TOGGLE</td><td>FSM</td><td>BRANCH</td></tr><tr>
+<td class="wht cl wordwrap"><a href="mod2.html#inst_tag_3"  onclick="showContent('inst_tag_3')">tb_fpmul</a></td>
+<td class="s8 cl rt"> 80.66</td>
+<td class="s9 cl rt"><a href="mod2.html#Line" > 92.66</a></td>
+<td class="wht cl rt"></td>
+<td class="s9 cl rt"><a href="mod2.html#Toggle" > 99.32</a></td>
+<td class="wht cl rt"></td>
+<td class="s5 cl rt"><a href="mod2.html#Branch" > 50.00</a></td>
+</tr></table></div>
+</div>
+<br clear=all>
+<div name='tag_tb_fpmul'>
+<hr>
+<a name="inst_tag_3"></a>
+<div class=modhdr>
+<br clear=all>
+<span class=titlename>Module Instance : <a href="hierarchy.html#tag_urg_inst_3" >tb_fpmul</a></span>
+<br clear=all>
+<br clear=all>
+<span class=repname>Instance :</span>
+<br clear=all>
+<table align=left>
+<tr class="sortablehead">
+<td>SCORE</td><td>LINE</td><td>COND</td><td>TOGGLE</td><td>FSM</td><td>BRANCH</td></tr><tr>
+<td class="s8 cl rt"> 80.66</td>
+<td class="s9 cl rt"><a href="mod2.html#Line" > 92.66</a></td>
+<td class="wht cl rt"></td>
+<td class="s9 cl rt"><a href="mod2.html#Toggle" > 99.32</a></td>
+<td class="wht cl rt"></td>
+<td class="s5 cl rt"><a href="mod2.html#Branch" > 50.00</a></td>
+</tr></table><br clear=all>
+<br clear=all>
+<span class=repname>Instance's subtree :</span>
+<br clear=all>
+<table align=left>
+<tr class="sortablehead">
+<td>SCORE</td><td>LINE</td><td>COND</td><td>TOGGLE</td><td>FSM</td><td>BRANCH</td></tr><tr>
+<td class="s9 cl rt"> 93.27</td>
+<td class="s9 cl rt"> 92.86</td>
+<td class="s9 cl rt"> 94.78</td>
+<td class="s9 cl rt"> 95.37</td>
+<td class="wht cl rt"></td>
+<td class="s9 cl rt"> 90.10</td>
+</tr></table><br clear=all>
+<br clear=all>
+<span class=repname>Parent : </span>
+<br clear=all>
+<span class=inst>none</span>
+<br clear=all>
+<br clear=all>
+<span class=repname>Subtrees :</span>
+<br clear=all>
+<table align=left>
+<tr class="sortablehead">
+<td class="alfsrt">NAME</td><td>SCORE</td><td>LINE</td><td>COND</td><td>TOGGLE</td><td>FSM</td><td>BRANCH</td></tr><tr>
+<td class="wht cl wordwrap"><a href="mod4.html#inst_tag_5" id="tag_urg_inst_5">uut</a></td>
+<td class="s9 cl rt"> 95.15</td>
+<td class="s10 cl rt">100.00</td>
+<td class="s9 cl rt"> 94.78</td>
+<td class="s9 cl rt"> 94.92</td>
+<td class="wht cl rt"></td>
+<td class="s9 cl rt"> 90.91</td>
+</tr></table><br clear=all>
+</div>
+</div>
+<hr>
+Since this is the module's only instance, the coverage report is the same as for the module.</div>
+<div class="ui-layout-center">
+<div class="ui-layout-center-inner-center">
+<div name='tag_tb_fpmul'>
+<a name="Line"></a>
+Line Coverage for Module : <a href="mod2.html" >tb_fpmul</a><br clear=all>
+<table class="noborder">
+<col width="122">
+<col span="4" width="82">
+<tr><th></th><th>Line No.</th><th>Total</th><th>Covered</th><th>Percent</th></tr>
+<tr class="s9"><td class="lf">TOTAL</td><td></td><td>368</td><td>341</td><td>92.66</td></tr>
+<tr class="s0"><td class="lf">ROUTINE</td><td>23</td><td>1</td><td>0</td><td>0.00</td></tr>
+<tr class="s0"><td class="lf">ROUTINE</td><td>24</td><td>1</td><td>0</td><td>0.00</td></tr>
+<tr class="s0"><td class="lf">ROUTINE</td><td>25</td><td>1</td><td>0</td><td>0.00</td></tr>
+<tr class="s0"><td class="lf">ROUTINE</td><td>26</td><td>1</td><td>0</td><td>0.00</td></tr>
+<tr class="s0"><td class="lf">ROUTINE</td><td>27</td><td>1</td><td>0</td><td>0.00</td></tr>
+<tr class="s0"><td class="lf">ROUTINE</td><td>28</td><td>1</td><td>0</td><td>0.00</td></tr>
+<tr class="s0"><td class="lf">ROUTINE</td><td>29</td><td>1</td><td>0</td><td>0.00</td></tr>
+<tr class="s0"><td class="lf">ROUTINE</td><td>30</td><td>1</td><td>0</td><td>0.00</td></tr>
+<tr class="s0"><td class="lf">ROUTINE</td><td>31</td><td>1</td><td>0</td><td>0.00</td></tr>
+<tr class="s10"><td class="lf">INITIAL</td><td>59</td><td>4</td><td>4</td><td>100.00</td></tr>
+<tr class="s10"><td class="lf">INITIAL</td><td>65</td><td>2</td><td>2</td><td>100.00</td></tr>
+<tr class="s10"><td class="lf">INITIAL</td><td>72</td><td>2</td><td>2</td><td>100.00</td></tr>
+<tr class="s10"><td class="lf">ROUTINE</td><td>81</td><td>100</td><td>100</td><td>100.00</td></tr>
+<tr class="s10"><td class="lf">ROUTINE</td><td>158</td><td>100</td><td>100</td><td>100.00</td></tr>
+<tr class="s9"><td class="lf">INITIAL</td><td>234</td><td>29</td><td>27</td><td>93.10</td></tr>
+<tr class="s10"><td class="lf">ROUTINE</td><td>286</td><td>11</td><td>11</td><td>100.00</td></tr>
+<tr class="s10"><td class="lf">ROUTINE</td><td>311</td><td>11</td><td>11</td><td>100.00</td></tr>
+<tr class="s8"><td class="lf">ROUTINE</td><td>336</td><td>13</td><td>11</td><td>84.62</td></tr>
+<tr class="s9"><td class="lf">ROUTINE</td><td>372</td><td>37</td><td>34</td><td>91.89</td></tr>
+<tr class="s7"><td class="lf">ROUTINE</td><td>441</td><td>37</td><td>28</td><td>75.68</td></tr>
+<tr class="s8"><td class="lf">ROUTINE</td><td>498</td><td>13</td><td>11</td><td>84.62</td></tr>
+</table>
+<pre class="code"><br clear=all>
+22                      // DPI-C 导入 SoftFloat 函数
+23         <font color = "red">0/1     ==>  import &quot;DPI-C&quot; function shortint unsigned dpi_f16_mul(input shortint unsigned a, input shortint unsigned b);</font>
+24         <font color = "red">0/1     ==>  import &quot;DPI-C&quot; function int unsigned dpi_f32_mul(input int unsigned a, input int unsigned b);</font>
+25         <font color = "red">0/1     ==>  import &quot;DPI-C&quot; function int unsigned dpi_get_inexact_flag();</font>
+26         <font color = "red">0/1     ==>  import &quot;DPI-C&quot; function int unsigned dpi_get_underflow_flag();</font>
+27         <font color = "red">0/1     ==>  import &quot;DPI-C&quot; function int unsigned dpi_get_overflow_flag();</font>
+28         <font color = "red">0/1     ==>  import &quot;DPI-C&quot; function int unsigned dpi_get_infinite_flag();</font>
+29         <font color = "red">0/1     ==>  import &quot;DPI-C&quot; function int unsigned dpi_get_invalid_flag();</font>
+30         <font color = "red">0/1     ==>  import &quot;DPI-C&quot; function int unsigned dpi_get_exception_flags();</font>
+31         <font color = "red">0/1     ==>  import &quot;DPI-C&quot; function void dpi_clear_exception_flags();</font>
+32                      
+33                      // 文件句柄和计数器
+34                      integer sim_log;
+35                      integer pass_count, fail_count, test_num;
+36                      
+37                      // 测试用例数组
+38                      reg [15:0] fp16_test_a [0:TEST_COUNT-1];
+39                      reg [15:0] fp16_test_b [0:TEST_COUNT-1];
+40                      reg [31:0] fp32_test_a [0:TEST_COUNT-1];
+41                      reg [31:0] fp32_test_b [0:TEST_COUNT-1];
+42                      
+43                      // 期望结果
+44                      reg [15:0] expected_fp16;
+45                      reg [31:0] expected_fp32;
+46                      
+47                      // 实例化被测模块
+48                      fpmul uut (
+49                          .inst_valid(inst_valid),
+50                          .src_precision(src_precision),
+51                          .dst_precision(dst_precision),
+52                          .dvr_fpmul_s0(dvr_fpmul_s0),
+53                          .dvr_fpmul_s1(dvr_fpmul_s1),
+54                          .dr_fpmul_d(dr_fpmul_d)
+55                      );
+56                      
+57                      // 时钟生成
+58                      initial begin
+59         1/1              clk = 0;
+60         3/3              forever #5 clk = ~clk;
+61                      end
+62                      
+63                      // FSDB波形转储
+64                      initial begin
+65         1/1              $fsdbDumpfile(&quot;tb_fpmul.fsdb&quot;);
+66         1/1              $fsdbDumpvars(0, tb_fpmul);
+67                      end
+68                      
+69                      // 初始化测试用例
+70                      initial begin
+71                          // FP16测试用例初始化
+72         1/1              initialize_fp16_test_cases();
+73                          // FP32测试用例初始化  
+74         1/1              initialize_fp32_test_cases();
+75                      end
+76                      
+77                      // FP16测试用例初始化任务
+78                      task initialize_fp16_test_cases;
+79                          begin
+80                              // 基本数值测试
+81         2/2                  fp16_test_a[0] = 16'h3c00; fp16_test_b[0] = 16'h3c00; // 1.0 * 1.0
+82         2/2                  fp16_test_a[1] = 16'h4000; fp16_test_b[1] = 16'h3c00; // 2.0 * 1.0
+83         2/2                  fp16_test_a[2] = 16'h3c00; fp16_test_b[2] = 16'h4000; // 1.0 * 2.0
+84         2/2                  fp16_test_a[3] = 16'h4000; fp16_test_b[3] = 16'h4000; // 2.0 * 2.0
+85         2/2                  fp16_test_a[4] = 16'h3800; fp16_test_b[4] = 16'h3800; // 0.5 * 0.5
+86                              
+87                              // 负数测试
+88         2/2                  fp16_test_a[5] = 16'hbc00; fp16_test_b[5] = 16'h3c00; // -1.0 * 1.0
+89         2/2                  fp16_test_a[6] = 16'h3c00; fp16_test_b[6] = 16'hbc00; // 1.0 * -1.0
+90         2/2                  fp16_test_a[7] = 16'hbc00; fp16_test_b[7] = 16'hbc00; // -1.0 * -1.0
+91         2/2                  fp16_test_a[8] = 16'hc000; fp16_test_b[8] = 16'h4000; // -2.0 * 2.0
+92                              
+93                              // 零值测试
+94         2/2                  fp16_test_a[9] = 16'h0000; fp16_test_b[9] = 16'h3c00;  // +0 * 1.0
+95         2/2                  fp16_test_a[10] = 16'h3c00; fp16_test_b[10] = 16'h0000; // 1.0 * +0
+96         2/2                  fp16_test_a[11] = 16'h8000; fp16_test_b[11] = 16'h3c00; // -0 * 1.0
+97         2/2                  fp16_test_a[12] = 16'h0000; fp16_test_b[12] = 16'h0000; // +0 * +0
+98         2/2                  fp16_test_a[13] = 16'h8000; fp16_test_b[13] = 16'h8000; // -0 * -0
+99                              
+100                             // 无穷大测试
+101        2/2                  fp16_test_a[14] = 16'h7c00; fp16_test_b[14] = 16'h3c00; // +Inf * 1.0
+102        2/2                  fp16_test_a[15] = 16'h3c00; fp16_test_b[15] = 16'h7c00; // 1.0 * +Inf
+103        2/2                  fp16_test_a[16] = 16'hfc00; fp16_test_b[16] = 16'h3c00; // -Inf * 1.0
+104        2/2                  fp16_test_a[17] = 16'h7c00; fp16_test_b[17] = 16'h7c00; // +Inf * +Inf
+105        2/2                  fp16_test_a[18] = 16'h7c00; fp16_test_b[18] = 16'hfc00; // +Inf * -Inf
+106        2/2                  fp16_test_a[19] = 16'h7c00; fp16_test_b[19] = 16'h0000; // +Inf * 0 (NaN)
+107                             
+108                             // NaN测试
+109        2/2                  fp16_test_a[20] = 16'h7c01; fp16_test_b[20] = 16'h3c00; // NaN * 1.0
+110        2/2                  fp16_test_a[21] = 16'h3c00; fp16_test_b[21] = 16'h7c01; // 1.0 * NaN
+111        2/2                  fp16_test_a[22] = 16'h7c01; fp16_test_b[22] = 16'h7c01; // NaN * NaN
+112        2/2                  fp16_test_a[23] = 16'h7fff; fp16_test_b[23] = 16'h3c00; // QNaN * 1.0
+113                             
+114                             // 非规格化数测试
+115        2/2                  fp16_test_a[24] = 16'h0001; fp16_test_b[24] = 16'h3c00; // 最小非规格化数 * 1.0
+116        2/2                  fp16_test_a[25] = 16'h03ff; fp16_test_b[25] = 16'h3c00; // 最大非规格化数 * 1.0
+117        2/2                  fp16_test_a[26] = 16'h0001; fp16_test_b[26] = 16'h0001; // 非规格化数 * 非规格化数
+118        2/2                  fp16_test_a[27] = 16'h8001; fp16_test_b[27] = 16'h0001; // 负非规格化数测试
+119                             
+120                             // 边界值测试
+121        2/2                  fp16_test_a[28] = 16'h7bff; fp16_test_b[28] = 16'h3c00; // 最大规格化数 * 1.0
+122        2/2                  fp16_test_a[29] = 16'h0400; fp16_test_b[29] = 16'h3c00; // 最小规格化数 * 1.0
+123        2/2                  fp16_test_a[30] = 16'h7bff; fp16_test_b[30] = 16'h7bff; // 最大值相乘（可能溢出）
+124        2/2                  fp16_test_a[31] = 16'h0400; fp16_test_b[31] = 16'h0400; // 最小值相乘（可能下溢）
+125                             
+126                             // 特殊数值测试
+127        2/2                  fp16_test_a[32] = 16'h4400; fp16_test_b[32] = 16'h3e00; // 4.0 * 1.5
+128        2/2                  fp16_test_a[33] = 16'h4800; fp16_test_b[33] = 16'h3400; // 8.0 * 0.25
+129        2/2                  fp16_test_a[34] = 16'h5400; fp16_test_b[34] = 16'h2c00; // 64.0 * 0.0625
+130        2/2                  fp16_test_a[35] = 16'h3c01; fp16_test_b[35] = 16'h3c01; // (1+ε) * (1+ε)
+131                             
+132                             // 舍入测试用例
+133        2/2                  fp16_test_a[36] = 16'h3bff; fp16_test_b[36] = 16'h4000; // (1-ε) * 2
+134        2/2                  fp16_test_a[37] = 16'h4001; fp16_test_b[37] = 16'h3fff; // 精度边界测试
+135        2/2                  fp16_test_a[38] = 16'h7800; fp16_test_b[38] = 16'h0800; // 大数 * 小数
+136        2/2                  fp16_test_a[39] = 16'h0800; fp16_test_b[39] = 16'h7800; // 小数 * 大数
+137                             
+138                             // 指数边界测试
+139        2/2                  fp16_test_a[40] = 16'h7800; fp16_test_b[40] = 16'h7800; // 接近溢出
+140        2/2                  fp16_test_a[41] = 16'h0200; fp16_test_b[41] = 16'h0200; // 接近下溢
+141        2/2                  fp16_test_a[42] = 16'h7a00; fp16_test_b[42] = 16'h0600; // 混合边界
+142        2/2                  fp16_test_a[43] = 16'h7000; fp16_test_b[43] = 16'h1000; // 中等指数测试
+143                             
+144                             // 随机测试用例
+145        2/2                  fp16_test_a[44] = 16'h5678; fp16_test_b[44] = 16'h1234; // 随机值1
+146        2/2                  fp16_test_a[45] = 16'habcd; fp16_test_b[45] = 16'h4321; // 随机值2
+147        2/2                  fp16_test_a[46] = 16'h2468; fp16_test_b[46] = 16'h8642; // 随机值3
+148        2/2                  fp16_test_a[47] = 16'h1357; fp16_test_b[47] = 16'h9753; // 随机值4
+149        2/2                  fp16_test_a[48] = 16'hefef; fp16_test_b[48] = 16'h1010; // 随机值5
+150        2/2                  fp16_test_a[49] = 16'h7777; fp16_test_b[49] = 16'h2222; // 随机值6
+151                         end
+152                     endtask
+153                     
+154                     // FP32测试用例初始化任务
+155                     task initialize_fp32_test_cases;
+156                         begin
+157                             // 基本数值测试
+158        2/2                  fp32_test_a[0] = 32'h3f800000; fp32_test_b[0] = 32'h3f800000; // 1.0 * 1.0
+159        2/2                  fp32_test_a[1] = 32'h40000000; fp32_test_b[1] = 32'h3f800000; // 2.0 * 1.0
+160        2/2                  fp32_test_a[2] = 32'h3f800000; fp32_test_b[2] = 32'h40000000; // 1.0 * 2.0
+161        2/2                  fp32_test_a[3] = 32'h40000000; fp32_test_b[3] = 32'h40000000; // 2.0 * 2.0
+162        2/2                  fp32_test_a[4] = 32'h3f000000; fp32_test_b[4] = 32'h3f000000; // 0.5 * 0.5
+163                             
+164                             // 负数测试
+165        2/2                  fp32_test_a[5] = 32'hbf800000; fp32_test_b[5] = 32'h3f800000; // -1.0 * 1.0
+166        2/2                  fp32_test_a[6] = 32'h3f800000; fp32_test_b[6] = 32'hbf800000; // 1.0 * -1.0
+167        2/2                  fp32_test_a[7] = 32'hbf800000; fp32_test_b[7] = 32'hbf800000; // -1.0 * -1.0
+168        2/2                  fp32_test_a[8] = 32'hc0000000; fp32_test_b[8] = 32'h40000000; // -2.0 * 2.0
+169                             
+170                             // 零值测试
+171        2/2                  fp32_test_a[9] = 32'h00000000; fp32_test_b[9] = 32'h3f800000;  // +0 * 1.0
+172        2/2                  fp32_test_a[10] = 32'h3f800000; fp32_test_b[10] = 32'h00000000; // 1.0 * +0
+173        2/2                  fp32_test_a[11] = 32'h80000000; fp32_test_b[11] = 32'h3f800000; // -0 * 1.0
+174        2/2                  fp32_test_a[12] = 32'h00000000; fp32_test_b[12] = 32'h00000000; // +0 * +0
+175        2/2                  fp32_test_a[13] = 32'h80000000; fp32_test_b[13] = 32'h80000000; // -0 * -0
+176                             
+177                             // 无穷大测试
+178        2/2                  fp32_test_a[14] = 32'h7f800000; fp32_test_b[14] = 32'h3f800000; // +Inf * 1.0
+179        2/2                  fp32_test_a[15] = 32'h3f800000; fp32_test_b[15] = 32'h7f800000; // 1.0 * +Inf
+180        2/2                  fp32_test_a[16] = 32'hff800000; fp32_test_b[16] = 32'h3f800000; // -Inf * 1.0
+181        2/2                  fp32_test_a[17] = 32'h7f800000; fp32_test_b[17] = 32'h7f800000; // +Inf * +Inf
+182        2/2                  fp32_test_a[18] = 32'h7f800000; fp32_test_b[18] = 32'hff800000; // +Inf * -Inf
+183        2/2                  fp32_test_a[19] = 32'h7f800000; fp32_test_b[19] = 32'h00000000; // +Inf * 0 (NaN)
+184                             
+185                             // NaN测试
+186        2/2                  fp32_test_a[20] = 32'h7f800001; fp32_test_b[20] = 32'h3f800000; // NaN * 1.0
+187        2/2                  fp32_test_a[21] = 32'h3f800000; fp32_test_b[21] = 32'h7f800001; // 1.0 * NaN
+188        2/2                  fp32_test_a[22] = 32'h7f800001; fp32_test_b[22] = 32'h7f800001; // NaN * NaN
+189        2/2                  fp32_test_a[23] = 32'h7fffffff; fp32_test_b[23] = 32'h3f800000; // QNaN * 1.0
+190                             
+191                             // 非规格化数测试
+192        2/2                  fp32_test_a[24] = 32'h00000001; fp32_test_b[24] = 32'h3f800000; // 最小非规格化数 * 1.0
+193        2/2                  fp32_test_a[25] = 32'h007fffff; fp32_test_b[25] = 32'h3f800000; // 最大非规格化数 * 1.0
+194        2/2                  fp32_test_a[26] = 32'h00000001; fp32_test_b[26] = 32'h00000001; // 非规格化数 * 非规格化数
+195        2/2                  fp32_test_a[27] = 32'h80000001; fp32_test_b[27] = 32'h00000001; // 负非规格化数测试
+196                             
+197                             // 边界值测试
+198        2/2                  fp32_test_a[28] = 32'h7f7fffff; fp32_test_b[28] = 32'h3f800000; // 最大规格化数 * 1.0
+199        2/2                  fp32_test_a[29] = 32'h00800000; fp32_test_b[29] = 32'h3f800000; // 最小规格化数 * 1.0
+200        2/2                  fp32_test_a[30] = 32'h7f7fffff; fp32_test_b[30] = 32'h7f7fffff; // 最大值相乘（溢出）
+201        2/2                  fp32_test_a[31] = 32'h00800000; fp32_test_b[31] = 32'h00800000; // 最小值相乘（下溢）
+202                             
+203                             // 特殊数值测试
+204        2/2                  fp32_test_a[32] = 32'h40800000; fp32_test_b[32] = 32'h3fc00000; // 4.0 * 1.5
+205        2/2                  fp32_test_a[33] = 32'h41000000; fp32_test_b[33] = 32'h3e800000; // 8.0 * 0.25
+206        2/2                  fp32_test_a[34] = 32'h42800000; fp32_test_b[34] = 32'h3d800000; // 64.0 * 0.0625
+207        2/2                  fp32_test_a[35] = 32'h3f800001; fp32_test_b[35] = 32'h3f800001; // (1+ε) * (1+ε)
+208                             
+209                             // 舍入测试用例
+210        2/2                  fp32_test_a[36] = 32'h3f7fffff; fp32_test_b[36] = 32'h40000000; // (1-ε) * 2
+211        2/2                  fp32_test_a[37] = 32'h40000001; fp32_test_b[37] = 32'h3fffffff; // 精度边界测试
+212        2/2                  fp32_test_a[38] = 32'h7f000000; fp32_test_b[38] = 32'h01000000; // 大数 * 小数
+213        2/2                  fp32_test_a[39] = 32'h01000000; fp32_test_b[39] = 32'h7f000000; // 小数 * 大数
+214                             
+215                             // 指数边界测试
+216        2/2                  fp32_test_a[40] = 32'h7f000000; fp32_test_b[40] = 32'h7f000000; // 接近溢出
+217        2/2                  fp32_test_a[41] = 32'h01000000; fp32_test_b[41] = 32'h01000000; // 接近下溢
+218        2/2                  fp32_test_a[42] = 32'h7e000000; fp32_test_b[42] = 32'h02000000; // 混合边界
+219        2/2                  fp32_test_a[43] = 32'h60000000; fp32_test_b[43] = 32'h20000000; // 中等指数测试
+220                             
+221                             // 随机测试用例
+222        2/2                  fp32_test_a[44] = 32'h56789abc; fp32_test_b[44] = 32'h12345678; // 随机值1
+223        2/2                  fp32_test_a[45] = 32'habcdef01; fp32_test_b[45] = 32'h43218765; // 随机值2
+224        2/2                  fp32_test_a[46] = 32'h24681357; fp32_test_b[46] = 32'h86420975; // 随机值3
+225        2/2                  fp32_test_a[47] = 32'h13579246; fp32_test_b[47] = 32'h97531864; // 随机值4
+226        2/2                  fp32_test_a[48] = 32'hefef1010; fp32_test_b[48] = 32'h10101010; // 随机值5
+227        2/2                  fp32_test_a[49] = 32'h77777777; fp32_test_b[49] = 32'h22222222; // 随机值6
+228                         end
+229                     endtask
+230                     
+231                     // 主测试流程
+232                     initial begin
+233                         // 打开日志文件
+234        1/1              sim_log = $fopen(&quot;tb_fpmul.log&quot;, &quot;w&quot;);
+235        1/1              if (sim_log == 0) begin
+236        <font color = "red">0/1     ==>          $display(&quot;错误: 无法打开日志文件&quot;);</font>
+237        <font color = "red">0/1     ==>          $finish;</font>
+238                         end
+                        MISSING_ELSE
+239                         
+240        1/1              $fdisplay(sim_log, &quot;FPMUL 测试开始，时间: %t&quot;, $time);
+241        1/1              $fdisplay(sim_log, &quot;========================================&quot;);
+242                         
+243                         // 初始化计数器
+244        1/1              pass_count = 0;
+245        1/1              fail_count = 0;
+246        1/1              test_num = 0;
+247                         
+248                         // 初始化信号
+249        1/1              inst_valid = 0;
+250        1/1              src_precision = 0;
+251        1/1              dst_precision = 0;
+252        1/1              dvr_fpmul_s0 = 0;
+253        1/1              dvr_fpmul_s1 = 0;
+254                         
+255        2/2              #10;
+256                         
+257                         // 测试FP16乘法
+258        1/1              $fdisplay(sim_log, &quot;\n开始 FP16 乘法测试...&quot;);
+259        1/1              $fdisplay(sim_log, &quot;----------------------------------------&quot;);
+260        1/1              test_fp16_multiplication();
+261                         
+262                         // 测试FP32乘法
+263        1/1              $fdisplay(sim_log, &quot;\n开始 FP32 乘法测试...&quot;);
+264        1/1              $fdisplay(sim_log, &quot;----------------------------------------&quot;);
+265        1/1              test_fp32_multiplication();
+266                         
+267                         // 测试指令无效情况
+268        1/1              $fdisplay(sim_log, &quot;\n测试指令无效情况...&quot;);
+269        1/1              $fdisplay(sim_log, &quot;----------------------------------------&quot;);
+270        1/1              test_invalid_instruction();
+271                         
+272                         // 输出测试结果统计
+273        1/1              print_test_summary();
+274                         
+275                         // 关闭文件
+276        1/1              $fclose(sim_log);
+277                         
+278        1/1              $display(&quot;测试完成！详细结果请查看 tb_fpmul.log&quot;);
+279        1/1              $finish;
+280                     end
+281                     
+282                     // FP16乘法测试任务
+283                     task test_fp16_multiplication;
+284                         integer i;
+285                         begin
+286        1/1                  src_precision = 0;  // 16bit精度
+287        1/1                  dst_precision = 0;  // 16bit精度
+288        1/1                  inst_valid = 1;
+289                             
+290        1/1                  for (i = 0; i &lt; TEST_COUNT; i = i + 1) begin
+291        1/1                      dvr_fpmul_s0 = {16'h0000, fp16_test_a[i]};
+292        1/1                      dvr_fpmul_s1 = {16'h0000, fp16_test_b[i]};
+293                                 
+294                                 // 获取SoftFloat期望结果
+295        1/1                      expected_fp16 = dpi_f16_mul(fp16_test_a[i], fp16_test_b[i]);
+296                                 
+297        2/2                      #10;
+298                                 
+299                                 // 检查结果
+300        1/1                      check_fp16_result(i, fp16_test_a[i], fp16_test_b[i], dr_fpmul_d[15:0], expected_fp16);
+301                                 
+302        1/1                      test_num = test_num + 1;
+303                             end
+304                         end
+305                     endtask
+306                     
+307                     // FP32乘法测试任务
+308                     task test_fp32_multiplication;
+309                         integer i;
+310                         begin
+311        1/1                  src_precision = 1;  // 32bit精度
+312        1/1                  dst_precision = 1;  // 32bit精度
+313        1/1                  inst_valid = 1;
+314                             
+315        1/1                  for (i = 0; i &lt; TEST_COUNT; i = i + 1) begin
+316        1/1                      dvr_fpmul_s0 = fp32_test_a[i];
+317        1/1                      dvr_fpmul_s1 = fp32_test_b[i];
+318                                 
+319                                 // 获取SoftFloat期望结果
+320        1/1                      expected_fp32 = dpi_f32_mul(fp32_test_a[i], fp32_test_b[i]);
+321                                 
+322        2/2                      #10;
+323                                 
+324                                 // 检查结果
+325        1/1                      check_fp32_result(i, fp32_test_a[i], fp32_test_b[i], dr_fpmul_d, expected_fp32);
+326                                 
+327        1/1                      test_num = test_num + 1;
+328                             end
+329                         end
+330                     endtask
+331                     
+332                     // 测试指令无效情况
+333                     task test_invalid_instruction;
+334                         begin
+335                             // 设置测试数据
+336        1/1                  dvr_fpmul_s0 = 32'h3f800000; // 1.0
+337        1/1                  dvr_fpmul_s1 = 32'h40000000; // 2.0
+338        1/1                  src_precision = 1;
+339        1/1                  dst_precision = 1;
+340                             
+341                             // 指令无效
+342        1/1                  inst_valid = 0;
+343        2/2                  #10;
+344                             
+345        1/1                  if (dr_fpmul_d !== 32'h00000000) begin
+346        <font color = "red">0/1     ==>              $fdisplay(sim_log, &quot;错误: 指令无效时输出应为0，实际输出: %h&quot;, dr_fpmul_d);</font>
+347        <font color = "red">0/1     ==>              fail_count = fail_count + 1;</font>
+348                             end else begin
+349        1/1                      $fdisplay(sim_log, &quot;通过: 指令无效测试&quot;);
+350        1/1                      pass_count = pass_count + 1;
+351                             end
+352                             
+353        1/1                  test_num = test_num + 1;
+354                         end
+355                     endtask
+356                     
+357                     // 检查FP16结果
+358                     task check_fp16_result;
+359                         input integer test_index;
+360                         input [15:0] input_a;
+361                         input [15:0] input_b;
+362                         input [15:0] actual_result;
+363                         input [15:0] expected_result;
+364                         
+365                         reg is_actual_nan, is_expected_nan;
+366                         reg match_found, is_inexact;
+367                         reg [15:0] expected_plus_one, expected_minus_one;
+368                         integer exception_flags;
+369                         string flag_info;
+370                         begin
+371                             // 获取异常标志
+372        1/1                  exception_flags = dpi_get_exception_flags();
+373        1/1                  is_inexact = (exception_flags &amp; dpi_get_inexact_flag()) != 0;
+374                             
+375                             // 解析异常标志
+376        1/1                  flag_info = &quot;&quot;;
+377        2/2                  if (exception_flags &amp; dpi_get_inexact_flag()) flag_info = {flag_info, &quot; 不精确&quot;};
+                        MISSING_ELSE
+378        2/2                  if (exception_flags &amp; dpi_get_underflow_flag()) flag_info = {flag_info, &quot; 下溢&quot;};
+                        MISSING_ELSE
+379        2/2                  if (exception_flags &amp; dpi_get_overflow_flag()) flag_info = {flag_info, &quot; 上溢&quot;};
+                        MISSING_ELSE
+380        <font color = "red">1/2     ==>          if (exception_flags &amp; dpi_get_infinite_flag()) flag_info = {flag_info, &quot; 无穷大&quot;};</font>
+                        MISSING_ELSE
+381        2/2                  if (exception_flags &amp; dpi_get_invalid_flag()) flag_info = {flag_info, &quot; 无效&quot;};
+                        MISSING_ELSE
+382        2/2                  if (flag_info == &quot;&quot;) flag_info = &quot; 无异常&quot;;
+                        MISSING_ELSE
+383                             
+384                             // 检查NaN情况
+385        1/1                  is_actual_nan = (actual_result[14:10] == 5'b11111) &amp;&amp; (actual_result[9:0] != 10'b0);
+386        1/1                  is_expected_nan = (expected_result[14:10] == 5'b11111) &amp;&amp; (expected_result[9:0] != 10'b0);
+387                             
+388        1/1                  match_found = 0;
+389                             
+390        1/1                  if (is_expected_nan &amp;&amp; is_actual_nan) begin
+391        1/1                      match_found = 1;
+392        1/1                  end else if (actual_result === expected_result) begin
+393        1/1                      match_found = 1;
+394        1/1                  end else if (is_inexact) begin
+395                                 // 当结果不精确时，允许最低位±1的误差
+396        1/1                      expected_plus_one = expected_result + 1;
+397        1/1                      expected_minus_one = expected_result - 1;
+398        1/1                      if ((actual_result === expected_plus_one) || (actual_result === expected_minus_one)) begin
+399        1/1                          match_found = 1;
+400                                 end
+                   <font color = "red">==>  MISSING_ELSE</font>
+401                             end
+                   <font color = "red">==>  MISSING_ELSE</font>
+402                             
+403        1/1                  if (match_found) begin
+404        1/1                      if (is_expected_nan &amp;&amp; is_actual_nan) begin
+405        1/1                          $fdisplay(sim_log, &quot;FP16 测试 %0d: 通过 (NaN) - A=%h, B=%h, 期望=%h, 实际=%h | 异常标志:%s&quot;, 
+406                                              test_index, input_a, input_b, expected_result, actual_result, flag_info);
+407        1/1                      end else if (actual_result === expected_result) begin
+408        1/1                          $fdisplay(sim_log, &quot;FP16 测试 %0d: 通过 - A=%h, B=%h, 期望=%h, 实际=%h | 异常标志:%s&quot;, 
+409                                              test_index, input_a, input_b, expected_result, actual_result, flag_info);
+410                                 end else begin
+411        1/1                          $fdisplay(sim_log, &quot;FP16 测试 %0d: 通过 (±1 tolerance) - A=%h, B=%h, 期望=%h, 实际=%h | 异常标志:%s&quot;, 
+412                                              test_index, input_a, input_b, expected_result, actual_result, flag_info);
+413                                 end
+414        1/1                      pass_count = pass_count + 1;
+415                             end else begin
+416        <font color = "red">0/1     ==>              $fdisplay(sim_log, &quot;FP16 测试 %0d: 失败 - A=%h, B=%h, 期望=%h, 实际=%h | 异常标志:%s&quot;, </font>
+417                                          test_index, input_a, input_b, expected_result, actual_result, flag_info);
+418        <font color = "red">0/1     ==>              fail_count = fail_count + 1;</font>
+419                             end
+420                             
+421                             // 清除异常标志
+422        1/1                  dpi_clear_exception_flags();
+423                         end
+424                     endtask
+425                     
+426                     // 检查FP32结果
+427                     task check_fp32_result;
+428                         input integer test_index;
+429                         input [31:0] input_a;
+430                         input [31:0] input_b;
+431                         input [31:0] actual_result;
+432                         input [31:0] expected_result;
+433                         
+434                         reg is_actual_nan, is_expected_nan;
+435                         reg match_found, is_inexact;
+436                         reg [31:0] expected_plus_one, expected_minus_one;
+437                         integer exception_flags;
+438                         string flag_info;
+439                         begin
+440                             // 获取异常标志
+441        1/1                  exception_flags = dpi_get_exception_flags();
+442        1/1                  is_inexact = (exception_flags &amp; dpi_get_inexact_flag()) != 0;
+443                             
+444                             // 解析异常标志
+445        1/1                  flag_info = &quot;&quot;;
+446        2/2                  if (exception_flags &amp; dpi_get_inexact_flag()) flag_info = {flag_info, &quot; 不精确&quot;};
+                        MISSING_ELSE
+447        2/2                  if (exception_flags &amp; dpi_get_underflow_flag()) flag_info = {flag_info, &quot; 下溢&quot;};
+                        MISSING_ELSE
+448        2/2                  if (exception_flags &amp; dpi_get_overflow_flag()) flag_info = {flag_info, &quot; 上溢&quot;};
+                        MISSING_ELSE
+449        <font color = "red">1/2     ==>          if (exception_flags &amp; dpi_get_infinite_flag()) flag_info = {flag_info, &quot; 无穷大&quot;};</font>
+                        MISSING_ELSE
+450        2/2                  if (exception_flags &amp; dpi_get_invalid_flag()) flag_info = {flag_info, &quot; 无效&quot;};
+                        MISSING_ELSE
+451        2/2                  if (flag_info == &quot;&quot;) flag_info = &quot; 无异常&quot;;
+                        MISSING_ELSE
+452                             
+453                             // 检查NaN情况
+454        1/1                  is_actual_nan = (actual_result[30:23] == 8'b11111111) &amp;&amp; (actual_result[22:0] != 23'b0);
+455        1/1                  is_expected_nan = (expected_result[30:23] == 8'b11111111) &amp;&amp; (expected_result[22:0] != 23'b0);
+456                             
+457        1/1                  match_found = 0;
+458                             
+459        1/1                  if (is_expected_nan &amp;&amp; is_actual_nan) begin
+460        1/1                      match_found = 1;
+461        1/1                  end else if (actual_result === expected_result) begin
+462        1/1                      match_found = 1;
+463        <font color = "red">0/1     ==>          end else if (is_inexact) begin</font>
+464                                 // 当结果不精确时，允许最低位±1的误差
+465        <font color = "red">0/1     ==>              expected_plus_one = expected_result + 1;</font>
+466        <font color = "red">0/1     ==>              expected_minus_one = expected_result - 1;</font>
+467        <font color = "red">0/1     ==>              if ((actual_result === expected_plus_one) || (actual_result === expected_minus_one)) begin</font>
+468        <font color = "red">0/1     ==>                  match_found = 1;</font>
+469                                 end
+                   <font color = "red">==>  MISSING_ELSE</font>
+470                             end
+                   <font color = "red">==>  MISSING_ELSE</font>
+471                             
+472        1/1                  if (match_found) begin
+473        1/1                      if (is_expected_nan &amp;&amp; is_actual_nan) begin
+474        1/1                          $fdisplay(sim_log, &quot;FP32 测试 %0d: 通过 (NaN) - A=%h, B=%h, 期望=%h, 实际=%h | 异常标志:%s&quot;, 
+475                                              test_index, input_a, input_b, expected_result, actual_result, flag_info);
+476        1/1                      end else if (actual_result === expected_result) begin
+477        1/1                          $fdisplay(sim_log, &quot;FP32 测试 %0d: 通过 - A=%h, B=%h, 期望=%h, 实际=%h | 异常标志:%s&quot;, 
+478                                              test_index, input_a, input_b, expected_result, actual_result, flag_info);
+479                                 end else begin
+480        <font color = "red">0/1     ==>                  $fdisplay(sim_log, &quot;FP32 测试 %0d: 通过 (±1 tolerance) - A=%h, B=%h, 期望=%h, 实际=%h | 异常标志:%s&quot;, </font>
+481                                              test_index, input_a, input_b, expected_result, actual_result, flag_info);
+482                                 end
+483        1/1                      pass_count = pass_count + 1;
+484                             end else begin
+485        <font color = "red">0/1     ==>              $fdisplay(sim_log, &quot;FP32 测试 %0d: 失败 - A=%h, B=%h, 期望=%h, 实际=%h | 异常标志:%s&quot;, </font>
+486                                          test_index, input_a, input_b, expected_result, actual_result, flag_info);
+487        <font color = "red">0/1     ==>              fail_count = fail_count + 1;</font>
+488                             end
+489                             
+490                             // 清除异常标志
+491        1/1                  dpi_clear_exception_flags();
+492                         end
+493                     endtask
+494                     
+495                     // 打印测试结果统计
+496                     task print_test_summary;
+497                         begin
+498        1/1                  $fdisplay(sim_log, &quot;\n========================================&quot;);
+499        1/1                  $fdisplay(sim_log, &quot;测试结果统计:&quot;);
+500        1/1                  $fdisplay(sim_log, &quot;========================================&quot;);
+501        1/1                  $fdisplay(sim_log, &quot;总测试数: %0d&quot;, test_num);
+502        1/1                  $fdisplay(sim_log, &quot;通过数: %0d&quot;, pass_count);
+503        1/1                  $fdisplay(sim_log, &quot;失败数: %0d&quot;, fail_count);
+504        1/1                  $fdisplay(sim_log, &quot;通过率: %0.2f%%&quot;, (pass_count * 100.0) / test_num);
+505                             
+506        1/1                  if (fail_count == 0) begin
+507        1/1                      $fdisplay(sim_log, &quot;\n🎉 所有测试都通过了！&quot;);
+508        1/1                      $display(&quot;✅ 所有测试都通过了！&quot;);
+509                             end else begin
+510        <font color = "red">0/1     ==>              $fdisplay(sim_log, &quot;\n❌ 有 %0d 个测试失败，请检查错误日志&quot;, fail_count);</font>
+511        <font color = "red">0/1     ==>              $display(&quot;❌ 有 %0d 个测试失败，请检查 tb_fpmul_errors.log&quot;, fail_count);</font>
+512                             end
+513                             
+514        1/1                  $fdisplay(sim_log, &quot;测试结束时间: %t&quot;, $time);
+</pre>
+<hr>
+<a name="Toggle"></a>
+Toggle Coverage for Module : <a href="mod2.html" >tb_fpmul</a><br clear=all>
+<table align=left class="noborder">
+<tr>
+<th nowrap width=120></th><th nowrap width=80>Total</th><th nowrap width=80>Covered</th><th nowrap width=80>Percent</th></tr><tr class="s7">
+<td>Totals</td>
+<td class="rt">9</td>
+<td class="rt">7</td>
+<td class="rt">77.78 </td>
+</tr><tr class="s9">
+<td>Total Bits</td>
+<td class="rt">296</td>
+<td class="rt">294</td>
+<td class="rt">99.32 </td>
+</tr><tr class="s10">
+<td nowrap>Total Bits 0->1</td>
+<td class="rt">148</td>
+<td class="rt">148</td>
+<td class="rt">100.00</td>
+</tr><tr class="s9">
+<td nowrap>Total Bits 1->0</td>
+<td class="rt">148</td>
+<td class="rt">146</td>
+<td class="rt">98.65 </td>
+</tr></table><br clear=all>
+<table align=left class="noborder">
+<tr>
+<th nowrap width=120></th><th nowrap width=80></th><th nowrap width=80></th><th nowrap width=80></th></tr><tr class="s7">
+<td>Signals</td>
+<td class="rt">9</td>
+<td class="rt">7</td>
+<td class="rt">77.78 </td>
+</tr><tr class="s9">
+<td>Signal Bits</td>
+<td class="rt">296</td>
+<td class="rt">294</td>
+<td class="rt">99.32 </td>
+</tr><tr class="s10">
+<td nowrap>Signal Bits 0->1</td>
+<td class="rt">148</td>
+<td class="rt">148</td>
+<td class="rt">100.00</td>
+</tr><tr class="s9">
+<td nowrap>Signal Bits 1->0</td>
+<td class="rt">148</td>
+<td class="rt">146</td>
+<td class="rt">98.65 </td>
+</tr></table><br clear=all>
+<table align=left class="sortable noborder">
+<caption><b>Signal Details</b></caption>
+<tr class="sortablehead">
+<td class="alfsrt">Name</td><td class="alfsrt">Toggle</td><td class="alfsrt">Toggle 1->0</td><td class="alfsrt">Toggle 0->1</td></tr><tr>
+<td>inst_valid</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>src_precision</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>dst_precision</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>dvr_fpmul_s0[31:0]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>dvr_fpmul_s1[31:0]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>dr_fpmul_d[31:0]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>clk</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>expected_fp16[15:0]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>expected_fp32[31:0]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr></table><br clear=all>
+<hr>
+<a name="Branch"></a>
+Branch Coverage for Module : <a href="mod2.html" >tb_fpmul</a><br clear=all>
+<table align=left class="noborder">
+<tr>
+<th nowrap width=120></th><th nowrap width=80>Line No.</th><th nowrap width=80>Total</th><th nowrap width=80>Covered</th><th nowrap width=80>Percent</th></tr><tr class="s5">
+<td>Branches</td>
+<td></td>
+<td class="rt">2</td>
+<td class="rt">1</td>
+<td class="rt">50.00 </td>
+</tr><tr class="s5">
+<td>IF</td>
+<td class="rt">235</td>
+<td class="rt">2</td>
+<td class="rt">1</td>
+<td class="rt">50.00 </td>
+</tr></table><br clear=all>
+<pre class="code"><br clear=all>
+235            if (sim_log == 0) begin
+               <font color = "red">-1-</font>  
+236                $display("错误: 无法打开日志文件");
+           <font color = "red">        ==></font>
+237                $finish;
+238            end
+               MISSING_ELSE
+           <font color = "green">    ==></font>
+</pre>
+<br clear=all>
+<span class=repname>Branches:</span>
+<br clear=all>
+<table align=left class="noborder">
+<tr>
+<th nowrap width=80>-1-</th><th nowrap width=80>Status</th></tr><tr class="uRed">
+<td align=center>1</td>
+<td>Not Covered</td>
+</tr><tr class="uGreen">
+<td align=center>0</td>
+<td>Covered</td>
+</tr></table><br clear=all>
+</div>
+</div>
+<div class="ui-layout-center-inner-north">
+<div id="center-bread-crumb" class="breadCrumb module urg-margin-bottom">
+  <ul name="inst_tag_3">
+    <li>
+      <a href="#Line">Line</a>    </li>
+    <li>
+      <a href="#Toggle">Toggle</a>    </li>
+    <li>
+      <a href="#Branch">Branch</a>    </li>
+  </ul>
+  <ul name="tag_tb_fpmul">
+    <li>
+      <a href="#Line">Line</a>    </li>
+    <li>
+      <a href="#Toggle">Toggle</a>    </li>
+    <li>
+      <a href="#Branch">Branch</a>    </li>
+  </ul>
+</div>
+</div>
+</div>
+<div class="ui-layout-south">
+<table align=center><tr><td class="s0 cl">0%</td>
+<td class="s1 cl">10%</td>
+<td class="s2 cl">20%</td>
+<td class="s3 cl">30%</td>
+<td class="s4 cl">40%</td>
+<td class="s5 cl">50%</td>
+<td class="s6 cl">60%</td>
+<td class="s7 cl">70%</td>
+<td class="s8 cl">80%</td>
+<td class="s9 cl">90%</td>
+<td class="s10 cl">100%</td></tr></table></div>
+</body>
+</html>
