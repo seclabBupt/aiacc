@@ -1,0 +1,25 @@
+Design Module List
+
+Total Module Definition Coverage Summary 
+SCORE  LINE   COND   TOGGLE FSM    BRANCH 
+ 93.25  92.76  94.78  95.37 --      90.10 
+
+
+Total modules in report: 5
+-------------------------------------------------------------------------------
+SCORE              LINE     COND     TOGGLE   FSM      BRANCH   NAME                                                              
+ 80.66              92.66   --        99.32   --        50.00   tb_fpmul                                                          
+ 92.43             --        93.94    93.77   --        89.58   fp16_multiplier                                                   
+ 93.40             --        95.45    93.09   --        91.67   fp32_multiplier                                                   
+ 99.86             --       100.00    99.59   --       100.00   fpmul                                                             
+100.00             100.00   --       100.00   --       --       leading_zero_counter                                              
+                   
+  ---------------- 
+  SCORE              LINE     COND     TOGGLE   FSM      BRANCH   NAME                                                            
+  100.00             100.00   --       --       --       --       leading_zero_counter                                            
+  100.00             --       --       100.00   --       --       leading_zero_counter ( parameter DATA_WIDTH=22,COUNT_WIDTH=5 )  
+  100.00             --       --       100.00   --       --       leading_zero_counter ( parameter DATA_WIDTH=48,COUNT_WIDTH=6 )  
+                   
+----------------   
+SCORE              LINE     COND     TOGGLE   FSM      BRANCH   NAME                                                              
+

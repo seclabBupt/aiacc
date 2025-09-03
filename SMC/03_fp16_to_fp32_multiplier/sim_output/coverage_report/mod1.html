@@ -1,0 +1,2712 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="Author" content="<username>"> <meta name="GENERATOR" content="urg/version [en] (platform name) [urg]">
+<title>Unified Coverage Report :: Module :: fp16_to_fp32_multiplier</title>
+<link type="text/css" rel="stylesheet" href="css/.urg.css">
+<link type="text/css" rel="stylesheet" href="css/.layout.css">
+<link type="text/css" rel="stylesheet" href="css/.breadcrumb.css">
+<script type="text/javascript" src="js/.jquery.js"></script>
+<script type="text/javascript" src="js/.jquery-ui.js"></script>
+<script type="text/javascript" src="js/.sortable.js"></script>
+<script type="text/javascript" src="js/.layout.js"></script>
+<script type="text/javascript" src="js/.breadcrumb.js"></script>
+<script type="text/javascript">
+var layout, westLayout, centerLayout;
+$(document).ready(function () {
+  if ($("#north-bread-crumb")) {
+    $("#north-bread-crumb").jBreadCrumb({easing:'swing'})
+  }
+  layout = $("body").layout({ 
+    resizable: true,
+    spacing_open: 4,
+    spacing_closed: 4,
+    north: {
+      size: 76
+    },
+    south: {
+      size: 45,
+      initClosed: true
+    },
+    west: {
+      size: 500,
+      resizable: true,
+      initClosed: false
+    }
+  });
+  centerLayout = $('div.ui-layout-center').layout({
+    north__paneSelector: ".ui-layout-center-inner-north",
+    center__paneSelector: ".ui-layout-center-inner-center", 
+    north__size: 50,
+    spacing_open: 4,
+    spacing_closed: 4
+  });
+});
+</script>
+</head>
+<body onLoad="initPage();"><div class="ui-layout-north">
+<div class="logo"></div>
+<center class="pagetitle">Module Definition</center>
+<div align="center"><a href="dashboard.html" ><b>dashboard</b></a> | <a href="hierarchy.html" ><b>hierarchy</b></a> | <a href="modlist.html" ><b>modlist</b></a> | groups | <a href="tests.html" ><b>tests</b></a> | asserts</div>
+
+</div>
+<div class="ui-layout-west">
+<div name='tag_fp16_to_fp32_multiplier'>
+<div class=modhdr>
+<br clear=all>
+<span class=titlename>Module : <a href="#"  onclick="showContent('tag_fp16_to_fp32_multiplier')">fp16_to_fp32_multiplier</a></span>
+<br clear=all>
+<table align=left>
+<tr class="sortablehead">
+<td>SCORE</td><td>LINE</td><td>COND</td><td>TOGGLE</td><td>FSM</td><td>BRANCH</td></tr><tr>
+<td class="s9 cl rt"> 95.43</td>
+<td class="s9 cl rt"><a href="mod1.html#Line" > 98.33</a></td>
+<td class="wht cl rt"></td>
+<td class="s9 cl rt"><a href="mod1.html#Toggle" > 95.11</a></td>
+<td class="wht cl rt"></td>
+<td class="s9 cl rt"><a href="mod1.html#Branch" > 92.86</a></td>
+</tr></table><br clear=all>
+<span class=repname>Source File(s) : </span>
+<br clear=all>
+<a href="javascript:void(0);"  onclick="openSrcFile('/home/Sunny/SMC/03_fp16_to_fp32_multiplier/fp16_to_fp32_multiplier.v')">/home/Sunny/SMC/03_fp16_to_fp32_multiplier/fp16_to_fp32_multiplier.v</a><br clear=all>
+<br clear=all>
+<span class=repname>Module self-instances :</span>
+<br clear=all>
+<table align=left>
+<tr class="sortablehead">
+<td class="alfsrt">NAME</td><td>SCORE</td><td>LINE</td><td>COND</td><td>TOGGLE</td><td>FSM</td><td>BRANCH</td></tr><tr>
+<td class="wht cl wordwrap"><a href="mod1.html#inst_tag_1"  onclick="showContent('inst_tag_1')">tb_fp16_to_fp32_multiplier.uut</a></td>
+<td class="s9 cl rt"> 95.43</td>
+<td class="s9 cl rt"><a href="mod1.html#Line" > 98.33</a></td>
+<td class="wht cl rt"></td>
+<td class="s9 cl rt"><a href="mod1.html#Toggle" > 95.11</a></td>
+<td class="wht cl rt"></td>
+<td class="s9 cl rt"><a href="mod1.html#Branch" > 92.86</a></td>
+</tr></table></div>
+</div>
+<br clear=all>
+<div name='tag_fp16_to_fp32_multiplier'>
+<hr>
+<a name="inst_tag_1"></a>
+<div class=modhdr>
+<br clear=all>
+<span class=titlename>Module Instance : <a href="hierarchy.html#tag_urg_inst_1" >tb_fp16_to_fp32_multiplier.uut</a></span>
+<br clear=all>
+<br clear=all>
+<span class=repname>Instance :</span>
+<br clear=all>
+<table align=left>
+<tr class="sortablehead">
+<td>SCORE</td><td>LINE</td><td>COND</td><td>TOGGLE</td><td>FSM</td><td>BRANCH</td></tr><tr>
+<td class="s9 cl rt"> 95.43</td>
+<td class="s9 cl rt"><a href="mod1.html#Line" > 98.33</a></td>
+<td class="wht cl rt"></td>
+<td class="s9 cl rt"><a href="mod1.html#Toggle" > 95.11</a></td>
+<td class="wht cl rt"></td>
+<td class="s9 cl rt"><a href="mod1.html#Branch" > 92.86</a></td>
+</tr></table><br clear=all>
+<br clear=all>
+<span class=repname>Instance's subtree :</span>
+<br clear=all>
+<table align=left>
+<tr class="sortablehead">
+<td>SCORE</td><td>LINE</td><td>COND</td><td>TOGGLE</td><td>FSM</td><td>BRANCH</td></tr><tr>
+<td class="s9 cl rt"> 95.43</td>
+<td class="s9 cl rt"> 98.33</td>
+<td class="wht cl rt"></td>
+<td class="s9 cl rt"> 95.11</td>
+<td class="wht cl rt"></td>
+<td class="s9 cl rt"> 92.86</td>
+</tr></table><br clear=all>
+<br clear=all>
+<span class=repname>Parent : </span>
+<br clear=all>
+<table align=left>
+<tr class="sortablehead">
+<td>SCORE</td><td>LINE</td><td>COND</td><td>TOGGLE</td><td>FSM</td><td>BRANCH</td><td class="alfsrt">NAME</td></tr><tr>
+<td class="s7 cl rt"> 79.21</td>
+<td class="s9 cl rt"> 94.82</td>
+<td class="wht cl rt"></td>
+<td class="s9 cl rt"> 92.81</td>
+<td class="wht cl rt"></td>
+<td class="s5 cl rt"> 50.00</td>
+<td><a href="mod0.html#inst_tag_0" >tb_fp16_to_fp32_multiplier</a></td>
+</tr></table><br clear=all>
+<br clear=all>
+<span class=repname>Subtrees :</span>
+<br clear=all>
+<table align=left>
+<tr class="sortablehead">
+<td class="alfsrt">NAME</td><td>SCORE</td><td>LINE</td><td>COND</td><td>TOGGLE</td><td>FSM</td><td>BRANCH</td></tr><tr>
+<td colspan=7>no children</td>
+</tr></table><br clear=all>
+</div>
+</div>
+<hr>
+Since this is the module's only instance, the coverage report is the same as for the module.</div>
+<div class="ui-layout-center">
+<div class="ui-layout-center-inner-center">
+<div name='tag_fp16_to_fp32_multiplier'>
+<a name="Line"></a>
+Line Coverage for Module : <a href="mod1.html" >fp16_to_fp32_multiplier</a><br clear=all>
+<table class="noborder">
+<col width="122">
+<col span="4" width="82">
+<tr><th></th><th>Line No.</th><th>Total</th><th>Covered</th><th>Percent</th></tr>
+<tr class="s9"><td class="lf">TOTAL</td><td></td><td>120</td><td>118</td><td>98.33</td></tr>
+<tr class="s10"><td class="lf">ALWAYS</td><td>64</td><td>20</td><td>20</td><td>100.00</td></tr>
+<tr class="s9"><td class="lf">ROUTINE</td><td>142</td><td>54</td><td>52</td><td>96.30</td></tr>
+<tr class="s10"><td class="lf">ROUTINE</td><td>249</td><td>6</td><td>6</td><td>100.00</td></tr>
+<tr class="s10"><td class="lf">ALWAYS</td><td>263</td><td>40</td><td>40</td><td>100.00</td></tr>
+</table>
+<pre class="code"><br clear=all>
+63                      always @(posedge clk or negedge rst_n) begin
+64         1/1              if (!rst_n) begin
+65         4/4                  selected_s0_r &lt;= 128'b0; selected_s1_r &lt;= 128'b0; selected_s2_r &lt;= 128'b0; selected_s3_r &lt;= 128'b0;
+66         4/4                  selected_s4_r &lt;= 128'b0; selected_s5_r &lt;= 128'b0; selected_s6_r &lt;= 128'b0; selected_s7_r &lt;= 128'b0;
+67         1/1                  compute_valid_r &lt;= 1'b0;
+68                          end else begin
+69                              // 当本拍收到有效乘法指令时，锁存所选 bank 的数据，结果在下一拍写回
+70         1/1                  if (cru_valid) begin
+71         1/1                      selected_s0_r &lt;= dr_s0[cru_s0_sel];
+72         1/1                      selected_s1_r &lt;= dr_s1[cru_s0_sel];
+73         1/1                      selected_s2_r &lt;= dr_s2[cru_s0_sel];
+74         1/1                      selected_s3_r &lt;= dr_s3[cru_s0_sel];
+75         1/1                      selected_s4_r &lt;= dr_s4[cru_s1_sel];
+76         1/1                      selected_s5_r &lt;= dr_s5[cru_s1_sel];
+77         1/1                      selected_s6_r &lt;= dr_s6[cru_s1_sel];
+78         1/1                      selected_s7_r &lt;= dr_s7[cru_s1_sel];
+79                              end
+                        MISSING_ELSE
+80         1/1                  compute_valid_r &lt;= cru_valid; // 延迟一拍
+81                          end
+82                      end
+83                      
+84                      // 32个fp16乘法器的输出结果
+85                      wire [31:0] fp32_results [0:PARAM_DR_FP16MUL_CNT-1];
+86                      
+87                      // 生成32个fp16乘法器实例
+88                      genvar i;
+89                      generate
+90                          for (i = 0; i &lt; PARAM_DR_FP16MUL_CNT; i = i + 1) begin : fp16_multipliers
+91                              wire [15:0] fp16_a = {selected_s3_r[i*4 +: 4], selected_s2_r[i*4 +: 4], 
+92                                                    selected_s1_r[i*4 +: 4], selected_s0_r[i*4 +: 4]};
+93                              wire [15:0] fp16_b = {selected_s7_r[i*4 +: 4], selected_s6_r[i*4 +: 4], 
+94                                                    selected_s5_r[i*4 +: 4], selected_s4_r[i*4 +: 4]};
+95                              assign fp32_results[i] = fp16_mul(fp16_a, fp16_b);
+96                          end
+97                      endgenerate
+98                      
+99                      // fp16乘法器
+100                     function [31:0] fp16_mul;
+101                         input [15:0] a;        
+102                         input [15:0] b;        
+103                         
+104                         // 内部变量
+105                         reg a_sign, b_sign, result_sign;
+106                         reg [4:0] a_exp, b_exp;
+107                         reg [9:0] a_mant, b_mant;
+108                         
+109                         reg a_zero, b_zero;
+110                         reg a_inf, b_inf;
+111                         reg a_nan, b_nan;
+112                         reg a_denorm, b_denorm;
+113                         
+114                         reg result_nan, result_inf, result_zero;
+115                         
+116                         reg [10:0] a_mant_full, b_mant_full;  // 带隐藏位的尾数
+117                         reg [21:0] mant_product;              // 尾数乘积
+118                         reg product_has_overflow;             // 乘积是否溢出
+119                         reg need_denormalize;                 // 需要处理非规格化数
+120                         reg [4:0] leading_zeros;              // 前导零数量
+121                         reg [21:0] normalized_mant;           // 规格化后的尾数
+122                         reg [22:0] final_mantissa;            // 最终尾数
+123                         
+124                         reg [7:0] a_exp_adj, b_exp_adj;       // 调整后的指数
+125                         reg [9:0] result_exp_unbiased;        // 无偏结果指数
+126                         reg [9:0] exp_adjust;                 // 指数调整值
+127                         reg [7:0] result_exp_biased;          // 有偏结果指数
+128                         
+129                         reg [22:0] out_mant;                  // 输出尾数
+130                         reg [7:0] out_exp;                    // 输出指数
+131                         
+132                         // 常量定义
+133                         localparam FP16_BIAS = 15;
+134                         localparam FP32_BIAS = 127;
+135                         localparam FP16_MANT_BITS = 10;
+136                         localparam FP32_MANT_BITS = 23;
+137                         localparam FP16_EXP_BITS = 5;
+138                         localparam FP32_EXP_BITS = 8;
+139                         
+140                         begin
+141                             // 提取输入操作数的各个字段
+142        1/1                  a_sign = a[15];
+143        1/1                  b_sign = b[15];
+144        1/1                  a_exp = a[14:10];
+145        1/1                  b_exp = b[14:10];
+146        1/1                  a_mant = a[9:0];
+147        1/1                  b_mant = b[9:0];
+148                     
+149                             // 检查特殊输入值
+150        1/1                  a_zero = (a_exp == 0) &amp;&amp; (a_mant == 0);
+151        1/1                  b_zero = (b_exp == 0) &amp;&amp; (b_mant == 0);
+152                     
+153        1/1                  a_inf = (a_exp == 5'b11111) &amp;&amp; (a_mant == 0);
+154        1/1                  b_inf = (b_exp == 5'b11111) &amp;&amp; (b_mant == 0);
+155                             
+156        1/1                  a_nan = (a_exp == 5'b11111) &amp;&amp; (a_mant != 0);
+157        1/1                  b_nan = (b_exp == 5'b11111) &amp;&amp; (b_mant != 0);
+158                             
+159        1/1                  a_denorm = (a_exp == 0) &amp;&amp; (a_mant != 0);
+160        1/1                  b_denorm = (b_exp == 0) &amp;&amp; (b_mant != 0);
+161                             
+162        1/1                  result_nan = a_nan || b_nan || (a_inf &amp;&amp; b_zero) || (a_zero &amp;&amp; b_inf);
+163        1/1                  result_inf = (a_inf || b_inf) &amp;&amp; !result_nan;
+164        1/1                  result_zero = (a_zero || b_zero) &amp;&amp; !result_nan &amp;&amp; !result_inf;
+165                             
+166                             // 计算结果的符号位
+167        1/1                  result_sign = a_sign ^ b_sign;
+168                             
+169                             // 处理尾数的隐藏位
+170        1/1                  a_mant_full = a_denorm ? {1'b0, a_mant} : {1'b1, a_mant};
+171        1/1                  b_mant_full = b_denorm ? {1'b0, b_mant} : {1'b1, b_mant};
+172                     
+173                             // 计算尾数乘积
+174        1/1                  mant_product = a_mant_full * b_mant_full;
+175                             
+176                             // 检查乘积是否溢出（最高位是否为1）
+177        1/1                  product_has_overflow = mant_product[21];
+178                             
+179                             // 确定是否需要非规格化处理
+180        1/1                  need_denormalize = a_denorm || b_denorm;
+181                             
+182                             // 计算前导零数量
+183        1/1                  leading_zeros = count_leading_zeros(mant_product);
+184                             
+185                             // 规格化尾数
+186        1/1                  if (mant_product == 0) begin
+187        <font color = "red">0/1     ==>              normalized_mant = 22'b0;</font>
+188        1/1                  end else if (need_denormalize) begin
+189        1/1                      normalized_mant = mant_product &lt;&lt; leading_zeros;
+190                             end else begin
+191        1/1                      normalized_mant = product_has_overflow ? (mant_product &gt;&gt; 1) : mant_product;
+192                             end
+193                             
+194                             // 确定最终尾数值（不储存隐藏位）
+195        1/1                  if (mant_product == 0) begin
+196        <font color = "red">0/1     ==>              final_mantissa = 0;</font>
+197        1/1                  end else if (need_denormalize) begin
+198        1/1                      final_mantissa = {normalized_mant[20:0], 2'b00};
+199        1/1                  end else if (product_has_overflow) begin
+200        1/1                      final_mantissa = {mant_product[20:0], 2'b00};
+201                             end else begin
+202        1/1                      final_mantissa = {mant_product[19:0], 3'b00};
+203                             end
+204                             
+205                             // 计算无偏指数
+206        1/1                  a_exp_adj = a_denorm ? -14 : a_exp - FP16_BIAS;
+207        1/1                  b_exp_adj = b_denorm ? -14 : b_exp - FP16_BIAS;
+208        1/1                  result_exp_unbiased = a_exp_adj + b_exp_adj;
+209                             
+210                             // 计算指数调整值
+211        1/1                  if (need_denormalize) begin
+212        1/1                      exp_adjust = (mant_product == 0) ? 0 : -leading_zeros + normalized_mant[21];
+213                             end else begin
+214        1/1                      exp_adjust = product_has_overflow ? 1 : 0;
+215                             end
+216                             
+217                             // 计算有偏指数
+218        1/1                  result_exp_biased = result_exp_unbiased + exp_adjust + FP32_BIAS;
+219                      
+220                             // 确定输出尾数
+221        1/1                  if (result_zero) begin
+222        1/1                      out_mant = 0;
+223        1/1                  end else if (result_inf || result_nan) begin
+224        1/1                      out_mant = result_nan ? {1'b1, {22{1'b0}}} : 0;
+225                             end else begin
+226        1/1                      out_mant = final_mantissa;
+227                             end
+228                             
+229                             // 确定输出指数
+230        1/1                  if (result_zero) begin
+231        1/1                      out_exp = 0;
+232        1/1                  end else if (result_inf || result_nan) begin
+233        1/1                      out_exp = 8'hFF;
+234                             end else begin
+235        1/1                      out_exp = result_exp_biased;
+236                             end
+237                             
+238                             // 组合最终结果
+239        1/1                  fp16_mul = {result_sign, out_exp, out_mant};
+240                         end
+241                     endfunction
+242                     
+243                     // 计算前导零的函数 
+244                     function automatic [4:0] count_leading_zeros;
+245                         input [21:0] value;
+246                         reg [4:0] count;
+247                         reg [21:0] temp;
+248                         begin
+249        1/1                  count = 0;
+250        1/1                  temp = value;
+251                             
+252        1/1                  while (count &lt; 21 &amp;&amp; temp[21] == 1'b0 &amp;&amp; temp != 0) begin
+253        1/1                      count = count + 1;
+254        1/1                      temp = temp &lt;&lt; 1;
+255                             end
+                   <font color = "red">==>  WHILE_FALSE</font>
+256        1/1                  count_leading_zeros = count;
+257                         end
+258                     endfunction 
+259                     
+260                     integer j, k;  
+261                     
+262                     always @(posedge clk or negedge rst_n) begin
+263        1/1              if (!rst_n) begin
+264                             // 复位所有寄存器
+265        1/1                  for (j = 0; j &lt; PARAM_DR_FP16MUL_S0_CNT; j = j + 1) begin
+266        1/1                      dr_s0[j] &lt;= 128'b0;
+267        1/1                      dr_s1[j] &lt;= 128'b0;
+268        1/1                      dr_s2[j] &lt;= 128'b0;
+269        1/1                      dr_s3[j] &lt;= 128'b0;
+270                             end
+271        1/1                  for (j = 0; j &lt; PARAM_DR_FP16MUL_S1_CNT; j = j + 1) begin
+272        1/1                      dr_s4[j] &lt;= 128'b0;
+273        1/1                      dr_s5[j] &lt;= 128'b0;
+274        1/1                      dr_s6[j] &lt;= 128'b0;
+275        1/1                      dr_s7[j] &lt;= 128'b0;
+276                             end
+277        1/1                  dr_fp16mul_d0 &lt;= 128'b0;
+278        1/1                  dr_fp16mul_d1 &lt;= 128'b0;
+279        1/1                  dr_fp16mul_d2 &lt;= 128'b0;
+280        1/1                  dr_fp16mul_d3 &lt;= 128'b0;
+281        1/1                  dr_fp16mul_d4 &lt;= 128'b0;
+282        1/1                  dr_fp16mul_d5 &lt;= 128'b0;
+283        1/1                  dr_fp16mul_d6 &lt;= 128'b0;
+284        1/1                  dr_fp16mul_d7 &lt;= 128'b0;
+285                         end else begin
+286                             // s0123更新逻辑
+287        1/1                  if (cru_s0123_valid) begin
+288        1/1                      dr_s0[cru_s0123_reg_sel] &lt;= dvr_fp16mul_s0;
+289        1/1                      dr_s1[cru_s0123_reg_sel] &lt;= dvr_fp16mul_s1;
+290        1/1                      dr_s2[cru_s0123_reg_sel] &lt;= dvr_fp16mul_s2;
+291        1/1                      dr_s3[cru_s0123_reg_sel] &lt;= dvr_fp16mul_s3;
+292                             end
+                        MISSING_ELSE
+293                             
+294                             // s4567更新逻辑
+295        1/1                  if (cru_s4567_valid) begin
+296        1/1                      case (cru_s4567_low)
+297        1/1                          2'b00: dr_s4[cru_s4567_high] &lt;= dvr_fp16mul_s4567;
+298        1/1                          2'b01: dr_s5[cru_s4567_high] &lt;= dvr_fp16mul_s4567;
+299        1/1                          2'b10: dr_s6[cru_s4567_high] &lt;= dvr_fp16mul_s4567;
+300        1/1                          2'b11: dr_s7[cru_s4567_high] &lt;= dvr_fp16mul_s4567;
+                   <font color = "red">==>  MISSING_DEFAULT</font>
+301                                 endcase
+302                             end
+                        MISSING_ELSE
+303                             
+304                             // 结果写回延迟一拍，保证源选择锁存后再计算
+305        1/1                  if (compute_valid_r) begin
+306        1/1                      for (k = 0; k &lt; PARAM_DR_FP16MUL_CNT; k = k + 1) begin
+307        1/1                          dr_fp16mul_d0[k*4 +: 4] &lt;= fp32_results[k][3:0];
+308        1/1                          dr_fp16mul_d1[k*4 +: 4] &lt;= fp32_results[k][7:4];
+309        1/1                          dr_fp16mul_d2[k*4 +: 4] &lt;= fp32_results[k][11:8];
+310        1/1                          dr_fp16mul_d3[k*4 +: 4] &lt;= fp32_results[k][15:12];
+311        1/1                          dr_fp16mul_d4[k*4 +: 4] &lt;= fp32_results[k][19:16];
+312        1/1                          dr_fp16mul_d5[k*4 +: 4] &lt;= fp32_results[k][23:20];
+313        1/1                          dr_fp16mul_d6[k*4 +: 4] &lt;= fp32_results[k][27:24];
+314        1/1                          dr_fp16mul_d7[k*4 +: 4] &lt;= fp32_results[k][31:28];
+315                                 end
+316                             end
+                        MISSING_ELSE
+</pre>
+<hr>
+<a name="Toggle"></a>
+Toggle Coverage for Module : <a href="mod1.html" >fp16_to_fp32_multiplier</a><br clear=all>
+<table align=left class="noborder">
+<tr>
+<th nowrap width=120></th><th nowrap width=80>Total</th><th nowrap width=80>Covered</th><th nowrap width=80>Percent</th></tr><tr class="s5">
+<td>Totals</td>
+<td class="rt">99</td>
+<td class="rt">54</td>
+<td class="rt">54.55 </td>
+</tr><tr class="s9">
+<td>Total Bits</td>
+<td class="rt">7466</td>
+<td class="rt">7101</td>
+<td class="rt">95.11 </td>
+</tr><tr class="s9">
+<td nowrap>Total Bits 0->1</td>
+<td class="rt">3733</td>
+<td class="rt">3551</td>
+<td class="rt">95.12 </td>
+</tr><tr class="s9">
+<td nowrap>Total Bits 1->0</td>
+<td class="rt">3733</td>
+<td class="rt">3550</td>
+<td class="rt">95.10 </td>
+</tr></table><br clear=all>
+<table align=left class="noborder">
+<tr>
+<th nowrap width=120></th><th nowrap width=80></th><th nowrap width=80></th><th nowrap width=80></th></tr><tr class="s2">
+<td>Ports</td>
+<td class="rt">18</td>
+<td class="rt">5</td>
+<td class="rt">27.78 </td>
+</tr><tr class="s9">
+<td>Port Bits</td>
+<td class="rt">3350</td>
+<td class="rt">3109</td>
+<td class="rt">92.81 </td>
+</tr><tr class="s9">
+<td nowrap>Port Bits 0->1</td>
+<td class="rt">1675</td>
+<td class="rt">1555</td>
+<td class="rt">92.84 </td>
+</tr><tr class="s9">
+<td nowrap>Port Bits 1->0</td>
+<td class="rt">1675</td>
+<td class="rt">1554</td>
+<td class="rt">92.78 </td>
+</tr></table><br clear=all>
+<table align=left class="noborder">
+<tr>
+<th nowrap width=120></th><th nowrap width=80></th><th nowrap width=80></th><th nowrap width=80></th></tr><tr class="s6">
+<td>Signals</td>
+<td class="rt">81</td>
+<td class="rt">49</td>
+<td class="rt">60.49 </td>
+</tr><tr class="s9">
+<td>Signal Bits</td>
+<td class="rt">4116</td>
+<td class="rt">3992</td>
+<td class="rt">96.99 </td>
+</tr><tr class="s9">
+<td nowrap>Signal Bits 0->1</td>
+<td class="rt">2058</td>
+<td class="rt">1996</td>
+<td class="rt">96.99 </td>
+</tr><tr class="s9">
+<td nowrap>Signal Bits 1->0</td>
+<td class="rt">2058</td>
+<td class="rt">1996</td>
+<td class="rt">96.99 </td>
+</tr></table><br clear=all>
+<table align=left class="sortable noborder">
+<caption><b>Port Details</b></caption>
+<tr class="sortablehead">
+<td class="alfsrt">Name</td><td class="alfsrt">Toggle</td><td class="alfsrt">Toggle 1->0</td><td class="alfsrt">Toggle 0->1</td><td class="alfsrt">Direction</td></tr><tr>
+<td>clk</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td>INPUT</td>
+</tr><tr>
+<td>rst_n</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td class="s9 cl">Yes</td>
+<td>INPUT</td>
+</tr><tr>
+<td>dvr_fp16mul_s0[47:0]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td>INPUT</td>
+</tr><tr>
+<td>dvr_fp16mul_s0[48]</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td>INPUT</td>
+</tr><tr>
+<td>dvr_fp16mul_s0[127:49]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td>INPUT</td>
+</tr><tr>
+<td>dvr_fp16mul_s1[32:0]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td>INPUT</td>
+</tr><tr>
+<td>dvr_fp16mul_s1[33]</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td>INPUT</td>
+</tr><tr>
+<td>dvr_fp16mul_s1[77:34]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td>INPUT</td>
+</tr><tr>
+<td>dvr_fp16mul_s1[78]</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td>INPUT</td>
+</tr><tr>
+<td>dvr_fp16mul_s1[84:79]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td>INPUT</td>
+</tr><tr>
+<td>dvr_fp16mul_s1[85]</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td>INPUT</td>
+</tr><tr>
+<td>dvr_fp16mul_s1[127:86]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td>INPUT</td>
+</tr><tr>
+<td>dvr_fp16mul_s2[89:0]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td>INPUT</td>
+</tr><tr>
+<td>dvr_fp16mul_s2[90]</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td>INPUT</td>
+</tr><tr>
+<td>dvr_fp16mul_s2[122:91]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td>INPUT</td>
+</tr><tr>
+<td>dvr_fp16mul_s2[123]</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td>INPUT</td>
+</tr><tr>
+<td>dvr_fp16mul_s2[127:124]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td>INPUT</td>
+</tr><tr>
+<td>dvr_fp16mul_s3[56:0]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td>INPUT</td>
+</tr><tr>
+<td>dvr_fp16mul_s3[57]</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td>INPUT</td>
+</tr><tr>
+<td>dvr_fp16mul_s3[84:58]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td>INPUT</td>
+</tr><tr>
+<td>dvr_fp16mul_s3[85]</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td>INPUT</td>
+</tr><tr>
+<td>dvr_fp16mul_s3[119:86]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td>INPUT</td>
+</tr><tr>
+<td>dvr_fp16mul_s3[120]</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td>INPUT</td>
+</tr><tr>
+<td>dvr_fp16mul_s3[124:121]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td>INPUT</td>
+</tr><tr>
+<td>dvr_fp16mul_s3[125]</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td>INPUT</td>
+</tr><tr>
+<td>dvr_fp16mul_s3[127:126]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td>INPUT</td>
+</tr><tr>
+<td>dvr_fp16mul_s4567[127:0]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td>INPUT</td>
+</tr><tr>
+<td>dr_fp16mul_d0[1:0]</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td>OUTPUT</td>
+</tr><tr>
+<td>dr_fp16mul_d0[3:2]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td>OUTPUT</td>
+</tr><tr>
+<td>dr_fp16mul_d0[5:4]</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td>OUTPUT</td>
+</tr><tr>
+<td>dr_fp16mul_d0[7:6]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td>OUTPUT</td>
+</tr><tr>
+<td>dr_fp16mul_d0[9:8]</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td>OUTPUT</td>
+</tr><tr>
+<td>dr_fp16mul_d0[11:10]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td>OUTPUT</td>
+</tr><tr>
+<td>dr_fp16mul_d0[13:12]</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td>OUTPUT</td>
+</tr><tr>
+<td>dr_fp16mul_d0[15:14]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td>OUTPUT</td>
+</tr><tr>
+<td>dr_fp16mul_d0[17:16]</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td>OUTPUT</td>
+</tr><tr>
+<td>dr_fp16mul_d0[18]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td>OUTPUT</td>
+</tr><tr>
+<td>dr_fp16mul_d0[22:19]</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td>OUTPUT</td>
+</tr><tr>
+<td>dr_fp16mul_d0[23]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td>OUTPUT</td>
+</tr><tr>
+<td>dr_fp16mul_d0[25:24]</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td>OUTPUT</td>
+</tr><tr>
+<td>dr_fp16mul_d0[27:26]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td>OUTPUT</td>
+</tr><tr>
+<td>dr_fp16mul_d0[30:28]</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td>OUTPUT</td>
+</tr><tr>
+<td>dr_fp16mul_d0[31]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td>OUTPUT</td>
+</tr><tr>
+<td>dr_fp16mul_d0[33:32]</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td>OUTPUT</td>
+</tr><tr>
+<td>dr_fp16mul_d0[35:34]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td>OUTPUT</td>
+</tr><tr>
+<td>dr_fp16mul_d0[37:36]</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td>OUTPUT</td>
+</tr><tr>
+<td>dr_fp16mul_d0[39:38]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td>OUTPUT</td>
+</tr><tr>
+<td>dr_fp16mul_d0[41:40]</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td>OUTPUT</td>
+</tr><tr>
+<td>dr_fp16mul_d0[43:42]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td>OUTPUT</td>
+</tr><tr>
+<td>dr_fp16mul_d0[45:44]</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td>OUTPUT</td>
+</tr><tr>
+<td>dr_fp16mul_d0[46]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td>OUTPUT</td>
+</tr><tr>
+<td>dr_fp16mul_d0[53:47]</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td>OUTPUT</td>
+</tr><tr>
+<td>dr_fp16mul_d0[55:54]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td>OUTPUT</td>
+</tr><tr>
+<td>dr_fp16mul_d0[57:56]</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td>OUTPUT</td>
+</tr><tr>
+<td>dr_fp16mul_d0[59:58]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td>OUTPUT</td>
+</tr><tr>
+<td>dr_fp16mul_d0[61:60]</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td>OUTPUT</td>
+</tr><tr>
+<td>dr_fp16mul_d0[63:62]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td>OUTPUT</td>
+</tr><tr>
+<td>dr_fp16mul_d0[65:64]</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td>OUTPUT</td>
+</tr><tr>
+<td>dr_fp16mul_d0[67:66]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td>OUTPUT</td>
+</tr><tr>
+<td>dr_fp16mul_d0[73:68]</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td>OUTPUT</td>
+</tr><tr>
+<td>dr_fp16mul_d0[75:74]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td>OUTPUT</td>
+</tr><tr>
+<td>dr_fp16mul_d0[78:76]</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td>OUTPUT</td>
+</tr><tr>
+<td>dr_fp16mul_d0[79]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td>OUTPUT</td>
+</tr><tr>
+<td>dr_fp16mul_d0[81:80]</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td>OUTPUT</td>
+</tr><tr>
+<td>dr_fp16mul_d0[83:82]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td>OUTPUT</td>
+</tr><tr>
+<td>dr_fp16mul_d0[85:84]</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td>OUTPUT</td>
+</tr><tr>
+<td>dr_fp16mul_d0[86]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td>OUTPUT</td>
+</tr><tr>
+<td>dr_fp16mul_d0[89:87]</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td>OUTPUT</td>
+</tr><tr>
+<td>dr_fp16mul_d0[91:90]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td>OUTPUT</td>
+</tr><tr>
+<td>dr_fp16mul_d0[93:92]</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td>OUTPUT</td>
+</tr><tr>
+<td>dr_fp16mul_d0[95:94]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td>OUTPUT</td>
+</tr><tr>
+<td>dr_fp16mul_d0[98:96]</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td>OUTPUT</td>
+</tr><tr>
+<td>dr_fp16mul_d0[99]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td>OUTPUT</td>
+</tr><tr>
+<td>dr_fp16mul_d0[101:100]</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td>OUTPUT</td>
+</tr><tr>
+<td>dr_fp16mul_d0[103:102]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td>OUTPUT</td>
+</tr><tr>
+<td>dr_fp16mul_d0[105:104]</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td>OUTPUT</td>
+</tr><tr>
+<td>dr_fp16mul_d0[107:106]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td>OUTPUT</td>
+</tr><tr>
+<td>dr_fp16mul_d0[109:108]</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td>OUTPUT</td>
+</tr><tr>
+<td>dr_fp16mul_d0[110]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td>OUTPUT</td>
+</tr><tr>
+<td>dr_fp16mul_d0[113:111]</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td>OUTPUT</td>
+</tr><tr>
+<td>dr_fp16mul_d0[115:114]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td>OUTPUT</td>
+</tr><tr>
+<td>dr_fp16mul_d0[118:116]</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td>OUTPUT</td>
+</tr><tr>
+<td>dr_fp16mul_d0[119]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td>OUTPUT</td>
+</tr><tr>
+<td>dr_fp16mul_d0[121:120]</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td>OUTPUT</td>
+</tr><tr>
+<td>dr_fp16mul_d0[123:122]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td>OUTPUT</td>
+</tr><tr>
+<td>dr_fp16mul_d0[125:124]</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td>OUTPUT</td>
+</tr><tr>
+<td>dr_fp16mul_d0[127:126]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td>OUTPUT</td>
+</tr><tr>
+<td>dr_fp16mul_d1[35:0]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td>OUTPUT</td>
+</tr><tr>
+<td>dr_fp16mul_d1[36]</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td>OUTPUT</td>
+</tr><tr>
+<td>dr_fp16mul_d1[42:37]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td>OUTPUT</td>
+</tr><tr>
+<td>dr_fp16mul_d1[43]</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td>OUTPUT</td>
+</tr><tr>
+<td>dr_fp16mul_d1[58:44]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td>OUTPUT</td>
+</tr><tr>
+<td>dr_fp16mul_d1[59]</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td>OUTPUT</td>
+</tr><tr>
+<td>dr_fp16mul_d1[62:60]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td>OUTPUT</td>
+</tr><tr>
+<td>dr_fp16mul_d1[63]</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td>OUTPUT</td>
+</tr><tr>
+<td>dr_fp16mul_d1[65:64]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td>OUTPUT</td>
+</tr><tr>
+<td>dr_fp16mul_d1[66]</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td>OUTPUT</td>
+</tr><tr>
+<td>dr_fp16mul_d1[103:67]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td>OUTPUT</td>
+</tr><tr>
+<td>dr_fp16mul_d1[104]</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td>OUTPUT</td>
+</tr><tr>
+<td>dr_fp16mul_d1[118:105]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td>OUTPUT</td>
+</tr><tr>
+<td>dr_fp16mul_d1[119]</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td>OUTPUT</td>
+</tr><tr>
+<td>dr_fp16mul_d1[127:120]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td>OUTPUT</td>
+</tr><tr>
+<td>dr_fp16mul_d2[63:0]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td>OUTPUT</td>
+</tr><tr>
+<td>dr_fp16mul_d2[64]</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td>OUTPUT</td>
+</tr><tr>
+<td>dr_fp16mul_d2[91:65]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td>OUTPUT</td>
+</tr><tr>
+<td>dr_fp16mul_d2[92]</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td>OUTPUT</td>
+</tr><tr>
+<td>dr_fp16mul_d2[93]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td>OUTPUT</td>
+</tr><tr>
+<td>dr_fp16mul_d2[94]</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td>OUTPUT</td>
+</tr><tr>
+<td>dr_fp16mul_d2[125:95]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td>OUTPUT</td>
+</tr><tr>
+<td>dr_fp16mul_d2[126]</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td>OUTPUT</td>
+</tr><tr>
+<td>dr_fp16mul_d2[127]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td>OUTPUT</td>
+</tr><tr>
+<td>dr_fp16mul_d3[23:0]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td>OUTPUT</td>
+</tr><tr>
+<td>dr_fp16mul_d3[24]</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td>OUTPUT</td>
+</tr><tr>
+<td>dr_fp16mul_d3[40:25]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td>OUTPUT</td>
+</tr><tr>
+<td>dr_fp16mul_d3[41]</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td>OUTPUT</td>
+</tr><tr>
+<td>dr_fp16mul_d3[57:42]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td>OUTPUT</td>
+</tr><tr>
+<td>dr_fp16mul_d3[58]</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td>OUTPUT</td>
+</tr><tr>
+<td>dr_fp16mul_d3[60:59]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td>OUTPUT</td>
+</tr><tr>
+<td>dr_fp16mul_d3[61]</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td>OUTPUT</td>
+</tr><tr>
+<td>dr_fp16mul_d3[66:62]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td>OUTPUT</td>
+</tr><tr>
+<td>dr_fp16mul_d3[67]</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td>OUTPUT</td>
+</tr><tr>
+<td>dr_fp16mul_d3[125:68]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td>OUTPUT</td>
+</tr><tr>
+<td>dr_fp16mul_d3[126]</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td>OUTPUT</td>
+</tr><tr>
+<td>dr_fp16mul_d3[127]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td>OUTPUT</td>
+</tr><tr>
+<td>dr_fp16mul_d4[44:0]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td>OUTPUT</td>
+</tr><tr>
+<td>dr_fp16mul_d4[45]</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td>OUTPUT</td>
+</tr><tr>
+<td>dr_fp16mul_d4[75:46]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td>OUTPUT</td>
+</tr><tr>
+<td>dr_fp16mul_d4[76]</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td>OUTPUT</td>
+</tr><tr>
+<td>dr_fp16mul_d4[80:77]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td>OUTPUT</td>
+</tr><tr>
+<td>dr_fp16mul_d4[81]</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td>OUTPUT</td>
+</tr><tr>
+<td>dr_fp16mul_d4[102:82]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td>OUTPUT</td>
+</tr><tr>
+<td>dr_fp16mul_d4[103]</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td>OUTPUT</td>
+</tr><tr>
+<td>dr_fp16mul_d4[125:104]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td>OUTPUT</td>
+</tr><tr>
+<td>dr_fp16mul_d4[126]</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td>OUTPUT</td>
+</tr><tr>
+<td>dr_fp16mul_d4[127]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td>OUTPUT</td>
+</tr><tr>
+<td>dr_fp16mul_d5[23:0]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td>OUTPUT</td>
+</tr><tr>
+<td>dr_fp16mul_d5[24]</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td>OUTPUT</td>
+</tr><tr>
+<td>dr_fp16mul_d5[43:25]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td>OUTPUT</td>
+</tr><tr>
+<td>dr_fp16mul_d5[44]</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td>OUTPUT</td>
+</tr><tr>
+<td>dr_fp16mul_d5[49:45]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td>OUTPUT</td>
+</tr><tr>
+<td>dr_fp16mul_d5[50]</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td>OUTPUT</td>
+</tr><tr>
+<td>dr_fp16mul_d5[72:51]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td>OUTPUT</td>
+</tr><tr>
+<td>dr_fp16mul_d5[73]</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td>OUTPUT</td>
+</tr><tr>
+<td>dr_fp16mul_d5[90:74]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td>OUTPUT</td>
+</tr><tr>
+<td>dr_fp16mul_d5[91]</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td>OUTPUT</td>
+</tr><tr>
+<td>dr_fp16mul_d5[95:92]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td>OUTPUT</td>
+</tr><tr>
+<td>dr_fp16mul_d5[96]</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td>OUTPUT</td>
+</tr><tr>
+<td>dr_fp16mul_d5[111:97]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td>OUTPUT</td>
+</tr><tr>
+<td>dr_fp16mul_d5[112]</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td>OUTPUT</td>
+</tr><tr>
+<td>dr_fp16mul_d5[113]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td>OUTPUT</td>
+</tr><tr>
+<td>dr_fp16mul_d5[114]</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td>OUTPUT</td>
+</tr><tr>
+<td>dr_fp16mul_d5[127:115]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td>OUTPUT</td>
+</tr><tr>
+<td>dr_fp16mul_d6[65:0]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td>OUTPUT</td>
+</tr><tr>
+<td>dr_fp16mul_d6[66]</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td>OUTPUT</td>
+</tr><tr>
+<td>dr_fp16mul_d6[127:67]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td>OUTPUT</td>
+</tr><tr>
+<td>dr_fp16mul_d7[47:0]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td>OUTPUT</td>
+</tr><tr>
+<td>dr_fp16mul_d7[49:48]</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td>OUTPUT</td>
+</tr><tr>
+<td>dr_fp16mul_d7[127:50]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td>OUTPUT</td>
+</tr><tr>
+<td>cru_fp16mul_s0123[1:0]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td>INPUT</td>
+</tr><tr>
+<td>cru_fp16mul_s4567[3:0]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td>INPUT</td>
+</tr><tr>
+<td>cru_fp16mul[2:0]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td>INPUT</td>
+</tr></table><br clear=all>
+<table align=left class="sortable noborder">
+<caption><b>Signal Details</b></caption>
+<tr class="sortablehead">
+<td class="alfsrt">Name</td><td class="alfsrt">Toggle</td><td class="alfsrt">Toggle 1->0</td><td class="alfsrt">Toggle 0->1</td></tr><tr>
+<td>cru_valid</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>cru_s0_sel</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>cru_s1_sel</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>cru_s0123_valid</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>cru_s0123_reg_sel</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>cru_s4567_valid</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>cru_s4567_high</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>cru_s4567_low[1:0]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>selected_s0_r[47:0]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>selected_s0_r[48]</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+</tr><tr>
+<td>selected_s0_r[127:49]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>selected_s1_r[32:0]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>selected_s1_r[33]</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+</tr><tr>
+<td>selected_s1_r[77:34]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>selected_s1_r[78]</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+</tr><tr>
+<td>selected_s1_r[84:79]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>selected_s1_r[85]</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+</tr><tr>
+<td>selected_s1_r[127:86]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>selected_s2_r[89:0]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>selected_s2_r[90]</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+</tr><tr>
+<td>selected_s2_r[122:91]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>selected_s2_r[123]</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+</tr><tr>
+<td>selected_s2_r[127:124]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>selected_s3_r[56:0]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>selected_s3_r[57]</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+</tr><tr>
+<td>selected_s3_r[84:58]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>selected_s3_r[85]</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+</tr><tr>
+<td>selected_s3_r[119:86]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>selected_s3_r[120]</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+</tr><tr>
+<td>selected_s3_r[124:121]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>selected_s3_r[125]</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+</tr><tr>
+<td>selected_s3_r[127:126]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>selected_s4_r[13:0]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>selected_s4_r[14]</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+</tr><tr>
+<td>selected_s4_r[33:15]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>selected_s4_r[34]</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+</tr><tr>
+<td>selected_s4_r[61:35]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>selected_s4_r[62]</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+</tr><tr>
+<td>selected_s4_r[65:63]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>selected_s4_r[66]</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+</tr><tr>
+<td>selected_s4_r[105:67]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>selected_s4_r[106]</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+</tr><tr>
+<td>selected_s4_r[127:107]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>selected_s5_r[16:0]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>selected_s5_r[17]</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+</tr><tr>
+<td>selected_s5_r[18]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>selected_s5_r[19]</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+</tr><tr>
+<td>selected_s5_r[21:20]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>selected_s5_r[22]</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+</tr><tr>
+<td>selected_s5_r[97:23]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>selected_s5_r[98]</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+</tr><tr>
+<td>selected_s5_r[127:99]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>selected_s6_r[20:0]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>selected_s6_r[21]</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+</tr><tr>
+<td>selected_s6_r[27:22]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>selected_s6_r[29:28]</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+</tr><tr>
+<td>selected_s6_r[35:30]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>selected_s6_r[36]</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+</tr><tr>
+<td>selected_s6_r[62:37]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>selected_s6_r[63]</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+</tr><tr>
+<td>selected_s6_r[94:64]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>selected_s6_r[95]</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+</tr><tr>
+<td>selected_s6_r[100:96]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>selected_s6_r[101]</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+</tr><tr>
+<td>selected_s6_r[109:102]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>selected_s6_r[110]</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+</tr><tr>
+<td>selected_s6_r[127:111]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>selected_s7_r[47:0]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>selected_s7_r[48]</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+</tr><tr>
+<td>selected_s7_r[59:49]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>selected_s7_r[60]</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+</tr><tr>
+<td>selected_s7_r[117:61]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>selected_s7_r[118]</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+</tr><tr>
+<td>selected_s7_r[120:119]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>selected_s7_r[121]</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+</tr><tr>
+<td>selected_s7_r[127:122]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>compute_valid_r</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>fp16_multipliers[0].fp16_a[15:0]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>fp16_multipliers[0].fp16_b[15:0]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>fp16_multipliers[1].fp16_a[15:0]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>fp16_multipliers[1].fp16_b[15:0]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>fp16_multipliers[2].fp16_a[15:0]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>fp16_multipliers[2].fp16_b[15:0]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>fp16_multipliers[3].fp16_a[15:0]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>fp16_multipliers[3].fp16_b[1:0]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>fp16_multipliers[3].fp16_b[2]</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+</tr><tr>
+<td>fp16_multipliers[3].fp16_b[15:3]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>fp16_multipliers[4].fp16_a[15:0]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>fp16_multipliers[4].fp16_b[4:0]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>fp16_multipliers[4].fp16_b[5]</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+</tr><tr>
+<td>fp16_multipliers[4].fp16_b[6]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>fp16_multipliers[4].fp16_b[7]</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+</tr><tr>
+<td>fp16_multipliers[4].fp16_b[15:8]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>fp16_multipliers[5].fp16_a[15:0]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>fp16_multipliers[5].fp16_b[5:0]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>fp16_multipliers[5].fp16_b[6]</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+</tr><tr>
+<td>fp16_multipliers[5].fp16_b[8:7]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>fp16_multipliers[5].fp16_b[9]</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+</tr><tr>
+<td>fp16_multipliers[5].fp16_b[15:10]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>fp16_multipliers[6].fp16_a[15:0]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>fp16_multipliers[6].fp16_b[15:0]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>fp16_multipliers[7].fp16_a[15:0]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>fp16_multipliers[7].fp16_b[7:0]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>fp16_multipliers[7].fp16_b[9:8]</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+</tr><tr>
+<td>fp16_multipliers[7].fp16_b[15:10]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>fp16_multipliers[8].fp16_a[4:0]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>fp16_multipliers[8].fp16_a[5]</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+</tr><tr>
+<td>fp16_multipliers[8].fp16_a[15:6]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>fp16_multipliers[8].fp16_b[1:0]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>fp16_multipliers[8].fp16_b[2]</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+</tr><tr>
+<td>fp16_multipliers[8].fp16_b[15:3]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>fp16_multipliers[9].fp16_a[15:0]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>fp16_multipliers[9].fp16_b[7:0]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>fp16_multipliers[9].fp16_b[8]</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+</tr><tr>
+<td>fp16_multipliers[9].fp16_b[15:9]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>fp16_multipliers[10].fp16_a[15:0]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>fp16_multipliers[10].fp16_b[15:0]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>fp16_multipliers[11].fp16_a[15:0]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>fp16_multipliers[11].fp16_b[15:0]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>fp16_multipliers[12].fp16_a[0]</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+</tr><tr>
+<td>fp16_multipliers[12].fp16_a[15:1]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>fp16_multipliers[12].fp16_b[11:0]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>fp16_multipliers[12].fp16_b[12]</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+</tr><tr>
+<td>fp16_multipliers[12].fp16_b[15:13]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>fp16_multipliers[13].fp16_a[15:0]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>fp16_multipliers[13].fp16_b[15:0]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>fp16_multipliers[14].fp16_a[12:0]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>fp16_multipliers[14].fp16_a[13]</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+</tr><tr>
+<td>fp16_multipliers[14].fp16_a[15:14]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>fp16_multipliers[14].fp16_b[15:0]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>fp16_multipliers[15].fp16_a[15:0]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>fp16_multipliers[15].fp16_b[1:0]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>fp16_multipliers[15].fp16_b[2]</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+</tr><tr>
+<td>fp16_multipliers[15].fp16_b[10:3]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>fp16_multipliers[15].fp16_b[12:11]</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+</tr><tr>
+<td>fp16_multipliers[15].fp16_b[15:13]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>fp16_multipliers[16].fp16_a[15:0]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>fp16_multipliers[16].fp16_b[1:0]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>fp16_multipliers[16].fp16_b[2]</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+</tr><tr>
+<td>fp16_multipliers[16].fp16_b[15:3]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>fp16_multipliers[17].fp16_a[15:0]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>fp16_multipliers[17].fp16_b[15:0]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>fp16_multipliers[18].fp16_a[15:0]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>fp16_multipliers[18].fp16_b[15:0]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>fp16_multipliers[19].fp16_a[5:0]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>fp16_multipliers[19].fp16_a[6]</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+</tr><tr>
+<td>fp16_multipliers[19].fp16_a[15:7]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>fp16_multipliers[19].fp16_b[15:0]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>fp16_multipliers[20].fp16_a[15:0]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>fp16_multipliers[20].fp16_b[15:0]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>fp16_multipliers[21].fp16_a[4:0]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>fp16_multipliers[21].fp16_a[5]</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+</tr><tr>
+<td>fp16_multipliers[21].fp16_a[12:6]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>fp16_multipliers[21].fp16_a[13]</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+</tr><tr>
+<td>fp16_multipliers[21].fp16_a[15:14]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>fp16_multipliers[21].fp16_b[15:0]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>fp16_multipliers[22].fp16_a[9:0]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>fp16_multipliers[22].fp16_a[10]</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+</tr><tr>
+<td>fp16_multipliers[22].fp16_a[15:11]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>fp16_multipliers[22].fp16_b[15:0]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>fp16_multipliers[23].fp16_a[15:0]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>fp16_multipliers[23].fp16_b[10:0]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>fp16_multipliers[23].fp16_b[11]</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+</tr><tr>
+<td>fp16_multipliers[23].fp16_b[15:12]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>fp16_multipliers[24].fp16_a[15:0]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>fp16_multipliers[24].fp16_b[5:0]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>fp16_multipliers[24].fp16_b[6]</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+</tr><tr>
+<td>fp16_multipliers[24].fp16_b[15:7]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>fp16_multipliers[25].fp16_a[15:0]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>fp16_multipliers[25].fp16_b[8:0]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>fp16_multipliers[25].fp16_b[9]</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+</tr><tr>
+<td>fp16_multipliers[25].fp16_b[15:10]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>fp16_multipliers[26].fp16_a[15:0]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>fp16_multipliers[26].fp16_b[1:0]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>fp16_multipliers[26].fp16_b[2]</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+</tr><tr>
+<td>fp16_multipliers[26].fp16_b[15:3]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>fp16_multipliers[27].fp16_a[15:0]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>fp16_multipliers[27].fp16_b[9:0]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>fp16_multipliers[27].fp16_b[10]</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+</tr><tr>
+<td>fp16_multipliers[27].fp16_b[15:11]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>fp16_multipliers[28].fp16_a[15:0]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>fp16_multipliers[28].fp16_b[15:0]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>fp16_multipliers[29].fp16_a[15:0]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>fp16_multipliers[29].fp16_b[13:0]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>fp16_multipliers[29].fp16_b[14]</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+</tr><tr>
+<td>fp16_multipliers[29].fp16_b[15]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>fp16_multipliers[30].fp16_a[10:0]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>fp16_multipliers[30].fp16_a[12:11]</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+</tr><tr>
+<td>fp16_multipliers[30].fp16_a[15:13]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>fp16_multipliers[30].fp16_b[12:0]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>fp16_multipliers[30].fp16_b[13]</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+</tr><tr>
+<td>fp16_multipliers[30].fp16_b[15:14]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>fp16_multipliers[31].fp16_a[12:0]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>fp16_multipliers[31].fp16_a[13]</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+</tr><tr>
+<td>fp16_multipliers[31].fp16_a[15:14]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>fp16_multipliers[31].fp16_b[15:0]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr></table><br clear=all>
+<hr>
+<a name="Branch"></a>
+Branch Coverage for Module : <a href="mod1.html" >fp16_to_fp32_multiplier</a><br clear=all>
+<table align=left class="noborder">
+<tr>
+<th nowrap width=120></th><th nowrap width=80>Line No.</th><th nowrap width=80>Total</th><th nowrap width=80>Covered</th><th nowrap width=80>Percent</th></tr><tr class="s9">
+<td>Branches</td>
+<td></td>
+<td class="rt">14</td>
+<td class="rt">13</td>
+<td class="rt">92.86 </td>
+</tr><tr class="s10">
+<td>IF</td>
+<td class="rt">64</td>
+<td class="rt">3</td>
+<td class="rt">3</td>
+<td class="rt">100.00</td>
+</tr><tr class="s9">
+<td>IF</td>
+<td class="rt">263</td>
+<td class="rt">11</td>
+<td class="rt">10</td>
+<td class="rt">90.91 </td>
+</tr></table><br clear=all>
+<pre class="code"><br clear=all>
+64             if (!rst_n) begin
+               <font color = "green">-1-</font>  
+65                 selected_s0_r <= 128'b0; selected_s1_r <= 128'b0; selected_s2_r <= 128'b0; selected_s3_r <= 128'b0;
+           <font color = "green">        ==></font>
+66                 selected_s4_r <= 128'b0; selected_s5_r <= 128'b0; selected_s6_r <= 128'b0; selected_s7_r <= 128'b0;
+67                 compute_valid_r <= 1'b0;
+68             end else begin
+69                 // 当本拍收到有效乘法指令时，锁存所选 bank 的数据，结果在下一拍写回
+70                 if (cru_valid) begin
+                   <font color = "green">-2-</font>  
+71                     selected_s0_r <= dr_s0[cru_s0_sel];
+           <font color = "green">            ==></font>
+72                     selected_s1_r <= dr_s1[cru_s0_sel];
+73                     selected_s2_r <= dr_s2[cru_s0_sel];
+74                     selected_s3_r <= dr_s3[cru_s0_sel];
+75                     selected_s4_r <= dr_s4[cru_s1_sel];
+76                     selected_s5_r <= dr_s5[cru_s1_sel];
+77                     selected_s6_r <= dr_s6[cru_s1_sel];
+78                     selected_s7_r <= dr_s7[cru_s1_sel];
+79                 end
+                   MISSING_ELSE
+           <font color = "green">        ==></font>
+</pre>
+<br clear=all>
+<span class=repname>Branches:</span>
+<br clear=all>
+<table align=left class="noborder">
+<tr>
+<th nowrap width=80>-1-</th><th nowrap width=80>-2-</th><th nowrap width=80>Status</th></tr><tr class="uGreen">
+<td align=center>1</td>
+<td align=center nowrap>-</td>
+<td>Covered</td>
+</tr><tr class="uGreen">
+<td align=center>0</td>
+<td align=center>1</td>
+<td>Covered</td>
+</tr><tr class="uGreen">
+<td align=center>0</td>
+<td align=center>0</td>
+<td>Covered</td>
+</tr></table><br clear=all>
+<pre class="code"><br clear=all>
+263            if (!rst_n) begin
+               <font color = "green">-1-</font>  
+264                // 复位所有寄存器
+265                for (j = 0; j < PARAM_DR_FP16MUL_S0_CNT; j = j + 1) begin
+           <font color = "green">        ==></font>
+266                    dr_s0[j] <= 128'b0;
+267                    dr_s1[j] <= 128'b0;
+268                    dr_s2[j] <= 128'b0;
+269                    dr_s3[j] <= 128'b0;
+270                end
+271                for (j = 0; j < PARAM_DR_FP16MUL_S1_CNT; j = j + 1) begin
+272                    dr_s4[j] <= 128'b0;
+273                    dr_s5[j] <= 128'b0;
+274                    dr_s6[j] <= 128'b0;
+275                    dr_s7[j] <= 128'b0;
+276                end
+277                dr_fp16mul_d0 <= 128'b0;
+278                dr_fp16mul_d1 <= 128'b0;
+279                dr_fp16mul_d2 <= 128'b0;
+280                dr_fp16mul_d3 <= 128'b0;
+281                dr_fp16mul_d4 <= 128'b0;
+282                dr_fp16mul_d5 <= 128'b0;
+283                dr_fp16mul_d6 <= 128'b0;
+284                dr_fp16mul_d7 <= 128'b0;
+285            end else begin
+286                // s0123更新逻辑
+287                if (cru_s0123_valid) begin
+                   <font color = "green">-2-</font>  
+288                    dr_s0[cru_s0123_reg_sel] <= dvr_fp16mul_s0;
+           <font color = "green">            ==></font>
+289                    dr_s1[cru_s0123_reg_sel] <= dvr_fp16mul_s1;
+290                    dr_s2[cru_s0123_reg_sel] <= dvr_fp16mul_s2;
+291                    dr_s3[cru_s0123_reg_sel] <= dvr_fp16mul_s3;
+292                end
+                   MISSING_ELSE
+           <font color = "green">        ==></font>
+293                
+294                // s4567更新逻辑
+295                if (cru_s4567_valid) begin
+                   <font color = "green">-3-</font>  
+296                    case (cru_s4567_low)
+                       <font color = "red">-4-</font>  
+297                        2'b00: dr_s4[cru_s4567_high] <= dvr_fp16mul_s4567;
+           <font color = "green">                ==></font>
+298                        2'b01: dr_s5[cru_s4567_high] <= dvr_fp16mul_s4567;
+           <font color = "green">                ==></font>
+299                        2'b10: dr_s6[cru_s4567_high] <= dvr_fp16mul_s4567;
+           <font color = "green">                ==></font>
+300                        2'b11: dr_s7[cru_s4567_high] <= dvr_fp16mul_s4567;
+           <font color = "green">                ==></font>
+                           MISSING_DEFAULT
+           <font color = "red">                ==></font>
+301                    endcase
+302                end
+                   MISSING_ELSE
+           <font color = "green">        ==></font>
+303                
+304                // 结果写回延迟一拍，保证源选择锁存后再计算
+305                if (compute_valid_r) begin
+                   <font color = "green">-5-</font>  
+306                    for (k = 0; k < PARAM_DR_FP16MUL_CNT; k = k + 1) begin
+           <font color = "green">            ==></font>
+307                        dr_fp16mul_d0[k*4 +: 4] <= fp32_results[k][3:0];
+308                        dr_fp16mul_d1[k*4 +: 4] <= fp32_results[k][7:4];
+309                        dr_fp16mul_d2[k*4 +: 4] <= fp32_results[k][11:8];
+310                        dr_fp16mul_d3[k*4 +: 4] <= fp32_results[k][15:12];
+311                        dr_fp16mul_d4[k*4 +: 4] <= fp32_results[k][19:16];
+312                        dr_fp16mul_d5[k*4 +: 4] <= fp32_results[k][23:20];
+313                        dr_fp16mul_d6[k*4 +: 4] <= fp32_results[k][27:24];
+314                        dr_fp16mul_d7[k*4 +: 4] <= fp32_results[k][31:28];
+315                    end
+316                end
+                   MISSING_ELSE
+           <font color = "green">        ==></font>
+</pre>
+<br clear=all>
+<span class=repname>Branches:</span>
+<br clear=all>
+<table align=left class="noborder">
+<tr>
+<th nowrap width=80>-1-</th><th nowrap width=80>-2-</th><th nowrap width=80>-3-</th><th nowrap width=80>-4-</th><th nowrap width=80>-5-</th><th nowrap width=80>Status</th></tr><tr class="uGreen">
+<td align=center>1</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td>Covered</td>
+</tr><tr class="uGreen">
+<td align=center>0</td>
+<td align=center>1</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td>Covered</td>
+</tr><tr class="uGreen">
+<td align=center>0</td>
+<td align=center>0</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td>Covered</td>
+</tr><tr class="uGreen">
+<td align=center>0</td>
+<td align=center nowrap>-</td>
+<td align=center>1</td>
+<td align=center>2'b00 </td>
+<td align=center nowrap>-</td>
+<td>Covered</td>
+</tr><tr class="uGreen">
+<td align=center>0</td>
+<td align=center nowrap>-</td>
+<td align=center>1</td>
+<td align=center>2'b01 </td>
+<td align=center nowrap>-</td>
+<td>Covered</td>
+</tr><tr class="uGreen">
+<td align=center>0</td>
+<td align=center nowrap>-</td>
+<td align=center>1</td>
+<td align=center>2'b10 </td>
+<td align=center nowrap>-</td>
+<td>Covered</td>
+</tr><tr class="uGreen">
+<td align=center>0</td>
+<td align=center nowrap>-</td>
+<td align=center>1</td>
+<td align=center>2'b11 </td>
+<td align=center nowrap>-</td>
+<td>Covered</td>
+</tr><tr class="uRed">
+<td align=center>0</td>
+<td align=center nowrap>-</td>
+<td align=center>1</td>
+<td align=center>MISSING_DEFAULT</td>
+<td align=center nowrap>-</td>
+<td>Not Covered</td>
+</tr><tr class="uGreen">
+<td align=center>0</td>
+<td align=center nowrap>-</td>
+<td align=center>0</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td>Covered</td>
+</tr><tr class="uGreen">
+<td align=center>0</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center>1</td>
+<td>Covered</td>
+</tr><tr class="uGreen">
+<td align=center>0</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center>0</td>
+<td>Covered</td>
+</tr></table><br clear=all>
+</div>
+</div>
+<div class="ui-layout-center-inner-north">
+<div id="center-bread-crumb" class="breadCrumb module urg-margin-bottom">
+  <ul name="inst_tag_1">
+    <li>
+      <a href="#Line">Line</a>    </li>
+    <li>
+      <a href="#Toggle">Toggle</a>    </li>
+    <li>
+      <a href="#Branch">Branch</a>    </li>
+  </ul>
+  <ul name="tag_fp16_to_fp32_multiplier">
+    <li>
+      <a href="#Line">Line</a>    </li>
+    <li>
+      <a href="#Toggle">Toggle</a>    </li>
+    <li>
+      <a href="#Branch">Branch</a>    </li>
+  </ul>
+</div>
+</div>
+</div>
+<div class="ui-layout-south">
+<table align=center><tr><td class="s0 cl">0%</td>
+<td class="s1 cl">10%</td>
+<td class="s2 cl">20%</td>
+<td class="s3 cl">30%</td>
+<td class="s4 cl">40%</td>
+<td class="s5 cl">50%</td>
+<td class="s6 cl">60%</td>
+<td class="s7 cl">70%</td>
+<td class="s8 cl">80%</td>
+<td class="s9 cl">90%</td>
+<td class="s10 cl">100%</td></tr></table></div>
+</body>
+</html>
