@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<!DOCTYPE cov SYSTEM "ucdb_srcinfo.dtd">
+  <srcinfo name="/home/Sunny/aiacc/SMC/06_fpmul/sim_output"  >
+    <ucapi_version  major_ver="13"  minor_ver="1"  patch_str="O-2018.09-SP2"  />
+      <fileinfo name="/home/Sunny/aiacc/SMC/06_fpmul/vsrc/fpmul.v"  id="0"  />
+      <fileinfo name="/home/Sunny/aiacc/SMC/06_fpmul/vsrc/tb_fpmul.v"  id="1"  />
+      <fileinfo name="/home/Sunny/aiacc/SMC/06_fpmul/vsrc/lzc.v"  id="2"  />
+    </srcinfo>

@@ -1,4 +1,5 @@
 `timescale 1ns/1ps
+
 module tb_fpadd;
 
     // 时钟复位
@@ -9,10 +10,9 @@ module tb_fpadd;
     // 128-bit 接口
     reg  [127:0] dvr_fpadd_s0;
     reg  [127:0] dvr_fpadd_s1;
-    reg          inst_valid;
-    reg          mode_flag;  
+    reg  [3:0]   cru_fpadd; // 微指令
     wire [127:0] dr_fpadd_d;
-    wire         idle;
+    wire [127:0] dr_fpadd_st;   // 状态寄存器
 
     // DPI-C
     import "DPI-C" function void  set_softfloat_rounding_mode(input int mode);
@@ -26,7 +26,8 @@ module tb_fpadd;
         .clk(clk), .rst_n(rst_n),
         .dvr_fpadd_s0(dvr_fpadd_s0), .dvr_fpadd_s1(dvr_fpadd_s1),
         .dr_fpadd_d(dr_fpadd_d),
-        .inst_valid(inst_valid), .mode_flag(mode_flag), .idle(idle)
+        .dr_fpadd_st(dr_fpadd_st),   
+        .cru_fpadd(cru_fpadd)
     );
 
     // 日志
@@ -72,7 +73,7 @@ module tb_fpadd;
         input[15:0] a,b;
         real fa = fp16_to_real(a), fb = fp16_to_real(b);
         real diff = (fa > fb) ? (fa - fb) : (fb - fa);
-        real min_ulp = (min_ulp16(a) > min_ulp16(b)) 
+        real min_ulp = (min_ulp16(a) > min_ulp16(b))
                         ? min_ulp16(a) : min_ulp16(b);
         ulp16 = (min_ulp > 0) ? $rtoi(diff / min_ulp + 0.4999) : 0; // 四舍五入
     endfunction
@@ -81,17 +82,17 @@ module tb_fpadd;
         input[31:0] a,b;
         real fa = fp32_to_real(a), fb = fp32_to_real(b);
         real diff = (fa > fb) ? (fa - fb) : (fb - fa);
-        real min_ulp = (min_ulp32(a) > min_ulp32(b)) 
+        real min_ulp = (min_ulp32(a) > min_ulp32(b))
                         ? min_ulp32(a) : min_ulp32(b);
         ulp32 = (min_ulp > 0) ? $rtoi(diff / min_ulp + 0.4999) : 0; // 四舍五入
     endfunction
-    
-    function        isnan16; input [15:0] v; isnan16 = (v[14:10]==5'h1F && (v[9:0]!=0)); endfunction
-    function        isnan32; input [31:0] v; isnan32 = (v[30:23]==8'hFF); endfunction
 
-    // 执行测试 
+    function isnan16; input [15:0] v; isnan16 = (v[14:10]==5'h1F && (v[9:0]!=0)); endfunction
+    function isnan32; input [31:0] v; isnan32 = (v[30:23]==8'hFF); endfunction
+
+    // 执行测试
     task automatic execute_test;
-        input string  desc;   
+        input string  desc;
         input         mode;
         input [127:0] a;
         input [127:0] b;
@@ -99,9 +100,9 @@ module tb_fpadd;
         reg   [127:0] act;
         integer       ulp_vec[0:7];
         integer       i, j, ok;
-        string        ulp_str;  
-        real val[0:7]; // 足够大
-        integer ulp_error = 0; 
+        string        ulp_str;
+        real val[0:7];
+        integer ulp_error = 0;
         reg is_special_match = 1;
         reg has_special = 0;
 
@@ -118,11 +119,10 @@ module tb_fpadd;
         // 驱动 DUT
         dvr_fpadd_s0 = a;
         dvr_fpadd_s1 = b;
-        mode_flag    = mode;
-        inst_valid   = 1;
+        cru_fpadd = {1'b1, mode, mode, 1'b1};
         @(posedge clk) #1;
-        inst_valid   = 0;
-        wait(idle);
+        cru_fpadd = 4'b1000; // 清除微指令
+        wait(uut.current_state == uut.STATE_IDLE); // 等待空闲状态
         @(posedge clk);
         act = dr_fpadd_d;
 
@@ -184,41 +184,42 @@ module tb_fpadd;
         end
         $write(")\n");
 
+        // 打印并检查 dr_fpadd_st
+        $write("状态:%h (", dr_fpadd_st);
+        if (mode == 0) begin
+            for (j = 7; j >= 0; j = j - 1)
+                $write("%3b%s", dr_fpadd_st[16*j +: 3], j == 0 ? "" : ",");
+        end else begin
+            for (j = 3; j >= 0; j = j - 1)
+                $write("%3b%s", dr_fpadd_st[32*j +: 3], j == 0 ? "" : ",");
+        end
+        $write(")\n");
+
+
         // 判断
         if (act === exp) begin
             $display("结果:通过(精确匹配)");
             pass = pass + 1;
             return;
         end
-        // 特殊值一致性检查 (NaN/Inf)
-    
+
         if (mode == 0) begin // FP16模式
-        for (i = 0; i < 8; i = i + 1) begin
-            // 精确ULP计算
-            ulp_vec[i] = ulp16(exp[16*i+:16], act[16*i+:16]);
-            // 严格ULP检查 (拒绝任何ULP>1)
-            if (ulp_vec[i] > 1) begin
-                ulp_error = 1;
+            for (i = 0; i < 8; i = i + 1) begin
+                ulp_vec[i] = ulp16(exp[16*i+:16], act[16*i+:16]);
+                if (ulp_vec[i] > 1) ulp_error = 1;
             end
-        end
-        ulp_str = $sformatf("%0d,%0d,%0d,%0d,%0d,%0d,%0d,%0d",
-                         ulp_vec[0], ulp_vec[1], ulp_vec[2], ulp_vec[3],
-                         ulp_vec[4], ulp_vec[5], ulp_vec[6], ulp_vec[7]);
-        end 
-        else begin // FP32模式
+            ulp_str = $sformatf("%0d,%0d,%0d,%0d,%0d,%0d,%0d,%0d",
+                             ulp_vec[0], ulp_vec[1], ulp_vec[2], ulp_vec[3],
+                             ulp_vec[4], ulp_vec[5], ulp_vec[6], ulp_vec[7]);
+        end else begin // FP32模式
             for (i = 0; i < 4; i = i + 1) begin
-                // 精确ULP计算
                 ulp_vec[i] = ulp32(exp[32*i+:32], act[32*i+:32]);
-                // 严格ULP检查 (拒绝任何ULP>1)
-                if (ulp_vec[i] > 1) begin
-                    ulp_error = 1;
-                end
+                if (ulp_vec[i] > 1) ulp_error = 1;
             end
             ulp_str = $sformatf("%0d,%0d,%0d,%0d",
-                            ulp_vec[0], ulp_vec[1], ulp_vec[2], ulp_vec[3]);
+                                ulp_vec[0], ulp_vec[1], ulp_vec[2], ulp_vec[3]);
         end
 
-        // 最终判断
         if (ulp_error) begin
             $display("结果:失败(容差向量=%s)", ulp_str);
             fail = fail + 1;
@@ -228,29 +229,24 @@ module tb_fpadd;
         end
     endtask
 
-
     task test_fsm_abort;
-        // 启动一次计算（进入STATE_PROC）
-        dvr_fpadd_s0 = {4{32'h3F800000}};  // 4×32位模式：1.0+1.0
+        dvr_fpadd_s0 = {4{32'h3F800000}};
         dvr_fpadd_s1 = {4{32'h3F800000}};
-        mode_flag = 1;
-        inst_valid = 1;
+        cru_fpadd = 4'b1111; // valid=1, mode=1, update=1
         @(posedge clk);
-        inst_valid = 0;
-        // 在STATE_PROC阶段强制复位（跳转至STATE_IDLE）
-        @(posedge clk);  // current_state = STATE_PROC
+        cru_fpadd = 4'b0;
+        @(posedge clk);
         rst_n = 0;
         @(posedge clk);
         rst_n = 1;
-        if (idle) $display("FSM中断测试通过");
+        if (uut.current_state == uut.STATE_IDLE) $display("FSM中断测试通过");
     endtask
 
-    // 子字并行加法器测试
     task run_tests;
         integer j;
         reg [127:0] a, b;
         test_fsm_abort;
-        // 8×FP16
+
         execute_test("8×FP16 全1+全1", 0, {8{`FP16_ONE}}, {8{`FP16_ONE}});
         execute_test("8×FP16 全0+全0", 0, {8{`FP16_ZERO}}, {8{`FP16_ZERO}});
         execute_test("8×FP16 全-1+全1", 0, {8{`FP16_NEGONE}}, {8{`FP16_ONE}});
@@ -537,7 +533,7 @@ module tb_fpadd;
             {16'h3C00, 16'h3C00, 16'h3C00, 16'h3C00, 16'h3C00, 16'h3C00, 16'h3C00, 16'h3C00}
         );
 
-        // 两个 0x0180 相加（尾数和=768，满足 512≤sum<1024）
+        // 示例：两个 0x0180 相加（尾数和=768，满足 512≤sum<1024）
         execute_test("FP16 denorm 中值相加 (0x0180+0x0180)", 0,
             {8{16'h0180}},  // a = 非规格化数 0x0180
             {8{16'h0180}}   // b = 非规格化数 0x0180
@@ -560,28 +556,28 @@ module tb_fpadd;
             {8{16'h0002}}, 
             {8{16'h0002}}
         );
-        // 为每个通道构造独立边界数据
+        // 示例：为每个通道构造独立边界数据
         execute_test("FP16 全通道边界覆盖", 0,
             128'h03FF_0001_3BFF_0002_03FF_0001_3BFF_0002, // 通道0~7定制数据
             128'h03FF_0002_3C00_0002_03FF_0002_3C00_0002
         );
-        // carry_out=1 的精确用例
+        // 触发 carry_out=1 的精确用例
         execute_test("FP16 舍入进位 (0x3BFF+0x3BFF)", 0,
             {8{16'h3BFF}},  // a = 尾数全1
             {8{16'h3BFF}}    // b = 尾数全1 (和=2046 → 进位)
         );        
-        // bit10=1：输入值需满足 512 ≤ a+b < 1024 且 a+b[10]=1
+        // 精确触发 bit10=1：输入值需满足 512 ≤ a+b < 1024 且 a+b[10]=1
         execute_test("FP16 denorm触发bit10=1 (0x0200+0x0200)", 0,
             {8{16'h0200}},  // 512 (0x200)
             {8{16'h0200}}   // 512 → 1024 (0x400) 但会触发第一个分支
         );
 
-        // 0x01FF + 0x0200 = 511+512=1023 (0x3FF)
+        // 正确用例：0x01FF + 0x0200 = 511+512=1023 (0x3FF)
         execute_test("FP16 denorm触发bit10=1 (0x01FF+0x0200)", 0,
             {8{16'h01FF}},  // 511
             {8{16'h0200}}   // 512 → 1023 (0x3FF) → bit10=1
         );
-        // carry_out=1：尾数和 ≥ 2048
+        // 触发 carry_out=1：尾数和 ≥ 2048
         // 0x43FF = 1.999 * 8 = 15.992 → 15.992+15.992=31.984 → 尾数和=4095>2048
         execute_test("FP16 尾数进位 (0x43FF+0x43FF)", 0,
             {8{16'h43FF}},  // 尾数0x3FF (1023)
@@ -639,14 +635,10 @@ module tb_fpadd;
             b = {$urandom(), $urandom(), $urandom(), $urandom()};
             execute_test($sformatf("随机4FP32_%0d", j), 1, a, b);
         end
-
-        
     endtask
 
-    // 主流程
-    initial begin
+    initial begin      
         set_softfloat_rounding_mode(0);
-        
         log = $fopen("fpadd_sim.log","w");
         rst_n = 0; #20; rst_n = 1;
         repeat(2) @(posedge clk);

@@ -40,3 +40,9 @@ This is a form:
 | Column | Column |
 
 - [This is a sub page](A/sub)
+
+
+## 版本更新记录
+| 更新人 | 更新内容 | 版本号 |
+|-------|:------:|------:|
+| student 1 | some content | v1.0.0 |

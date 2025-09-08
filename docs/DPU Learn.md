@@ -162,9 +162,155 @@ endmodule
 ```
 
 2. 学习计算机组成原理对开发riscv部分是有帮助的，至少要知道riscv core的组成部分，如何去修改DTS，还有openocd的概念与使用：有时间可以看看一生一芯
+### RISC-V core
+#### 取指单元
+功能：从内存读取指令（通过ICache或AXI总线）；处理指令地址预测（PC+4或分支预测）
+关键组件：PC寄存器：存储当前指令地址
+分支预测器（可选）：静态预测（总是跳转）或动态预测（BHT）
+典型代码：
+```verilog
+always @(posedge clk) begin
+  if (branch_taken) pc <= branch_target;
+  else pc <= pc + 4;
+end
+```
+
+#### 译码单元
+功能：解析32位指令（识别opcode/funct3/funct7）；读取寄存器堆（RegFile）数据
+关键逻辑：立即数生成：支持I/S/B/U/J型立即数；控制信号生成：ALU操作类型、内存访问类型等
+RISC-V指令格式示例：
+```text
+add x1, x2, x3  => [31:25]=0, [24:20]=x3, [19:15]=x2, [14:12]=0, [11:7]=x1, [6:0]=0110011
+```
+
+#### 执行单元
+ALU子系统：支持算术运算（ADD/SUB）、逻辑运算（AND/OR/XOR）；可扩展乘法器（M扩展）和除法器
+分支处理：计算分支目标地址（PC + imm_b）；比较条件（BEQ/BNE/BLT等）
+数据通路示例：
+```text
+alu_result = (op_add) ? (rs1 + rs2) : 
+            (op_sub) ? (rs1 - rs2) :
+            (op_and) ? (rs1 & rs2) : ...;
+```
+
+#### 访存单元
+功能：处理内存读写（通过DCache或AXI总线）；对齐检查（RISC-V要求自然对齐）
+访问类型：LB/LH/LW（加载字节/半字/字）；SB/SH/SW（存储字节/半字/字）
+原子操作：LR/SC（Load-Reserved/Store-Conditional）；AMOADD/AMOXOR等
+
+#### 写回单元
+数据选择器： ALU结果、内存加载数据、CSR读取数据
+冲突处理： 检测RAW（Read After Write）冲突；通过流水线停顿或数据旁路解决
+
 3. 网络驱动开发基础请大致了解，理解网卡的5个队列：发送/接收 ，发送完成、接收完成，事件队列
+### 发送队列
+#### 功能：存储主机准备发送出去的数据包
+#### 工作流程：
+  操作系统将待发送的数据包描述符放入发送队列
+  网卡从队列中取出描述符并获取实际数据包
+  网卡将数据包发送到网络
+#### 特点：通常有多个发送队列以实现多队列并行处理
+
+### 接收队列
+#### 功能：存储从网络到达的数据包
+#### 工作流程：
+  网卡接收到数据包后，将其放入接收队列
+  操作系统从队列中读取数据包描述符
+  系统通过DMA获取实际数据包内容
+#### 特点：现代网卡支持多队列接收，可实现RSS(接收侧缩放)将流量分散到不同CPU核心
+
+### 发送完成队列
+#### 功能：通知主机发送操作已完成
+#### 工作流程：
+  网卡成功发送数据包后，在发送完成队列中放置完成通知
+  主机通过轮询或中断方式获知发送完成
+  主机可以释放相关资源(如DMA缓冲区)
+#### 重要性：避免过早释放资源导致的数据损坏
+
+### 接收完成队列
+#### 功能：通知主机有新数据包到达
+#### 工作流程：
+  网卡将接收到的数据包放入接收缓冲区后
+  在接收完成队列中放置完成通知
+  主机通过轮询或中断方式获知新数据包到达
+
+### 事件队列
+#### 功能：处理网卡的各种异步事件
+#### 典型事件：
+  链路状态变化(连接/断开)
+  错误条件(如DMA错误)
+  队列溢出或其他异常情况
+  热插拔事件
+#### 重要性：提供网卡状态监控和错误处理机制
+
+### 队列协同工作流程
+#### 发送流程：
+  应用数据 → 内核协议栈 → 放入TX队列 → 网卡发送
+  发送完成 → TX完成队列通知 → 释放资源
+#### 接受流程
+  网卡接收数据 → 放入RX队列 → RX完成队列通知
+  内核读取数据 → 传递给上层应用
+#### 事件处理
+  网卡检测到事件 → 放入事件队列 → 触发中断或通知
+  驱动处理相应事件
+
+### 性能优化考虑
+#### 多队列设计
+  现代网卡支持多队列，可实现：
+  RSS (Receive Side Scaling) - 基于哈希将流量分散到不同CPU
+  消除锁竞争，提高并行性
+#### 轮询vs中断
+  高负载下轮询(DPDK风格)性能更好
+  低负载下中断更节能
+#### DMA使用
+  队列描述符通常通过DMA与主机内存交互，减少CPU开销
 4. 需要能看懂dpdk代码：请参考学长学姐的笔记
+
 5. verilog的基本语法，基本激励文件编写
+
 6. 对于应用层：根据自己的应用学习相关的知识，比如spark
+### Spark核心概念
+#### RDD（弹性分布式数据集）
+创建方式：paralleize（），textFile()等。  
+
+转换操作：(map、filter、flatMap)与行动操作 (count、collect、reduce)。  
+
+持久化策略(cache()、persist())。  
+
+宽依赖与窄依赖。
+#### 实际案例
+```python
+# 统计文本词频
+text_file = sc.textFile("hdfs://...")
+counts = text_file.flatMap(lambda line: line.split(" ")) \
+                 .map(lambda word: (word, 1)) \
+                 .reduceByKey(lambda a, b: a + b)
+counts.saveAsTextFile("hdfs://...")
+```
+
+### DataFrame ALI
+#### 核心概念 
+创建DataFrame(从RDD、CSV、JSON等)
+
+常用操作：select、filter、groupBy、agg
+
+UDF函数编写
+
+数据缓存：df.cache()
+
+
+#### 案例示例
+```python
+from pyspark.sql import functions as F
+
+df = spark.read.csv("data.csv", header=True)
+result = df.groupBy("department").agg(
+    F.avg("salary").alias("avg_salary"),
+    F.max("age").alias("max_age")
+)
+```
+
+
+
 
 
