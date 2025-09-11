@@ -1,0 +1,9 @@
+../vsrc/final_adder.v
+../vsrc/fp32_adder_tree_8_inputs.v
+../vsrc/fp32_aligner.v
+../vsrc/fp32_normalizer_rounder.v
+../vsrc/fp32_packer.v
+../vsrc/fp32_unpacker.v
+../vsrc/full_adder.v
+../vsrc/tb_fp32_adder_tree_8_inputs.v
+../vsrc/wallace_tree_8_inputs.v

@@ -42,29 +42,34 @@ SOFTFLOAT_INCLUDE="/home/Sunny/SMC/berkeley-softfloat-3-master/source/include"
 
 # 步骤 2: 编译 Verilog 文件并运行仿真 
 echo "正在使用 Synopsys VCS 编译和仿真 Verilog 文件..."
-vcs -sverilog +v2k -full64 +fsdb -timescale=1ns/1ps \
+vcs -sverilog +v2k -full64 -debug_access+all -kdb -timescale=1ns/1ps \
     -cm line+cond+fsm+branch+tgl\
     $DUT_FILE $TB_FILE \
     -CFLAGS "-I$SOFTFLOAT_INCLUDE" \
     -LDFLAGS "-Wl,-rpath,$(pwd)" \
     -LDFLAGS "-L$(pwd)" \
     -LDFLAGS "-lruntime" \
-    -o simv
+    -o simv > vcs_compile.log 2>&1
 
 if [ $? -ne 0 ]; then
-    echo "VCS Verilog 编译失败。"
+    echo "VCS Verilog 编译失败。查看编译日志:"
+    cat vcs_compile.log
     exit 1
+else
+    echo "VCS Verilog 编译成功。编译日志: $OUTPUT_DIR/vcs_compile.log"
 fi
 
 # 运行仿真
 echo "正在运行仿真..."
-./simv -l sim.log -cm line+cond+fsm+branch+tgl
+./simv -cm line+cond+fsm+branch+tgl > sim_output.log 2>&1
 
 if [ $? -ne 0 ]; then
-    echo "VCS 仿真失败。查看 $OUTPUT_DIR/sim.log 获取详情。"
+    echo "VCS 仿真失败。查看 $OUTPUT_DIR/sim_output.log 获取详情。"
     exit 1
 else
-    echo "VCS 仿真完成。日志文件: $OUTPUT_DIR/sim.log"
+    echo "VCS 仿真完成。"
+    echo "VCS仿真输出: $OUTPUT_DIR/sim_output.log"
+    echo "测试结果日志: $OUTPUT_DIR/sim.log"
 fi
 
 

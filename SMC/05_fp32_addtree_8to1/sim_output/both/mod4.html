@@ -1,0 +1,1352 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="Author" content="<username>"> <meta name="GENERATOR" content="urg/version [en] (platform name) [urg]">
+<title>Unified Coverage Report :: Module :: tb_fp32_adder_tree_8_inputs</title>
+<link type="text/css" rel="stylesheet" href="css/.urg.css">
+<link type="text/css" rel="stylesheet" href="css/.layout.css">
+<link type="text/css" rel="stylesheet" href="css/.breadcrumb.css">
+<script type="text/javascript" src="js/.jquery.js"></script>
+<script type="text/javascript" src="js/.jquery-ui.js"></script>
+<script type="text/javascript" src="js/.sortable.js"></script>
+<script type="text/javascript" src="js/.layout.js"></script>
+<script type="text/javascript" src="js/.breadcrumb.js"></script>
+<script type="text/javascript">
+var layout, westLayout, centerLayout;
+$(document).ready(function () {
+  if ($("#north-bread-crumb")) {
+    $("#north-bread-crumb").jBreadCrumb({easing:'swing'})
+  }
+  layout = $("body").layout({ 
+    resizable: true,
+    spacing_open: 4,
+    spacing_closed: 4,
+    north: {
+      size: 76
+    },
+    south: {
+      size: 45,
+      initClosed: true
+    },
+    west: {
+      size: 500,
+      resizable: true,
+      initClosed: false
+    }
+  });
+  centerLayout = $('div.ui-layout-center').layout({
+    north__paneSelector: ".ui-layout-center-inner-north",
+    center__paneSelector: ".ui-layout-center-inner-center", 
+    north__size: 50,
+    spacing_open: 4,
+    spacing_closed: 4
+  });
+});
+</script>
+</head>
+<body onLoad="initPage();"><div class="ui-layout-north">
+<div class="logo"></div>
+<center class="pagetitle">Module Definition</center>
+<div align="center"><a href="dashboard.html" ><b>dashboard</b></a> | <a href="hierarchy.html" ><b>hierarchy</b></a> | <a href="modlist.html" ><b>modlist</b></a> | groups | <a href="tests.html" ><b>tests</b></a> | asserts</div>
+
+</div>
+<div class="ui-layout-west">
+<div name='tag_tb_fp32_adder_tree_8_inputs'>
+<div class=modhdr>
+<br clear=all>
+<span class=titlename>Module : <a href="#"  onclick="showContent('tag_tb_fp32_adder_tree_8_inputs')">tb_fp32_adder_tree_8_inputs</a></span>
+<br clear=all>
+<table align=left>
+<tr class="sortablehead">
+<td>SCORE</td><td>LINE</td><td>COND</td><td>TOGGLE</td><td>FSM</td><td>BRANCH</td></tr><tr>
+<td class="s8 cl rt"> 82.34</td>
+<td class="s9 cl rt"><a href="mod4.html#Line" > 91.21</a></td>
+<td class="s10 cl rt"><a href="mod4.html#Cond" >100.00</a></td>
+<td class="s8 cl rt"><a href="mod4.html#Toggle" > 88.13</a></td>
+<td class="wht cl rt"></td>
+<td class="s5 cl rt"><a href="mod4.html#Branch" > 50.00</a></td>
+</tr></table><br clear=all>
+<span class=repname>Source File(s) : </span>
+<br clear=all>
+<a href="javascript:void(0);"  onclick="openSrcFile('/home/Sunny/SMC/05_fp32_adder_tree/sim_output/../vsrc/tb_fp32_adder_tree_8_inputs.v')">/home/Sunny/SMC/05_fp32_adder_tree/sim_output/../vsrc/tb_fp32_adder_tree_8_inputs.v</a><br clear=all>
+<br clear=all>
+<span class=repname>Module self-instances :</span>
+<br clear=all>
+<table align=left>
+<tr class="sortablehead">
+<td class="alfsrt">NAME</td><td>SCORE</td><td>LINE</td><td>COND</td><td>TOGGLE</td><td>FSM</td><td>BRANCH</td></tr><tr>
+<td class="wht cl wordwrap"><a href="mod4.html#inst_tag_419"  onclick="showContent('inst_tag_419')">tb_fp32_adder_tree_8_inputs</a></td>
+<td class="s8 cl rt"> 82.34</td>
+<td class="s9 cl rt"><a href="mod4.html#Line" > 91.21</a></td>
+<td class="s10 cl rt"><a href="mod4.html#Cond" >100.00</a></td>
+<td class="s8 cl rt"><a href="mod4.html#Toggle" > 88.13</a></td>
+<td class="wht cl rt"></td>
+<td class="s5 cl rt"><a href="mod4.html#Branch" > 50.00</a></td>
+</tr></table></div>
+</div>
+<br clear=all>
+<div name='tag_tb_fp32_adder_tree_8_inputs'>
+<hr>
+<a name="inst_tag_419"></a>
+<div class=modhdr>
+<br clear=all>
+<span class=titlename>Module Instance : <a href="hierarchy.html#tag_urg_inst_419" >tb_fp32_adder_tree_8_inputs</a></span>
+<br clear=all>
+<br clear=all>
+<span class=repname>Instance :</span>
+<br clear=all>
+<table align=left>
+<tr class="sortablehead">
+<td>SCORE</td><td>LINE</td><td>COND</td><td>TOGGLE</td><td>FSM</td><td>BRANCH</td></tr><tr>
+<td class="s8 cl rt"> 82.34</td>
+<td class="s9 cl rt"><a href="mod4.html#Line" > 91.21</a></td>
+<td class="s10 cl rt"><a href="mod4.html#Cond" >100.00</a></td>
+<td class="s8 cl rt"><a href="mod4.html#Toggle" > 88.13</a></td>
+<td class="wht cl rt"></td>
+<td class="s5 cl rt"><a href="mod4.html#Branch" > 50.00</a></td>
+</tr></table><br clear=all>
+<br clear=all>
+<span class=repname>Instance's subtree :</span>
+<br clear=all>
+<table align=left>
+<tr class="sortablehead">
+<td>SCORE</td><td>LINE</td><td>COND</td><td>TOGGLE</td><td>FSM</td><td>BRANCH</td></tr><tr>
+<td class="s9 cl rt"> 93.77</td>
+<td class="s9 cl rt"> 92.58</td>
+<td class="s9 cl rt"> 90.40</td>
+<td class="s9 cl rt"> 93.76</td>
+<td class="wht cl rt"></td>
+<td class="s9 cl rt"> 98.34</td>
+</tr></table><br clear=all>
+<br clear=all>
+<span class=repname>Parent : </span>
+<br clear=all>
+<span class=inst>none</span>
+<br clear=all>
+<br clear=all>
+<span class=repname>Subtrees :</span>
+<br clear=all>
+<table align=left>
+<tr class="sortablehead">
+<td class="alfsrt">NAME</td><td>SCORE</td><td>LINE</td><td>COND</td><td>TOGGLE</td><td>FSM</td><td>BRANCH</td></tr><tr>
+<td class="wht cl wordwrap"><a href="mod0.html#inst_tag_0" id="tag_urg_inst_0">u_fp32_adder_tree_8_inputs</a></td>
+<td class="s9 cl rt"> 95.38</td>
+<td class="s9 cl rt"> 98.82</td>
+<td class="s8 cl rt"> 89.78</td>
+<td class="s9 cl rt"> 94.02</td>
+<td class="wht cl rt"></td>
+<td class="s9 cl rt"> 98.88</td>
+</tr></table><br clear=all>
+</div>
+</div>
+<hr>
+Since this is the module's only instance, the coverage report is the same as for the module.</div>
+<div class="ui-layout-center">
+<div class="ui-layout-center-inner-center">
+<div name='tag_tb_fp32_adder_tree_8_inputs'>
+<a name="Line"></a>
+Line Coverage for Module : <a href="mod4.html" >tb_fp32_adder_tree_8_inputs</a><br clear=all>
+<table class="noborder">
+<col width="122">
+<col span="4" width="82">
+<tr><th></th><th>Line No.</th><th>Total</th><th>Covered</th><th>Percent</th></tr>
+<tr class="s9"><td class="lf">TOTAL</td><td></td><td>387</td><td>353</td><td>91.21</td></tr>
+<tr class="s0"><td class="lf">ROUTINE</td><td>101</td><td>1</td><td>0</td><td>0.00</td></tr>
+<tr class="s0"><td class="lf">ROUTINE</td><td>107</td><td>1</td><td>0</td><td>0.00</td></tr>
+<tr class="s0"><td class="lf">ROUTINE</td><td>110</td><td>1</td><td>0</td><td>0.00</td></tr>
+<tr class="s0"><td class="lf">ROUTINE</td><td>112</td><td>1</td><td>0</td><td>0.00</td></tr>
+<tr class="s10"><td class="lf">ALWAYS</td><td>132</td><td>6</td><td>6</td><td>100.00</td></tr>
+<tr class="s8"><td class="lf">ROUTINE</td><td>156</td><td>18</td><td>16</td><td>88.89</td></tr>
+<tr class="s9"><td class="lf">ROUTINE</td><td>210</td><td>12</td><td>11</td><td>91.67</td></tr>
+<tr class="s9"><td class="lf">ROUTINE</td><td>247</td><td>10</td><td>9</td><td>90.00</td></tr>
+<tr class="s10"><td class="lf">ROUTINE</td><td>285</td><td>4</td><td>4</td><td>100.00</td></tr>
+<tr class="s10"><td class="lf">ROUTINE</td><td>299</td><td>19</td><td>19</td><td>100.00</td></tr>
+<tr class="s10"><td class="lf">ROUTINE</td><td>330</td><td>17</td><td>17</td><td>100.00</td></tr>
+<tr class="s10"><td class="lf">ROUTINE</td><td>363</td><td>77</td><td>77</td><td>100.00</td></tr>
+<tr class="s10"><td class="lf">ROUTINE</td><td>487</td><td>2</td><td>2</td><td>100.00</td></tr>
+<tr class="s9"><td class="lf">ROUTINE</td><td>501</td><td>24</td><td>22</td><td>91.67</td></tr>
+<tr class="s8"><td class="lf">ROUTINE</td><td>559</td><td>88</td><td>74</td><td>84.09</td></tr>
+<tr class="s8"><td class="lf">ROUTINE</td><td>715</td><td>37</td><td>33</td><td>89.19</td></tr>
+<tr class="s9"><td class="lf">ROUTINE</td><td>774</td><td>32</td><td>30</td><td>93.75</td></tr>
+<tr class="s8"><td class="lf">ROUTINE</td><td>864</td><td>11</td><td>9</td><td>81.82</td></tr>
+<tr class="s9"><td class="lf">INITIAL</td><td>887</td><td>26</td><td>24</td><td>92.31</td></tr>
+</table>
+<pre class="code"><br clear=all>
+100                         // DPI-C 导入声明
+101        <font color = "red">0/1     ==>      import &quot;DPI-C&quot; function int unsigned fp32_add_8_softfloat(</font>
+102                             input int unsigned input0, input int unsigned input1, 
+103                             input int unsigned input2, input int unsigned input3,
+104                             input int unsigned input4, input int unsigned input5, 
+105                             input int unsigned input6, input int unsigned input7);
+106                         
+107        <font color = "red">0/1     ==>      import &quot;DPI-C&quot; function void set_softfloat_rounding_mode(</font>
+108                             input int unsigned mode);
+109                         
+110        <font color = "red">0/1     ==>      import &quot;DPI-C&quot; function void clear_softfloat_flags();</font>
+111                         
+112        <font color = "red">0/1     ==>      import &quot;DPI-C&quot; function int unsigned get_softfloat_flags();</font>
+113                     
+114                         //==========================================================================
+115                         // 被测模块实例化
+116                         //==========================================================================
+117                     
+118                         fp32_adder_tree_8_inputs u_fp32_adder_tree_8_inputs (
+119                             .clk(clk),
+120                             .rst_n(rst_n),
+121                             .dvr_fp32addtree8to1_s0(dvr_fp32addtree8to1_s0),
+122                             .dvr_fp32addtree8to1_s1(dvr_fp32addtree8to1_s1),
+123                             .cru_fp32addtree8to1(cru_fp32addtree8to1),
+124                             .dr_fp32addtree8to1_d(dr_fp32addtree8to1_d)
+125                         );
+126                     
+127                         //==========================================================================
+128                         // 时钟生成
+129                         //==========================================================================
+130                         
+131                         always begin
+132        1/1                  clk = 1'b0;
+133        2/2                  #(CLK_PERIOD/2);
+134        1/1                  clk = 1'b1;
+135        2/2                  #(CLK_PERIOD/2);
+136                         end
+137                     
+138                         //==========================================================================
+139                         // 比较函数
+140                         //==========================================================================
+141                         
+142                         function compare_results;
+143                             input [31:0] expected;
+144                             input [31:0] actual;
+145                             input [31:0] flags;
+146                             
+147                             // 局部变量声明
+148                             reg temp_match_found;
+149                             reg temp_is_inexact;
+150                             reg temp_is_expected_nan;
+151                             reg temp_is_actual_nan;
+152                             reg [31:0] temp_diff;
+153                             reg [31:0] temp_abs_diff;
+154                             
+155                             begin
+156        1/1                      temp_match_found = 1'b0;
+157        1/1                      temp_is_inexact = (flags &amp; 32'h00000001) != 1'b0;
+158        1/1                      temp_is_expected_nan = (expected[30:23] == 8'hFF) &amp;&amp; (expected[22:0] != 23'b0);
+159        1/1                      temp_is_actual_nan = (actual[30:23] == 8'hFF) &amp;&amp; (actual[22:0] != 23'b0);
+160                                 
+161                                 // 计算差值
+162        1/1                      if (actual &gt; expected) begin
+163        1/1                          temp_diff = actual - expected;
+164                                 end else begin
+165        1/1                          temp_diff = expected - actual;
+166                                 end
+167        1/1                      temp_abs_diff = temp_diff;
+168                                 
+169                                 // NaN 比较
+170        1/1                      if (temp_is_expected_nan &amp;&amp; temp_is_actual_nan) begin
+171        1/1                          temp_match_found = 1'b1;
+172                                 end
+173                                 // 精确匹配
+174        1/1                      else if (actual === expected) begin
+175        1/1                          temp_match_found = 1'b1;
+176                                 end
+177                                 // 不精确结果的容差比较 - 允许更大的容差
+178        1/1                      else if (temp_is_inexact) begin
+179                                     // 对于8输入的加法树，允许最多8 ULP的误差Units in the Last Place
+180        1/1                          if (temp_abs_diff &lt;= 32'd8) begin
+181        1/1                              temp_match_found = 1'b1;
+182                                     end
+                   <font color = "red">==>  MISSING_ELSE</font>
+183                                 end
+184                                 // 对于非不精确结果，不允许误差 
+185                                 else begin
+186        <font color = "red">0/1     ==>                  if (temp_abs_diff == 32'd0) begin</font>
+187        <font color = "red">0/1     ==>                      temp_match_found = 1'b1;</font>
+188                                     end
+                   <font color = "red">==>  MISSING_ELSE</font>
+189                                 end
+190                     
+191        1/1                      compare_results = temp_match_found;
+192                             end
+193                         endfunction
+194                     
+195                         // 结果打印任务 
+196                         task print_test_result;
+197                             input integer test_num;
+198                             input [31:0] expected;
+199                             input [31:0] actual;
+200                             input [31:0] flags;
+201                             input match;
+202                             input is_random;
+203                             input integer reg_idx;
+204                             
+205                             // 局部变量
+206                             reg temp_is_inexact;
+207                             reg [31:0] temp_diff;
+208                             
+209                             begin
+210        1/1                      temp_is_inexact = (flags &amp; 32'h00000001) != 1'b0;
+211        1/1                      if (actual &gt; expected) begin
+212        1/1                          temp_diff = actual - expected;
+213                                 end else begin
+214        1/1                          temp_diff = expected - actual;
+215                                 end
+216                                 
+217        1/1                      if (match) begin
+218        1/1                          if (is_random &amp;&amp; (test_num % 5 != 0)) begin
+219                                         // 随机测试只打印前10个和每5个
+220                                     end else begin
+221        1/1                              if ((expected[30:23] == 8'hFF) &amp;&amp; (expected[22:0] != 23'b0) &amp;&amp;
+222                                             (actual[30:23] == 8'hFF) &amp;&amp; (actual[22:0] != 23'b0)) begin
+223        1/1                                  $fdisplay(sim_log, &quot;%s %0d (Reg%0d): PASS (NaN): expected=%h (flags=%h), actual=%h&quot;,
+224                                                      is_random ? &quot;随机测试&quot; : &quot;测试用例&quot;, test_num, reg_idx, expected, flags, actual);
+225        1/1                              end else if (actual === expected) begin
+226        1/1                                  $fdisplay(sim_log, &quot;%s %0d (Reg%0d): PASS: expected=%h (flags=%h), actual=%h&quot;,
+227                                                      is_random ? &quot;随机测试&quot; : &quot;测试用例&quot;, test_num, reg_idx, expected, flags, actual);
+228                                         end else begin
+229        1/1                                  $fdisplay(sim_log, &quot;%s %0d (Reg%0d): PASS: expected=%h (flags=%h), actual=%h (±%0d ULP tolerance)&quot;,
+230                                                      is_random ? &quot;随机测试&quot; : &quot;测试用例&quot;, test_num, reg_idx, expected, flags, actual, temp_diff);
+231                                         end
+232                                     end
+233                                 end else begin
+234        <font color = "red">0/1     ==>                  $fdisplay(sim_log, &quot;%s %0d (Reg%0d): FAIL: expected=%h (flags=%h), actual=%h (diff=%0d ULP)&quot;,</font>
+235                                              is_random ? &quot;随机测试&quot; : &quot;测试用例&quot;, test_num, reg_idx, expected, flags, actual, temp_diff);
+236                                 end
+237                             end
+238                         endtask
+239                     
+240                         // 设置测试输入任务 - 支持指定目标寄存器
+241                         task set_test_inputs;
+242                             input integer test_case;
+243                             input integer target_reg;  // 目标寄存器索引 (0-3)
+244                             begin
+245                                 // 每个FP32数据分为高16bit(S1[y])和低16bit(S0[y])
+246                                 // FP32[y] = {S1[y][15:0], S0[y][15:0]}
+247        1/1                      dvr_fp32addtree8to1_s0 = {test_inputs[test_case][7][15:0],   // S0[7] - FP32[7]的低16bit
+248                                                          test_inputs[test_case][6][15:0],    // S0[6] - FP32[6]的低16bit
+249                                                          test_inputs[test_case][5][15:0],    // S0[5] - FP32[5]的低16bit
+250                                                          test_inputs[test_case][4][15:0],    // S0[4] - FP32[4]的低16bit
+251                                                          test_inputs[test_case][3][15:0],    // S0[3] - FP32[3]的低16bit
+252                                                          test_inputs[test_case][2][15:0],    // S0[2] - FP32[2]的低16bit
+253                                                          test_inputs[test_case][1][15:0],    // S0[1] - FP32[1]的低16bit
+254                                                          test_inputs[test_case][0][15:0]};   // S0[0] - FP32[0]的低16bit
+255                                 
+256        1/1                      dvr_fp32addtree8to1_s1 = {test_inputs[test_case][7][31:16],  // S1[7] - FP32[7]的高16bit
+257                                                          test_inputs[test_case][6][31:16],   // S1[6] - FP32[6]的高16bit
+258                                                          test_inputs[test_case][5][31:16],   // S1[5] - FP32[5]的高16bit
+259                                                          test_inputs[test_case][4][31:16],   // S1[4] - FP32[4]的高16bit
+260                                                          test_inputs[test_case][3][31:16],   // S1[3] - FP32[3]的高16bit
+261                                                          test_inputs[test_case][2][31:16],   // S1[2] - FP32[2]的高16bit
+262                                                          test_inputs[test_case][1][31:16],   // S1[1] - FP32[1]的高16bit
+263                                                          test_inputs[test_case][0][31:16]};  // S1[0] - FP32[0]的高16bit
+264                                 
+265                                 // 发送指令到指定的目标寄存器
+266        1/1                      case (target_reg)
+267        1/1                          0: cru_fp32addtree8to1 = 3'b100; // 指令有效，目标寄存器编码=00
+268        1/1                          1: cru_fp32addtree8to1 = 3'b101; // 指令有效，目标寄存器编码=01
+269        1/1                          2: cru_fp32addtree8to1 = 3'b110; // 指令有效，目标寄存器编码=10
+270        1/1                          3: cru_fp32addtree8to1 = 3'b111; // 指令有效，目标寄存器编码=11
+271        <font color = "red">0/1     ==>                  default: cru_fp32addtree8to1 = 3'b100; // 默认寄存器0</font>
+272                                 endcase
+273                                 
+274                                 // 等待一个时钟周期，让设计处理数据
+275        2/2                      @(posedge clk);
+276                                 
+277                     
+278                             end
+279                         endtask
+280                     
+281                         // 测试用例初始化任务
+282                         task initialize_test_cases;
+283                             begin
+284                                 // 基本测试用例
+285        1/1                      initialize_basic_tests();
+286                                 // 特殊值测试用例
+287        1/1                      initialize_special_cases();
+288                                 // 精度测试用例
+289        1/1                      initialize_precision_cases();
+290                                 // 溢出测试用例
+291        1/1                      initialize_overflow_cases();
+292                             end
+293                         endtask
+294                     
+295                         // 基本测试用例初始化
+296                         task initialize_basic_tests;
+297                             begin
+298                                 // 测试用例 0: 基本正数加法 (1+2+3+4+5+6+7+8=36)
+299        1/1                      test_inputs[0][0] = 32'h3f800000; // 1.0
+300        1/1                      test_inputs[0][1] = 32'h40000000; // 2.0
+301        1/1                      test_inputs[0][2] = 32'h40400000; // 3.0
+302        1/1                      test_inputs[0][3] = 32'h40800000; // 4.0
+303        1/1                      test_inputs[0][4] = 32'h40a00000; // 5.0
+304        1/1                      test_inputs[0][5] = 32'h40c00000; // 6.0
+305        1/1                      test_inputs[0][6] = 32'h40e00000; // 7.0
+306        1/1                      test_inputs[0][7] = 32'h41000000; // 8.0
+307                     
+308                                 // 测试用例 1: 正负数混合 (结果应为0)
+309        1/1                      test_inputs[1][0] = 32'h41200000; // 10.0
+310        1/1                      test_inputs[1][1] = 32'hc1200000; // -10.0
+311        1/1                      test_inputs[1][2] = 32'h40a00000; // 5.0
+312        1/1                      test_inputs[1][3] = 32'hc0a00000; // -5.0
+313        1/1                      test_inputs[1][4] = 32'h3f800000; // 1.0
+314        1/1                      test_inputs[1][5] = 32'hbf800000; // -1.0
+315        1/1                      test_inputs[1][6] = 32'h40000000; // 2.0
+316        1/1                      test_inputs[1][7] = 32'hc0000000; // -2.0
+317                     
+318                                 // 测试用例 2-3: 零值测试
+319        1/1                      for (j = 0; j &lt; NUM_INPUTS; j = j + 1) begin
+320        1/1                          test_inputs[2][j] = 32'h00000000; // +0.0
+321        1/1                          test_inputs[3][j] = 32'h80000000; // -0.0
+322                                 end
+323                             end
+324                         endtask
+325                     
+326                         // 特殊值测试用例初始化
+327                         task initialize_special_cases;
+328                             begin
+329                                 // 测试用例 4: 正负零混合
+330        1/1                      test_inputs[4][0] = 32'h00000000; // +0.0
+331        1/1                      test_inputs[4][1] = 32'h80000000; // -0.0
+332        1/1                      test_inputs[4][2] = 32'h00000000; // +0.0
+333        1/1                      test_inputs[4][3] = 32'h80000000; // -0.0
+334        1/1                      test_inputs[4][4] = 32'h00000000; // +0.0
+335        1/1                      test_inputs[4][5] = 32'h80000000; // -0.0
+336        1/1                      test_inputs[4][6] = 32'h00000000; // +0.0
+337        1/1                      test_inputs[4][7] = 32'h80000000; // -0.0
+338                     
+339                                 // 测试用例 5: 无穷大测试
+340        1/1                      test_inputs[5][0] = 32'h7f800000; // +Inf
+341        1/1                      for (j = 1; j &lt; NUM_INPUTS; j = j + 1) begin
+342        1/1                          test_inputs[5][j] = 32'h3f800000; // 1.0
+343                                 end
+344                     
+345                                 // 测试用例 6: 负无穷大测试
+346        1/1                      test_inputs[6][0] = 32'hff800000; // -Inf
+347        1/1                      for (j = 1; j &lt; NUM_INPUTS; j = j + 1) begin
+348        1/1                          test_inputs[6][j] = 32'h3f800000; // 1.0
+349                                 end
+350                     
+351                                 // 测试用例 7: NaN测试
+352        1/1                      test_inputs[7][0] = 32'h7fc00000; // qNaN
+353        1/1                      for (j = 1; j &lt; NUM_INPUTS; j = j + 1) begin
+354        1/1                          test_inputs[7][j] = 32'h3f800000; // 1.0
+355                                 end
+356                             end
+357                         endtask
+358                     
+359                         // 精度测试用例初始化
+360                         task initialize_precision_cases;
+361                             begin
+362                                 // 测试用例 8-13: 各种精度测试
+363        1/1                      for (j = 0; j &lt; NUM_INPUTS; j = j + 1) begin
+364        1/1                          test_inputs[8][j] = 32'h00800000;  // 最小正规格化数
+365        1/1                          test_inputs[9][j] = 32'h7f7fffff;  // 最大正规格化数
+366        1/1                          test_inputs[10][j] = 32'h00000001; // 最小正非规格化数
+367        1/1                          test_inputs[11][j] = 32'h00000100; // 小的非规格化数
+368        1/1                          test_inputs[12][j] = 32'h7f000000; // 很大的数
+369        1/1                          test_inputs[13][j] = 32'h3f000000; // 0.5
+370                                 end
+371                                 
+372                                 // 测试用例 14-20: 边界值测试
+373        1/1                      test_inputs[14][0] = 32'h3f7fffff; // 接近1.0的数
+374        1/1                      test_inputs[14][1] = 32'h3f800001; // 略大于1.0的数
+375        1/1                      for (j = 2; j &lt; NUM_INPUTS; j = j + 1) begin
+376        1/1                          test_inputs[14][j] = 32'h00000000; // 0.0
+377                                 end
+378                                 
+379                                 // 测试用例 15: 小数加法精度测试
+380        1/1                      for (j = 0; j &lt; NUM_INPUTS; j = j + 1) begin
+381        1/1                          test_inputs[15][j] = 32'h3e800000; // 0.25
+382                                 end
+383                                 
+384                                 // 测试用例 16: 不同指数的数相加
+385        1/1                      test_inputs[16][0] = 32'h3f800000; // 1.0
+386        1/1                      test_inputs[16][1] = 32'h40000000; // 2.0
+387        1/1                      test_inputs[16][2] = 32'h40800000; // 4.0
+388        1/1                      test_inputs[16][3] = 32'h41000000; // 8.0
+389        1/1                      test_inputs[16][4] = 32'h41800000; // 16.0
+390        1/1                      test_inputs[16][5] = 32'h42000000; // 32.0
+391        1/1                      test_inputs[16][6] = 32'h42800000; // 64.0
+392        1/1                      test_inputs[16][7] = 32'h43000000; // 128.0
+393                                 
+394                                 // 测试用例 17: 很小的数相加
+395        1/1                      for (j = 0; j &lt; NUM_INPUTS; j = j + 1) begin
+396        1/1                          test_inputs[17][j] = 32'h34000000; // 很小的正数
+397                                 end
+398                                 
+399                                 // 测试用例 18: 正负数混合 - 应该接近零但不为零
+400        1/1                      test_inputs[18][0] = 32'h41200000; // 10.0
+401        1/1                      test_inputs[18][1] = 32'hc1200000; // -10.0
+402        1/1                      test_inputs[18][2] = 32'h3f800000; // 1.0
+403        1/1                      test_inputs[18][3] = 32'hbf800000; // -1.0
+404        1/1                      test_inputs[18][4] = 32'h3e800000; // 0.25
+405        1/1                      test_inputs[18][5] = 32'hbe800000; // -0.25
+406        1/1                      test_inputs[18][6] = 32'h3e000000; // 0.125
+407        1/1                      test_inputs[18][7] = 32'hbe000000; // -0.125
+408                                 
+409                                 // 测试用例 19: 非规格化数测试
+410        1/1                      for (j = 0; j &lt; NUM_INPUTS; j = j + 1) begin
+411        1/1                          test_inputs[19][j] = 32'h00000010; // 小的非规格化数
+412                                 end
+413                                 
+414                                 // 测试用例 20-30: 更多的精度和边界测试
+415        1/1                      for (i = 20; i &lt;= 30; i = i + 1) begin
+416        1/1                          for (j = 0; j &lt; NUM_INPUTS; j = j + 1) begin
+417                                         // 创建不同的测试模式
+418        1/1                              if (i == 20) begin
+419        1/1                                  test_inputs[i][j] = 32'h3dcccccd; // 0.1
+420        1/1                              end else if (i == 21) begin
+421        1/1                                  test_inputs[i][j] = 32'h3e4ccccd; // 0.2
+422        1/1                              end else if (i == 22) begin
+423        1/1                                  test_inputs[i][j] = 32'h3e99999a; // 0.3
+424        1/1                              end else if (i == 23) begin
+425        1/1                                  test_inputs[i][j] = 32'h3ecccccd; // 0.4
+426        1/1                              end else if (i == 24) begin
+427        1/1                                  test_inputs[i][j] = 32'h3f19999a; // 0.6
+428        1/1                              end else if (i == 25) begin
+429        1/1                                  test_inputs[i][j] = 32'h3f333333; // 0.7
+430        1/1                              end else if (i == 26) begin
+431        1/1                                  test_inputs[i][j] = 32'h3f4ccccd; // 0.8
+432        1/1                              end else if (i == 27) begin
+433        1/1                                  test_inputs[i][j] = 32'h3f666666; // 0.9
+434        1/1                              end else if (i == 28) begin
+435                                             // 混合正负小数
+436        1/1                                  test_inputs[i][j] = (j % 2 == 0) ? 32'h3dcccccd : 32'hbdcccccd; // ±0.1
+437        1/1                              end else if (i == 29) begin
+438                                             // 渐增数列
+439        1/1                                  case (j)
+440        1/1                                      0: test_inputs[i][j] = 32'h3f800000; // 1.0
+441        1/1                                      1: test_inputs[i][j] = 32'h3fc00000; // 1.5
+442        1/1                                      2: test_inputs[i][j] = 32'h40000000; // 2.0
+443        1/1                                      3: test_inputs[i][j] = 32'h40200000; // 2.5
+444        1/1                                      4: test_inputs[i][j] = 32'h40400000; // 3.0
+445        1/1                                      5: test_inputs[i][j] = 32'h40600000; // 3.5
+446        1/1                                      6: test_inputs[i][j] = 32'h40800000; // 4.0
+447        1/1                                      7: test_inputs[i][j] = 32'h40900000; // 4.5
+                   <font color = "red">==>  MISSING_DEFAULT</font>
+448                                             endcase
+449                                         end else begin // i == 30
+450                                             // 负数测试
+451        1/1                                  test_inputs[i][j] = 32'hbf800000; // -1.0
+452                                         end
+453                                     end
+454                                 end
+455                                 
+456                                 // 测试用例 31-39: 边界和特殊情况
+457        1/1                      for (i = 31; i &lt; 40; i = i + 1) begin
+458        1/1                          for (j = 0; j &lt; NUM_INPUTS; j = j + 1) begin
+459        1/1                              if (i == 31) begin
+460                                             // 交替正负1
+461        1/1                                  test_inputs[i][j] = (j % 2 == 0) ? 32'h3f800000 : 32'hbf800000;
+462        1/1                              end else if (i == 32) begin
+463                                             // 所有-1
+464        1/1                                  test_inputs[i][j] = 32'hbf800000; // -1.0
+465        1/1                              end else if (i == 33) begin
+466                                             // 大指数差异测试
+467        1/1                                  test_inputs[i][j] = (j == 0) ? 32'h47800000 : 32'h3f800000; // 65536.0 vs 1.0
+468        1/1                              end else if (i == 34) begin
+469                                             // Pi/8 近似值
+470        1/1                                  test_inputs[i][j] = 32'h3ec90fdb; // π/8 ≈ 0.39269...
+471        1/1                              end else if (i == 35) begin
+472                                             // e/8 近似值
+473        1/1                                  test_inputs[i][j] = 32'h3e2df854; // e/8 ≈ 0.33969...
+474                                         end else begin
+475                                             // 其他测试用例设为随机但固定的值
+476        1/1                                  test_inputs[i][j] = 32'h3f800000 + (i * 1000 + j * 100); // 变化的值
+477                                         end
+478                                     end
+479                                 end
+480                             end
+481                         endtask
+482                     
+483                         // 溢出测试用例初始化
+484                         task initialize_overflow_cases;
+485                             begin
+486                                 // 测试用例 40: 溢出测试 - 应该产生INF
+487        1/1                      for (j = 0; j &lt; NUM_INPUTS; j = j + 1) begin
+488        1/1                          test_inputs[40][j] = 32'h7F7FFFFF; // 最大正规格化数
+489                                 end
+490                             end
+491                         endtask
+492                     
+493                         //==========================================================================
+494                         // 测试执行任务
+495                         //==========================================================================
+496                         
+497                         // 执行固定测试用例 - 测试所有4个输出寄存器
+498                         task execute_fixed_tests;
+499                             integer reg_idx;
+500                             begin
+501        1/1                      $fdisplay(sim_log, &quot;\n=== Starting Fixed Test Cases ===&quot;);
+502                     
+503        1/1                      for (i = 0; i &lt; NUM_FIXED_TESTS; i = i + 1) begin
+504                                     // 对每个测试用例，测试所有4个输出寄存器
+505        1/1                          for (reg_idx = 0; reg_idx &lt; 4; reg_idx = reg_idx + 1) begin
+506                                         // 设置输入到指定寄存器
+507        1/1                              set_test_inputs(i, reg_idx);
+508                     
+509                                         // 清除 SoftFloat 异常标志
+510        1/1                              clear_softfloat_flags();
+511                     
+512                                         // 通过 DPI-C 从 SoftFloat 获取期望结果
+513        1/1                              expected_fp32_from_softfloat = fp32_add_8_softfloat(
+514                                             test_inputs[i][0], test_inputs[i][1], test_inputs[i][2], test_inputs[i][3],
+515                                             test_inputs[i][4], test_inputs[i][5], test_inputs[i][6], test_inputs[i][7]);
+516        1/1                              softfloat_flags = get_softfloat_flags();
+517                     
+518                                         // 等待DUT处理（等待时钟和寄存器更新）
+519        2/2                              @(posedge clk);
+520        2/2                              #1; // 小延迟确保信号稳定
+521                                         
+522                                         // 停止指令
+523        1/1                              cru_fp32addtree8to1 = 3'b0;
+524                     
+525                                         // 比较结果 - 使用对应寄存器的输出
+526        1/1                              match_found = compare_results(expected_fp32_from_softfloat, fp_sum[reg_idx], softfloat_flags);
+527                     
+528                                         // 打印结果
+529        1/1                              print_test_result(i, expected_fp32_from_softfloat, fp_sum[reg_idx], softfloat_flags, match_found, 1'b0, reg_idx);
+530                     
+531                                         // 更新计数器
+532        1/1                              if (match_found) begin
+533        1/1                                  pass_count = pass_count + 1;
+534                                         end else begin
+535        <font color = "red">0/1     ==>                          fail_count = fail_count + 1;</font>
+536                                             // 输出输入值用于调试
+537        <font color = "red">0/1     ==>                          $fdisplay(sim_log, &quot;输入: %h %h %h %h %h %h %h %h&quot;,</font>
+538                                                      test_inputs[i][0], test_inputs[i][1], test_inputs[i][2], test_inputs[i][3],
+539                                                      test_inputs[i][4], test_inputs[i][5], test_inputs[i][6], test_inputs[i][7]);
+540                                         end
+541                     
+542        2/2                              #10;
+543                                     end
+544                                 end
+545                     
+546                                 // 输出固定测试统计信息
+547        1/1                      $fdisplay(sim_log, &quot;\nFixed Test Cases Summary:&quot;);
+548        1/1                      $fdisplay(sim_log, &quot;Total fixed tests: %0d&quot;, pass_count + fail_count);
+549        1/1                      $fdisplay(sim_log, &quot;Passed: %0d&quot;, pass_count);
+550        1/1                      $fdisplay(sim_log, &quot;Failed: %0d&quot;, fail_count);
+551                             end
+552                         endtask
+553                     
+554                         // 执行指令控制测试 - 专门测试指令编码和控制逻辑
+555                         task execute_instruction_tests;
+556                             integer cmd_test;
+557                             integer test_case;
+558                             begin
+559        1/1                      $fdisplay(sim_log, &quot;\n=== Starting Instruction Control Tests ===&quot;);
+560                                 
+561        1/1                      test_case = 0; // 使用第一个测试用例：1+2+3+4+5+6+7+8=36
+562                                 
+563                                 // 测试1: 指令有效位测试
+564        1/1                      $fdisplay(sim_log, &quot;\n--- Testing Command Valid Bit ---&quot;);
+565                                 
+566                                 // 设置输入数据
+567        1/1                      dvr_fp32addtree8to1_s0 = {test_inputs[test_case][7][15:0],   
+568                                                          test_inputs[test_case][6][15:0],    
+569                                                          test_inputs[test_case][5][15:0],    
+570                                                          test_inputs[test_case][4][15:0],    
+571                                                          test_inputs[test_case][3][15:0],    
+572                                                          test_inputs[test_case][2][15:0],    
+573                                                          test_inputs[test_case][1][15:0],    
+574                                                          test_inputs[test_case][0][15:0]};   
+575                                 
+576        1/1                      dvr_fp32addtree8to1_s1 = {test_inputs[test_case][7][31:16],  
+577                                                          test_inputs[test_case][6][31:16],   
+578                                                          test_inputs[test_case][5][31:16],   
+579                                                          test_inputs[test_case][4][31:16],   
+580                                                          test_inputs[test_case][3][31:16],   
+581                                                          test_inputs[test_case][2][31:16],   
+582                                                          test_inputs[test_case][1][31:16],   
+583                                                          test_inputs[test_case][0][31:16]};  
+584                                 
+585                                 // 调试：打印输入数据
+586        1/1                      $fdisplay(sim_log, &quot;Input data S0: 0x%h&quot;, dvr_fp32addtree8to1_s0);
+587        1/1                      $fdisplay(sim_log, &quot;Input data S1: 0x%h&quot;, dvr_fp32addtree8to1_s1);
+588        1/1                      $fdisplay(sim_log, &quot;Expected FP32 inputs: %h %h %h %h %h %h %h %h&quot;,
+589                                          test_inputs[test_case][0], test_inputs[test_case][1], test_inputs[test_case][2], test_inputs[test_case][3],
+590                                          test_inputs[test_case][4], test_inputs[test_case][5], test_inputs[test_case][6], test_inputs[test_case][7]);
+591                                 
+592        2/2                      @(posedge clk);
+593        2/2                      #1;
+594                                 
+595                                 // 测试无效指令（cmd_valid = 0）
+596        1/1                      cru_fp32addtree8to1 = 3'b000; // 指令无效
+597        2/2                      @(posedge clk);
+598        2/2                      #1;
+599                                 
+600                                 // 检查所有输出寄存器应该为0
+601        1/1                      if (dr_fp32addtree8to1_d == 128'b0) begin
+602        1/1                          $fdisplay(sim_log, &quot;Invalid Command Test: PASS - All outputs are zero when cmd_valid=0&quot;);
+603        1/1                          pass_count = pass_count + 1;
+604                                 end else begin
+605        <font color = "red">0/1     ==>                  $fdisplay(sim_log, &quot;Invalid Command Test: FAIL - Outputs not zero when cmd_valid=0 (0x%h)&quot;, dr_fp32addtree8to1_d);</font>
+606        <font color = "red">0/1     ==>                  fail_count = fail_count + 1;</font>
+607                                 end
+608                                 
+609                                 // 测试2: 各种指令编码测试
+610        1/1                      $fdisplay(sim_log, &quot;\n--- Testing Instruction Encoding ---&quot;);
+611                                 
+612        1/1                      for (cmd_test = 0; cmd_test &lt; 4; cmd_test = cmd_test + 1) begin // 只测试有效的寄存器编码
+613                                     // 发送指令并保持
+614        1/1                          cru_fp32addtree8to1 = {1'b1, cmd_test[1:0]}; // cmd_valid=1, dest_reg_idx=cmd_test[1:0]
+615        2/2                          @(posedge clk);
+616        2/2                          @(posedge clk); // 等待两个时钟周期确保处理完成
+617        2/2                          #1; // 小延迟确保信号稳定
+618                                     
+619        1/1                          $fdisplay(sim_log, &quot;Instruction 3'b1%2b: DR_output=0x%h&quot;, cmd_test[1:0], dr_fp32addtree8to1_d);
+620        1/1                          $fdisplay(sim_log, &quot;  fp_sum[0]=0x%h, fp_sum[1]=0x%h, fp_sum[2]=0x%h, fp_sum[3]=0x%h&quot;, 
+621                                              fp_sum[0], fp_sum[1], fp_sum[2], fp_sum[3]);
+622                                     
+623                                     // 验证输出位置
+624        1/1                          case (cmd_test[1:0])
+625                                         2'b00: begin
+626        1/1                                  if (fp_sum[0] != 32'b0 &amp;&amp; fp_sum[1] == 32'b0 &amp;&amp; fp_sum[2] == 32'b0 &amp;&amp; fp_sum[3] == 32'b0) begin
+627        1/1                                      $fdisplay(sim_log, &quot;Reg0 Target: PASS - Output in correct register (0x%h)&quot;, fp_sum[0]);
+628        1/1                                      pass_count = pass_count + 1;
+629                                             end else begin
+630        <font color = "red">0/1     ==>                              $fdisplay(sim_log, &quot;Reg0 Target: FAIL - Output in wrong register&quot;);</font>
+631        <font color = "red">0/1     ==>                              fail_count = fail_count + 1;</font>
+632                                             end
+633                                         end
+634                                         2'b01: begin
+635        1/1                                  if (fp_sum[0] == 32'b0 &amp;&amp; fp_sum[1] != 32'b0 &amp;&amp; fp_sum[2] == 32'b0 &amp;&amp; fp_sum[3] == 32'b0) begin
+636        1/1                                      $fdisplay(sim_log, &quot;Reg1 Target: PASS - Output in correct register (0x%h)&quot;, fp_sum[1]);
+637        1/1                                      pass_count = pass_count + 1;
+638                                             end else begin
+639        <font color = "red">0/1     ==>                              $fdisplay(sim_log, &quot;Reg1 Target: FAIL - Output in wrong register&quot;);</font>
+640        <font color = "red">0/1     ==>                              fail_count = fail_count + 1;</font>
+641                                             end
+642                                         end
+643                                         2'b10: begin
+644        1/1                                  if (fp_sum[0] == 32'b0 &amp;&amp; fp_sum[1] == 32'b0 &amp;&amp; fp_sum[2] != 32'b0 &amp;&amp; fp_sum[3] == 32'b0) begin
+645        1/1                                      $fdisplay(sim_log, &quot;Reg2 Target: PASS - Output in correct register (0x%h)&quot;, fp_sum[2]);
+646        1/1                                      pass_count = pass_count + 1;
+647                                             end else begin
+648        <font color = "red">0/1     ==>                              $fdisplay(sim_log, &quot;Reg2 Target: FAIL - Output in wrong register&quot;);</font>
+649        <font color = "red">0/1     ==>                              fail_count = fail_count + 1;</font>
+650                                             end
+651                                         end
+652                                         2'b11: begin
+653        1/1                                  if (fp_sum[0] == 32'b0 &amp;&amp; fp_sum[1] == 32'b0 &amp;&amp; fp_sum[2] == 32'b0 &amp;&amp; fp_sum[3] != 32'b0) begin
+654        1/1                                      $fdisplay(sim_log, &quot;Reg3 Target: PASS - Output in correct register (0x%h)&quot;, fp_sum[3]);
+655        1/1                                      pass_count = pass_count + 1;
+656                                             end else begin
+657        <font color = "red">0/1     ==>                              $fdisplay(sim_log, &quot;Reg3 Target: FAIL - Output in wrong register&quot;);</font>
+658        <font color = "red">0/1     ==>                              fail_count = fail_count + 1;</font>
+659                                             end
+660                                         end
+                   <font color = "red">==>  MISSING_DEFAULT</font>
+661                                     endcase
+662                                     
+663                                     // 停止指令并清零，为下一次测试准备
+664        1/1                          cru_fp32addtree8to1 = 3'b0;
+665        2/2                          @(posedge clk);
+666        2/2                          #10;
+667                                 end
+668                                 
+669                                 // 测试3: 指令时序测试
+670        1/1                      $fdisplay(sim_log, &quot;\n--- Testing Instruction Timing ---&quot;);
+671                                 
+672                                 // 清零
+673        1/1                      cru_fp32addtree8to1 = 3'b0;
+674        2/2                      @(posedge clk);
+675        2/2                      #10;
+676                                 
+677                                 // 发送指令到寄存器0并保持
+678        1/1                      cru_fp32addtree8to1 = 3'b100;
+679        2/2                      @(posedge clk);
+680        2/2                      @(posedge clk); // 等待两个时钟周期
+681        2/2                      #1;
+682                                 
+683                                 // 检查输出
+684        1/1                      $fdisplay(sim_log, &quot;After instruction: fp_sum[0]=0x%h, DR_output=0x%h&quot;, fp_sum[0], dr_fp32addtree8to1_d);
+685        1/1                      if (fp_sum[0] != 32'b0) begin
+686        1/1                          $fdisplay(sim_log, &quot;Timing Test: PASS - Output appears after 2 clock cycles (0x%h)&quot;, fp_sum[0]);
+687        1/1                          pass_count = pass_count + 1;
+688                                 end else begin
+689        <font color = "red">0/1     ==>                  $fdisplay(sim_log, &quot;Timing Test: FAIL - No output after 2 clock cycles&quot;);</font>
+690        <font color = "red">0/1     ==>                  fail_count = fail_count + 1;</font>
+691                                 end
+692                                 
+693                                 // 停止指令，检查输出是否清零（组合逻辑应该立即响应）
+694        1/1                      cru_fp32addtree8to1 = 3'b0;
+695        2/2                      #1; // 很短的延迟，因为是组合逻辑
+696                                 
+697        1/1                      $fdisplay(sim_log, &quot;After stop: DR_output=0x%h&quot;, dr_fp32addtree8to1_d);
+698        1/1                      if (dr_fp32addtree8to1_d == 128'b0) begin
+699        1/1                          $fdisplay(sim_log, &quot;Command Stop Test: PASS - Output cleared when command stops&quot;);
+700        1/1                          pass_count = pass_count + 1;
+701                                 end else begin
+702        <font color = "red">0/1     ==>                  $fdisplay(sim_log, &quot;Command Stop Test: FAIL - Output not cleared when command stops&quot;);</font>
+703        <font color = "red">0/1     ==>                  fail_count = fail_count + 1;</font>
+704                                 end
+705                                 
+706        1/1                      $fdisplay(sim_log, &quot;Instruction control tests completed.&quot;);
+707                             end
+708                         endtask
+709                     
+710                         // 执行寄存器功能测试 - 验证所有4个输出寄存器的独立性
+711                         task execute_register_tests;
+712                             integer reg_idx;
+713                             integer test_case;
+714                             begin
+715        1/1                      $fdisplay(sim_log, &quot;\n=== Starting Register Functionality Tests ===&quot;);
+716                                 
+717        1/1                      test_case = 0; // 使用第一个测试用例
+718                                 
+719                                 // 清零所有寄存器
+720        1/1                      dvr_fp32addtree8to1_s0 = 128'b0;
+721        1/1                      dvr_fp32addtree8to1_s1 = 128'b0;
+722        1/1                      cru_fp32addtree8to1 = 3'b0;
+723        2/2                      @(posedge clk);
+724        2/2                      #10;
+725                                 
+726                                 // 测试每个寄存器的独立性
+727        1/1                      for (reg_idx = 0; reg_idx &lt; 4; reg_idx = reg_idx + 1) begin
+728        1/1                          $fdisplay(sim_log, &quot;Testing Register %0d independence...&quot;, reg_idx);
+729                                     
+730                                     // 设置输入到指定寄存器
+731        1/1                          set_test_inputs(test_case, reg_idx);
+732                                     
+733                                     // 等待DUT处理 - 给足够时间完成浮点运算
+734        2/2                          @(posedge clk);
+735        2/2                          @(posedge clk);
+736        2/2                          #1;
+737                                     
+738                                     // 检查只有目标寄存器有输出，其他寄存器为0
+739        1/1                          if (fp_sum[reg_idx] != 32'b0) begin
+740        1/1                              $fdisplay(sim_log, &quot;Register %0d: PASS - Output present (0x%h)&quot;, reg_idx, fp_sum[reg_idx]);
+741        1/1                              pass_count = pass_count + 1;
+742                                     end else begin
+743        <font color = "red">0/1     ==>                      $fdisplay(sim_log, &quot;Register %0d: FAIL - No output&quot;, reg_idx);</font>
+744        <font color = "red">0/1     ==>                      fail_count = fail_count + 1;</font>
+745                                     end
+746                                     
+747                                     // 检查其他寄存器是否为0
+748        1/1                          for (j = 0; j &lt; 4; j = j + 1) begin
+749        1/1                              if (j != reg_idx) begin
+750        1/1                                  if (fp_sum[j] == 32'b0) begin
+751        1/1                                      $fdisplay(sim_log, &quot;Register %0d (non-target): PASS - Correctly zero&quot;, j);
+752                                             end else begin
+753        <font color = "red">0/1     ==>                              $fdisplay(sim_log, &quot;Register %0d (non-target): FAIL - Unexpected output (0x%h)&quot;, j, fp_sum[j]);</font>
+754        <font color = "red">0/1     ==>                              fail_count = fail_count + 1;</font>
+755                                             end
+756                                         end
+                        MISSING_ELSE
+757                                     end
+758                                     
+759                                     // 停止指令
+760        1/1                          cru_fp32addtree8to1 = 3'b0;
+761        2/2                          @(posedge clk);
+762        2/2                          #1;
+763                                     
+764        2/2                          #10;
+765                                 end
+766                                 
+767        1/1                      $fdisplay(sim_log, &quot;Register functionality tests completed.&quot;);
+768                             end
+769                         endtask
+770                     
+771                         // 执行随机测试
+772                         task execute_random_tests;
+773                             begin
+774        1/1                      $fdisplay(sim_log, &quot;\n=== Starting Random Tests ===&quot;);
+775                     
+776                                 // 初始化随机测试计数器
+777        1/1                      random_pass_count = 0;
+778        1/1                      random_fail_count = 0;
+779                     
+780                                 // 初始化随机种子
+781        1/1                      $srandom(RANDOM_SEED);
+782                     
+783        1/1                      for (rand_i = 0; rand_i &lt; NUM_RANDOM_TESTS; rand_i = rand_i + 1) begin
+784                                     // 生成随机输入
+785        1/1                          for (rand_j = 0; rand_j &lt; NUM_INPUTS; rand_j = rand_j + 1) begin
+786        1/1                              random_inputs[rand_j] = $random;
+787                                     end
+788                     
+789                                     // 设置输入到DUT - 按照新接口规范：每个FP32分为高低16bit
+790        1/1                          dvr_fp32addtree8to1_s0 = {random_inputs[7][15:0],   // S0[7] - FP32[7]的低16bit
+791                                                              random_inputs[6][15:0],    // S0[6] - FP32[6]的低16bit
+792                                                              random_inputs[5][15:0],    // S0[5] - FP32[5]的低16bit
+793                                                              random_inputs[4][15:0],    // S0[4] - FP32[4]的低16bit
+794                                                              random_inputs[3][15:0],    // S0[3] - FP32[3]的低16bit
+795                                                              random_inputs[2][15:0],    // S0[2] - FP32[2]的低16bit
+796                                                              random_inputs[1][15:0],    // S0[1] - FP32[1]的低16bit
+797                                                              random_inputs[0][15:0]};   // S0[0] - FP32[0]的低16bit
+798                                     
+799        1/1                          dvr_fp32addtree8to1_s1 = {random_inputs[7][31:16],  // S1[7] - FP32[7]的高16bit
+800                                                              random_inputs[6][31:16],   // S1[6] - FP32[6]的高16bit
+801                                                              random_inputs[5][31:16],   // S1[5] - FP32[5]的高16bit
+802                                                              random_inputs[4][31:16],   // S1[4] - FP32[4]的高16bit
+803                                                              random_inputs[3][31:16],   // S1[3] - FP32[3]的高16bit
+804                                                              random_inputs[2][31:16],   // S1[2] - FP32[2]的高16bit
+805                                                              random_inputs[1][31:16],   // S1[1] - FP32[1]的高16bit
+806                                                              random_inputs[0][31:16]};  // S1[0] - FP32[0]的高16bit
+807                                     
+808                                     // 发送指令到目标寄存器0
+809        1/1                          cru_fp32addtree8to1 = 3'b100; // 指令有效，目标寄存器编码=00
+810                     
+811                                     // 清除 SoftFloat 异常标志
+812        1/1                          clear_softfloat_flags();
+813                     
+814                                     // 通过 DPI-C 从 SoftFloat 获取期望结果
+815        1/1                          random_expected = fp32_add_8_softfloat(
+816                                         random_inputs[0], random_inputs[1], random_inputs[2], random_inputs[3],
+817                                         random_inputs[4], random_inputs[5], random_inputs[6], random_inputs[7]);
+818        1/1                          random_flags = get_softfloat_flags();
+819                     
+820                                     // 等待DUT处理（等待时钟和寄存器更新）
+821        2/2                          @(posedge clk);
+822        2/2                          #1; // 小延迟确保信号稳定
+823                                     
+824                                     // 停止指令
+825        1/1                          cru_fp32addtree8to1 = 3'b0;
+826                     
+827                                     // 比较结果 - 使用寄存器0进行随机测试
+828        1/1                          match_found = compare_results(random_expected, fp_sum[0], random_flags);
+829                     
+830                                     // 打印结果（有选择性地）
+831        1/1                          print_test_result(rand_i, random_expected, fp_sum[0], random_flags, match_found, 1'b1, 0);
+832                     
+833                                     // 更新计数器
+834        1/1                          if (match_found) begin
+835        1/1                              random_pass_count = random_pass_count + 1;
+836                                     end else begin
+837        <font color = "red">0/1     ==>                      random_fail_count = random_fail_count + 1;</font>
+838                                         // 输出输入值用于调试
+839        <font color = "red">0/1     ==>                      $fdisplay(sim_log, &quot;输入: %h %h %h %h %h %h %h %h&quot;,</font>
+840                                                  random_inputs[0], random_inputs[1], random_inputs[2], random_inputs[3],
+841                                                  random_inputs[4], random_inputs[5], random_inputs[6], random_inputs[7]);
+842                                     end
+843                     
+844        2/2                          #1; // 较短的延迟以加快随机测试
+845                     
+846                                 end
+847                     
+848                                 // 输出随机测试统计信息
+849        1/1                      $fdisplay(sim_log, &quot;\nRandom Test Summary:&quot;);
+850        1/1                      $fdisplay(sim_log, &quot;Total random tests: %0d&quot;, random_pass_count + random_fail_count);
+851        1/1                      $fdisplay(sim_log, &quot;Passed: %0d&quot;, random_pass_count);
+852        1/1                      $fdisplay(sim_log, &quot;Failed: %0d&quot;, random_fail_count);
+853        1/1                      if (NUM_RANDOM_TESTS &gt; 0) begin
+854        1/1                          $fdisplay(sim_log, &quot;Pass rate: %0d/%0d (%.1f%%)&quot;,
+855                                              random_pass_count, NUM_RANDOM_TESTS,
+856                                              (random_pass_count * 100.0) / NUM_RANDOM_TESTS);
+857                                 end
+                   <font color = "red">==>  MISSING_ELSE</font>
+858                             end
+859                         endtask
+860                     
+861                         // 打印最终统计信息
+862                         task print_final_statistics;
+863                             begin
+864        1/1                      $fdisplay(sim_log, &quot;\n=== Overall Test Summary ===&quot;);
+865        1/1                      $fdisplay(sim_log, &quot;Fixed tests - Passed: %0d, Failed: %0d&quot;, pass_count, fail_count);
+866        1/1                      $fdisplay(sim_log, &quot;Random tests - Passed: %0d, Failed: %0d&quot;, random_pass_count, random_fail_count);
+867        1/1                      $fdisplay(sim_log, &quot;Total tests: %0d&quot;, pass_count + fail_count + random_pass_count + random_fail_count);
+868        1/1                      $fdisplay(sim_log, &quot;Total passed: %0d&quot;, pass_count + random_pass_count);
+869        1/1                      $fdisplay(sim_log, &quot;Total failed: %0d&quot;, fail_count + random_fail_count);
+870                     
+871        1/1                      if ((fail_count + random_fail_count) == 0) begin
+872        1/1                          $fdisplay(sim_log, &quot;\nPASSED: All test cases passed!&quot;);
+873        1/1                          $display(&quot;SIMULATION PASSED: All test cases passed!&quot;);
+874                                 end else begin
+875        <font color = "red">0/1     ==>                  $fdisplay(sim_log, &quot;\nFAILED: %0d test cases failed&quot;, fail_count + random_fail_count);</font>
+876        <font color = "red">0/1     ==>                  $display(&quot;SIMULATION FAILED: %0d test cases failed&quot;, fail_count + random_fail_count);</font>
+877                                 end
+878                             end
+879                         endtask
+880                     
+881                         //==========================================================================
+882                         // 主测试序列
+883                         //==========================================================================
+884                         
+885                         initial begin
+886                             // 初始化信号
+887        1/1                  clk = 1'b0;
+888        1/1                  rst_n = 1'b0;
+889        1/1                  dvr_fp32addtree8to1_s0 = 128'b0;
+890        1/1                  dvr_fp32addtree8to1_s1 = 128'b0;
+891        1/1                  cru_fp32addtree8to1 = 3'b0;
+892        1/1                  pass_count = 0;
+893        1/1                  fail_count = 0;
+894                     
+895                             // 波形文件设置
+896                             /*`ifdef DUMP_FSDB
+897                                 $fsdbDumpfile(&quot;sim_softfloat.fsdb&quot;);
+898                                 $fsdbDumpvars(0, tb_fp32_adder_tree_8_inputs);
+899                                 $display(&quot;FSDB波形文件已启用: sim_softfloat.fsdb&quot;);
+900                             `endif*/
+901                            /* $dumpfile(&quot;waveform.vcd&quot;);
+902                             $dumpvars(0, tb_fp32_adder_tree_8_inputs);
+903                             $display(&quot;信息：VCD波形记录已启用，将生成 waveform.vcd 文件。&quot;);
+904                            */
+905                             // 日志文件设置
+906        1/1                  sim_log = $fopen(&quot;sim_softfloat.log&quot;, &quot;w&quot;);
+907        1/1                  if (sim_log == 0) begin
+908        <font color = "red">0/1     ==>              $display(&quot;Error: Could not open sim_softfloat.log&quot;);</font>
+909        <font color = "red">0/1     ==>              $finish;</font>
+910                             end
+                        MISSING_ELSE
+911        1/1                  $fdisplay(sim_log, &quot;FP32 Adder Tree SoftFloat Simulation started at time %t&quot;, $time);
+912                     
+913                             // 设置 SoftFloat 舍入模式
+914        1/1                  set_softfloat_rounding_mode(SOFTFLOAT_ROUND_NEAR_EVEN);
+915                     
+916                             // 初始化测试用例数据
+917        1/1                  initialize_test_cases();
+918                     
+919                             // 系统复位
+920        2/2                  #20;
+921        1/1                  rst_n = 1'b1;
+922        2/2                  #10;
+923                     
+924                             // 执行指令控制测试
+925        1/1                  execute_instruction_tests();
+926                             
+927                             // 执行寄存器功能测试
+928        1/1                  execute_register_tests();
+929                             
+930                             // 执行固定测试用例
+931        1/1                  execute_fixed_tests();
+932                     
+933                             // 执行随机测试
+934        1/1                  execute_random_tests();
+935                     
+936                             // 输出最终统计
+937        1/1                  print_final_statistics();
+938                     
+939                             // 清理并结束仿真
+940        1/1                  $fclose(sim_log);
+941        1/1                  $finish;
+</pre>
+<hr>
+<a name="Cond"></a>
+Cond Coverage for Module : <a href="mod4.html" >tb_fp32_adder_tree_8_inputs</a><br clear=all>
+<table class="noborder">
+<col width="122">
+<col span="3" width="82">
+<tr><th></th><th>Total</th><th>Covered</th><th>Percent</th></tr>
+<tr class="s10"><td class="lf">Conditions</td><td>24</td><td>24</td><td>100.00</td></tr>
+<tr class="s10"><td class="lf">Logical</td><td>24</td><td>24</td><td>100.00</td></tr>
+<tr class="wht"><td class="lf">Non-Logical</td><td>0</td><td>0</td><td></td></tr>
+<tr class="wht"><td class="lf">Event</td><td>0</td><td>0</td><td></td></tr>
+</table>
+<br clear=all>
+<pre class="code"> LINE       67
+ EXPRESSION ((fp_sum[0][30:23] == 8'hff) &amp;&amp; (fp_sum[0][22:0] != 23'b0))
+             -------------1-------------    -------------2------------
+</pre>
+<table class="noborder">
+<col span="2" width="40">
+<tr><th>-1-</th><th>-2-</th><th>Status</th></tr>
+<tr class="uGreen"><td>0</td><td>1</td><td class="lf">Covered</td></tr>
+<tr class="uGreen"><td>1</td><td>0</td><td class="lf">Covered</td></tr>
+<tr class="uGreen"><td>1</td><td>1</td><td class="lf">Covered</td></tr>
+</table>
+<br clear=all>
+<pre class="code"> LINE       67
+ EXPRESSION ((fp_sum[1][30:23] == 8'hff) &amp;&amp; (fp_sum[1][22:0] != 23'b0))
+             -------------1-------------    -------------2------------
+</pre>
+<table class="noborder">
+<col span="2" width="40">
+<tr><th>-1-</th><th>-2-</th><th>Status</th></tr>
+<tr class="uGreen"><td>0</td><td>1</td><td class="lf">Covered</td></tr>
+<tr class="uGreen"><td>1</td><td>0</td><td class="lf">Covered</td></tr>
+<tr class="uGreen"><td>1</td><td>1</td><td class="lf">Covered</td></tr>
+</table>
+<br clear=all>
+<pre class="code"> LINE       67
+ EXPRESSION ((fp_sum[2][30:23] == 8'hff) &amp;&amp; (fp_sum[2][22:0] != 23'b0))
+             -------------1-------------    -------------2------------
+</pre>
+<table class="noborder">
+<col span="2" width="40">
+<tr><th>-1-</th><th>-2-</th><th>Status</th></tr>
+<tr class="uGreen"><td>0</td><td>1</td><td class="lf">Covered</td></tr>
+<tr class="uGreen"><td>1</td><td>0</td><td class="lf">Covered</td></tr>
+<tr class="uGreen"><td>1</td><td>1</td><td class="lf">Covered</td></tr>
+</table>
+<br clear=all>
+<pre class="code"> LINE       67
+ EXPRESSION ((fp_sum[3][30:23] == 8'hff) &amp;&amp; (fp_sum[3][22:0] != 23'b0))
+             -------------1-------------    -------------2------------
+</pre>
+<table class="noborder">
+<col span="2" width="40">
+<tr><th>-1-</th><th>-2-</th><th>Status</th></tr>
+<tr class="uGreen"><td>0</td><td>1</td><td class="lf">Covered</td></tr>
+<tr class="uGreen"><td>1</td><td>0</td><td class="lf">Covered</td></tr>
+<tr class="uGreen"><td>1</td><td>1</td><td class="lf">Covered</td></tr>
+</table>
+<br clear=all>
+<pre class="code"> LINE       68
+ EXPRESSION ((fp_sum[0][30:23] == 8'hff) &amp;&amp; (fp_sum[0][22:0] == 23'b0))
+             -------------1-------------    -------------2------------
+</pre>
+<table class="noborder">
+<col span="2" width="40">
+<tr><th>-1-</th><th>-2-</th><th>Status</th></tr>
+<tr class="uGreen"><td>0</td><td>1</td><td class="lf">Covered</td></tr>
+<tr class="uGreen"><td>1</td><td>0</td><td class="lf">Covered</td></tr>
+<tr class="uGreen"><td>1</td><td>1</td><td class="lf">Covered</td></tr>
+</table>
+<br clear=all>
+<pre class="code"> LINE       68
+ EXPRESSION ((fp_sum[1][30:23] == 8'hff) &amp;&amp; (fp_sum[1][22:0] == 23'b0))
+             -------------1-------------    -------------2------------
+</pre>
+<table class="noborder">
+<col span="2" width="40">
+<tr><th>-1-</th><th>-2-</th><th>Status</th></tr>
+<tr class="uGreen"><td>0</td><td>1</td><td class="lf">Covered</td></tr>
+<tr class="uGreen"><td>1</td><td>0</td><td class="lf">Covered</td></tr>
+<tr class="uGreen"><td>1</td><td>1</td><td class="lf">Covered</td></tr>
+</table>
+<br clear=all>
+<pre class="code"> LINE       68
+ EXPRESSION ((fp_sum[2][30:23] == 8'hff) &amp;&amp; (fp_sum[2][22:0] == 23'b0))
+             -------------1-------------    -------------2------------
+</pre>
+<table class="noborder">
+<col span="2" width="40">
+<tr><th>-1-</th><th>-2-</th><th>Status</th></tr>
+<tr class="uGreen"><td>0</td><td>1</td><td class="lf">Covered</td></tr>
+<tr class="uGreen"><td>1</td><td>0</td><td class="lf">Covered</td></tr>
+<tr class="uGreen"><td>1</td><td>1</td><td class="lf">Covered</td></tr>
+</table>
+<br clear=all>
+<pre class="code"> LINE       68
+ EXPRESSION ((fp_sum[3][30:23] == 8'hff) &amp;&amp; (fp_sum[3][22:0] == 23'b0))
+             -------------1-------------    -------------2------------
+</pre>
+<table class="noborder">
+<col span="2" width="40">
+<tr><th>-1-</th><th>-2-</th><th>Status</th></tr>
+<tr class="uGreen"><td>0</td><td>1</td><td class="lf">Covered</td></tr>
+<tr class="uGreen"><td>1</td><td>0</td><td class="lf">Covered</td></tr>
+<tr class="uGreen"><td>1</td><td>1</td><td class="lf">Covered</td></tr>
+</table>
+<hr>
+<a name="Toggle"></a>
+Toggle Coverage for Module : <a href="mod4.html" >tb_fp32_adder_tree_8_inputs</a><br clear=all>
+<table align=left class="noborder">
+<tr>
+<th nowrap width=120></th><th nowrap width=80>Total</th><th nowrap width=80>Covered</th><th nowrap width=80>Percent</th></tr><tr class="s6">
+<td>Totals</td>
+<td class="rt">11</td>
+<td class="rt">7</td>
+<td class="rt">63.64 </td>
+</tr><tr class="s8">
+<td>Total Bits</td>
+<td class="rt">1036</td>
+<td class="rt">913</td>
+<td class="rt">88.13 </td>
+</tr><tr class="s8">
+<td nowrap>Total Bits 0->1</td>
+<td class="rt">518</td>
+<td class="rt">457</td>
+<td class="rt">88.22 </td>
+</tr><tr class="s8">
+<td nowrap>Total Bits 1->0</td>
+<td class="rt">518</td>
+<td class="rt">456</td>
+<td class="rt">88.03 </td>
+</tr></table><br clear=all>
+<table align=left class="noborder">
+<tr>
+<th nowrap width=120></th><th nowrap width=80></th><th nowrap width=80></th><th nowrap width=80></th></tr><tr class="s6">
+<td>Signals</td>
+<td class="rt">11</td>
+<td class="rt">7</td>
+<td class="rt">63.64 </td>
+</tr><tr class="s8">
+<td>Signal Bits</td>
+<td class="rt">1036</td>
+<td class="rt">913</td>
+<td class="rt">88.13 </td>
+</tr><tr class="s8">
+<td nowrap>Signal Bits 0->1</td>
+<td class="rt">518</td>
+<td class="rt">457</td>
+<td class="rt">88.22 </td>
+</tr><tr class="s8">
+<td nowrap>Signal Bits 1->0</td>
+<td class="rt">518</td>
+<td class="rt">456</td>
+<td class="rt">88.03 </td>
+</tr></table><br clear=all>
+<table align=left class="sortable noborder">
+<caption><b>Signal Details</b></caption>
+<tr class="sortablehead">
+<td class="alfsrt">Name</td><td class="alfsrt">Toggle</td><td class="alfsrt">Toggle 1->0</td><td class="alfsrt">Toggle 0->1</td></tr><tr>
+<td>clk</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>rst_n</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>dvr_fp32addtree8to1_s0[127:0]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>dvr_fp32addtree8to1_s1[127:0]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>cru_fp32addtree8to1[2:0]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>dr_fp32addtree8to1_d[127:0]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>match_found</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+</tr><tr>
+<td>expected_fp32_from_softfloat[31:0]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>softfloat_flags[0]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>softfloat_flags[1]</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+</tr><tr>
+<td>softfloat_flags[2]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>softfloat_flags[31:3]</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+</tr><tr>
+<td>random_expected[31:0]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>random_flags[0]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>random_flags[3:1]</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+</tr><tr>
+<td>random_flags[4]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>random_flags[31:5]</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+</tr></table><br clear=all>
+<hr>
+<a name="Branch"></a>
+Branch Coverage for Module : <a href="mod4.html" >tb_fp32_adder_tree_8_inputs</a><br clear=all>
+<table align=left class="noborder">
+<tr>
+<th nowrap width=120></th><th nowrap width=80>Line No.</th><th nowrap width=80>Total</th><th nowrap width=80>Covered</th><th nowrap width=80>Percent</th></tr><tr class="s5">
+<td>Branches</td>
+<td></td>
+<td class="rt">2</td>
+<td class="rt">1</td>
+<td class="rt">50.00 </td>
+</tr><tr class="s5">
+<td>IF</td>
+<td class="rt">907</td>
+<td class="rt">2</td>
+<td class="rt">1</td>
+<td class="rt">50.00 </td>
+</tr></table><br clear=all>
+<pre class="code"><br clear=all>
+907                if (sim_log == 0) begin
+                   <font color = "red">-1-</font>  
+908                    $display("Error: Could not open sim_softfloat.log");
+           <font color = "red">            ==></font>
+909                    $finish;
+910                end
+                   MISSING_ELSE
+           <font color = "green">        ==></font>
+</pre>
+<br clear=all>
+<span class=repname>Branches:</span>
+<br clear=all>
+<table align=left class="noborder">
+<tr>
+<th nowrap width=80>-1-</th><th nowrap width=80>Status</th></tr><tr class="uRed">
+<td align=center>1</td>
+<td>Not Covered</td>
+</tr><tr class="uGreen">
+<td align=center>0</td>
+<td>Covered</td>
+</tr></table><br clear=all>
+</div>
+</div>
+<div class="ui-layout-center-inner-north">
+<div id="center-bread-crumb" class="breadCrumb module urg-margin-bottom">
+  <ul name="inst_tag_419">
+    <li>
+      <a href="#Line">Line</a>    </li>
+    <li>
+      <a href="#Cond">Cond</a>    </li>
+    <li>
+      <a href="#Toggle">Toggle</a>    </li>
+    <li>
+      <a href="#Branch">Branch</a>    </li>
+  </ul>
+  <ul name="tag_tb_fp32_adder_tree_8_inputs">
+    <li>
+      <a href="#Line">Line</a>    </li>
+    <li>
+      <a href="#Cond">Cond</a>    </li>
+    <li>
+      <a href="#Toggle">Toggle</a>    </li>
+    <li>
+      <a href="#Branch">Branch</a>    </li>
+  </ul>
+</div>
+</div>
+</div>
+<div class="ui-layout-south">
+<table align=center><tr><td class="s0 cl">0%</td>
+<td class="s1 cl">10%</td>
+<td class="s2 cl">20%</td>
+<td class="s3 cl">30%</td>
+<td class="s4 cl">40%</td>
+<td class="s5 cl">50%</td>
+<td class="s6 cl">60%</td>
+<td class="s7 cl">70%</td>
+<td class="s8 cl">80%</td>
+<td class="s9 cl">90%</td>
+<td class="s10 cl">100%</td></tr></table></div>
+</body>
+</html>
