@@ -160,7 +160,7 @@ GPU线程组（Warp）执行指令是“齐步走”的。但如果组内有分�
 + 斜线：斜率为 Achievable Peak Memory Bandwidth (APM)，表示内存瓶颈的上限。
 + 脊点（Ridge Point）：𝐴_𝑚𝑎𝑥=𝐴𝑃𝐹/𝐴𝑃𝑀​，是计算瓶颈和内存瓶颈的分界点。
 2、Inter-GPU Communication-to-Memory Roofline（通信-内存平面）
-![alt text](../image-5.png)
+![alt text](https://github.com/seclabBupt/aiacc/blob/main/roofline/image-5.png?raw=true)
 + 横坐标（X轴）：Communication-to-Memory Intensity，记为 𝑂=𝑃/𝑀​，单位是（参数字节数 / 内存访问字节数）。
 + 纵坐标（Y轴）：Achievable Bandwidth（可达通信带宽），单位是 Byte/s。
 + 水平线：表示系统的 Achievable Peak Bandwidth (APB)，即通信瓶颈的上限。
@@ -238,6 +238,7 @@ GPU线程组（Warp）执行指令是“齐步走”的。但如果组内有分�
 | On Applying Performance Portability Metrics| 本文讨论了在评估性能可移植性时如何应用相关度量标准。 |
 
 | TPU-KNN: K Nearest Neighbor Search at Peak FLOP/s | 本文研究了如何在TPU上实现K近邻搜索并达到峰值浮点运算性能。 |
+
 
 
 
