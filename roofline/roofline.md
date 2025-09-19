@@ -182,7 +182,7 @@ GPU线程组（Warp）执行指令是“齐步走”的。但如果组内有分�
 ## 7、Mansard Roofline Model
 ### 7.1、Mansard Roofline Model介绍
 论文提出的 Mansard Roofline Model（MaRM） 是对传统 Roofline 模型的一个重要扩展，旨在更准确地建模现代乱序执行处理器的性能上限。MaRM 通过引入指令退休相关的硬件约束，如退休槽位、重排序缓冲区和物理寄存器文件，来提供更真实的性能上界预测。
-![alt text](../image-7.png)
+![alt text](https://github.com/seclabBupt/aiacc/blob/main/roofline/image-7.png?raw=true)
 + 纵坐标（Y轴）：IPC（Instructions Retired per Cycle），即每周期退休的指令数。这与传统 Roofline 模型使用 FLOPS（每秒浮点运算次数）不同，MaRM 使用 IPC 来更直接地反映处理器的指令执行效率。
 + 横坐标（X轴）：算术强度（Arithmetic Intensity, AI），定义为：AI= 内存指令数 /非内存指令数。注意这与传统 Roofline 中 AI = FLOPS / 字节传输数 不同，MaRM 的 AI 是基于指令类型的比例。
 1. 计算屋顶（Compute Roof）
@@ -207,7 +207,7 @@ GPU线程组（Warp）执行指令是“齐步走”的。但如果组内有分�
 ## 8、Multi-level Integrated Roofline Model
 ### 8.1、Multi-level Integrated Roofline Model介绍
 多层次集成屋顶线模型 (Multi-level Integrated Roofline Model) 是对经典屋顶线模型的扩展，用于更全面地分析应用程序在不同内存层次结构中的性能瓶颈。它通过同时测量内存层次结构中多个级别（如L1缓存、L2缓存、L3缓存、MCDRAM和DRAM）的算术强度 (Arithmetic Intensity, AI) 和性能 (Performance)，来提供更深入的性能洞察。
-![alt text](../image-8.png)
+![alt text](https://github.com/seclabBupt/aiacc/blob/main/roofline/image-8.png?raw=true)
 1、多条屋顶线（Multi-level Rooflines）：
 + 在图中，可以看到多条水平线和斜线，它们代表了不同的硬件性能上限，即“屋顶线”。
 + 水平线代表处理器在不同向量单元（如DP Vector FMA Peak, DP Vector Add Peak, Scalar Add Peak）下的理论峰值计算性能（以GFLOPS/s为单位）。这些是处理器能够达到的最高浮点运算速度。
@@ -238,6 +238,7 @@ GPU线程组（Warp）执行指令是“齐步走”的。但如果组内有分�
 | On Applying Performance Portability Metrics| 本文讨论了在评估性能可移植性时如何应用相关度量标准。 |
 
 | TPU-KNN: K Nearest Neighbor Search at Peak FLOP/s | 本文研究了如何在TPU上实现K近邻搜索并达到峰值浮点运算性能。 |
+
 
 
 
