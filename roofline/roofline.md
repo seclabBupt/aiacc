@@ -153,7 +153,7 @@ GPU线程组（Warp）执行指令是“齐步走”的。但如果组内有分�
 + APM（Achievable Peak Memory bandwidth）：系统在存在内存慢节点时可达到的峰值内存带宽。
 + APB（Achievable Peak Bandwidth）：系统在存在通信慢节点时可达到的峰值通信带宽。
 1、Intra-GPU Roofline（传统计算-内存平面）
-![alt text](../image-4.png)
+![alt text](https://github.com/seclabBupt/aiacc/blob/main/roofline/image-4.png?raw=true)
 + 横坐标（X轴）：Arithmetic Intensity（算术强度），记为 𝐴=𝐹/𝑀，单位是 FLOP/Byte。
 + 纵坐标（Y轴）：Achievable FLOPS（可达计算性能），单位是 FLOP/s。
 + 水平线：表示系统的 Achievable Peak FLOPS (APF)，即计算瓶颈的上限。
@@ -238,5 +238,6 @@ GPU线程组（Warp）执行指令是“齐步走”的。但如果组内有分�
 | On Applying Performance Portability Metrics| 本文讨论了在评估性能可移植性时如何应用相关度量标准。 |
 
 | TPU-KNN: K Nearest Neighbor Search at Peak FLOP/s | 本文研究了如何在TPU上实现K近邻搜索并达到峰值浮点运算性能。 |
+
 
 
