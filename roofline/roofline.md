@@ -127,7 +127,7 @@ GPU的线程是成组（叫“Warp”）工作的。当一个Warp去全局内存
 + Stride-8 (跨步8) 墙： 效率低！32个线程访问间隔很大（非连续）的内存地址（比如每隔8个元素读一个）。可能需要多达32次事务。强度最低 (1条指令/事务)。
 2、共享内存组冲突 (Shared Memory Bank Conflicts)
 GPU的共享内存（很快的小块内存，线程组内共享）被分成很多小“格子”(banks)。如果同一个Warp里的多个线程同时访问同一个bank里的不同数据，就会发生“冲突”(Bank Conflict)。冲突会导致访问被串行化（一个一个处理），拖慢速度。冲突越严重（同时访问同一个bank的线程数越多），性能越差。
-![alt text](../image-2.png)
+![alt text](https://github.com/seclabBupt/aiacc/blob/main/roofline/image-2.png?raw=true)
 + 无冲突 (No Bank Conflict) 墙： 效率最高！32个线程访问32个不同的bank（或者同一个bank的同一个位置）。只需要1次事务。强度最高 (32条指令/事务)。
 + 32路冲突 (32-way Bank Conflict) 墙： 效率最低！32个线程都访问同一个bank里的不同位置。需要32次事务串行处理。强度最低 (1条指令/事务)。
 #### 5.1.2、线程预测 (Thread Predication)
@@ -238,3 +238,4 @@ GPU线程组（Warp）执行指令是“齐步走”的。但如果组内有分�
 | On Applying Performance Portability Metrics| 本文讨论了在评估性能可移植性时如何应用相关度量标准。 |
 
 | TPU-KNN: K Nearest Neighbor Search at Peak FLOP/s | 本文研究了如何在TPU上实现K近邻搜索并达到峰值浮点运算性能。 |
+
