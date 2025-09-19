@@ -121,7 +121,7 @@ adCARM 是一个动态、应用驱动的性能模型，它通过考虑应用程�
 #### 5.1.1、内存访问模式与“墙”(Memory Walls)
 1、全局内存访问模式 (Global Memory Access Patterns)
 GPU的线程是成组（叫“Warp”）工作的。当一个Warp去全局内存读/写数据时，如果组内32个线程要的数据分散在内存的不同角落，GPU就需要发很多次小请求（事务）才能拿齐数据，效率很低。如果大家要的数据集中在一块连续区域，GPU发一两个大请求就能搞定，效率高。
-![alt text](../image-1.png)
+![alt text](https://github.com/seclabBupt/aiacc/blob/main/roofline/image-1.png?raw=true)
 + Stride-0 (跨步0) 墙： 效率最高！所有32个线程都访问同一个内存地址（比如都读同一个变量）。只需要1次事务。强度最高 (32条指令/事务)。
 + Stride-1 (跨步1) 墙： 效率高！32个线程访问连续的内存地址（比如读一个数组的连续32个元素）。对于32位数据（如float, int），需要8次事务。强度中等 (4条指令/事务)。
 + Stride-8 (跨步8) 墙： 效率低！32个线程访问间隔很大（非连续）的内存地址（比如每隔8个元素读一个）。可能需要多达32次事务。强度最低 (1条指令/事务)。
@@ -236,4 +236,5 @@ GPU线程组（Warp）执行指令是“齐步走”的。但如果组内有分�
 | Performance analysis of deep learning workloads using roofline trajectories | 本文通过使用Roofline轨迹来分析深度学习工作负载的性能。 |
 | Performance Analysis of GPU Programming Models Using the Roofline Scaling Trajectories | 本文利用Roofline扩展轨迹分析了GPU编程模型的性能。|
 | On Applying Performance Portability Metrics| 本文讨论了在评估性能可移植性时如何应用相关度量标准。 |
+
 | TPU-KNN: K Nearest Neighbor Search at Peak FLOP/s | 本文研究了如何在TPU上实现K近邻搜索并达到峰值浮点运算性能。 |
