@@ -132,7 +132,7 @@ GPU的共享内存（很快的小块内存，线程组内共享）被分成很�
 + 32路冲突 (32-way Bank Conflict) 墙： 效率最低！32个线程都访问同一个bank里的不同位置。需要32次事务串行处理。强度最低 (1条指令/事务)。
 #### 5.1.2、线程预测 (Thread Predication)
 GPU线程组（Warp）执行指令是“齐步走”的。但如果组内有分支判断（比如if...else...），有些线程要走if分支，有些要走else分支。GPU怎么处理呢？它会让所有线程都走一遍所有分支的代码，但对于不该执行某个分支的线程，会用一个“掩码”(mask)把它们屏蔽掉 (Predicated Off)，让它们在那个分支里不产生实际效果（不写内存等）。这保证了硬件简单高效。但如果分支很多或者分支内工作量很大，屏蔽掉的线程就是在“空转”，浪费了计算资源。虽然Warp执行的指令数没变（Y轴GIPS可能不低），但实际干活的线程变少了，所以真正完成的有用指令数（线程级GIPS）就变低了。
-![alt text](../image-3.png)
+![alt text](https://github.com/seclabBupt/aiacc/blob/main/roofline/image-3.png?raw=true)
 + 在指令屋顶线图上，实心点代表线程级的GIPS（有用指令吞吐）。
 + 虚线代表Warp级的GIPS（硬件执行的指令吞吐）。
 + 如果实心点紧贴虚线（如图2A），说明几乎没有线程被屏蔽，所有线程都在有效工作。
@@ -238,4 +238,5 @@ GPU线程组（Warp）执行指令是“齐步走”的。但如果组内有分�
 | On Applying Performance Portability Metrics| 本文讨论了在评估性能可移植性时如何应用相关度量标准。 |
 
 | TPU-KNN: K Nearest Neighbor Search at Peak FLOP/s | 本文研究了如何在TPU上实现K近邻搜索并达到峰值浮点运算性能。 |
+
 
