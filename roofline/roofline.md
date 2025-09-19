@@ -168,7 +168,7 @@ GPU线程组（Warp）执行指令是“齐步走”的。但如果组内有分�
 + 脊点：O_max=APB/APM​，是内存瓶颈和通信瓶颈的分界点。
 + 适用条件：当系统处于内存瓶颈区域（即 A<𝐴_𝑚𝑎𝑥​）时使用此平面。
 3、Inter-GPU Communication-to-FLOPS Roofline（通信-计算平面）
-![alt text](../image-6.png)
+![alt text](https://github.com/seclabBupt/aiacc/blob/main/roofline/image-6.png?raw=true)
 + 横坐标（X轴）：Communication-to-FLOPS Intensity，记为 C=P/F​，单位是（参数字节数 / FLOP）。
 + 纵坐标（Y轴）：Achievable Bandwidth（可达通信带宽），单位是 Byte/s。
 + 水平线：APB，通信瓶颈上限。
@@ -238,6 +238,7 @@ GPU线程组（Warp）执行指令是“齐步走”的。但如果组内有分�
 | On Applying Performance Portability Metrics| 本文讨论了在评估性能可移植性时如何应用相关度量标准。 |
 
 | TPU-KNN: K Nearest Neighbor Search at Peak FLOP/s | 本文研究了如何在TPU上实现K近邻搜索并达到峰值浮点运算性能。 |
+
 
 
 
