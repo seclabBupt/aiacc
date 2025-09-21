@@ -823,7 +823,7 @@ class OnnxConverter(BaseConverter):
     def convert_skip_op(self, onnx_node):
         op = self.getOperand(onnx_node.inputs[0])
         self.addOperand(onnx_node.name, op)
-
+    #具体算子部分未注释，遇到时可以查找
     def convert_add_op(self, onnx_node):
         assert (onnx_node.op_type == "Add")
         assert (len(onnx_node.inputs) == 2)
@@ -3358,3 +3358,4 @@ class OnnxConverter(BaseConverter):
                              loc=self.get_loc("{}_{}".format(onnx_node.name, onnx_node.op_type)),
                              ip=self.mlir.insert_point).output
         self.addOperand(onnx_node.name, new_op)
+
