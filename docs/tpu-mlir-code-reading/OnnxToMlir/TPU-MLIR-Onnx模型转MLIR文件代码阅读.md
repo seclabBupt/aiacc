@@ -7,11 +7,11 @@
 
 ​	resnet18.onnx  -->  resnet18_opt.onnx  -->  final_opt.onnx  -->  resnet18_origin.mlir
 
-​	**首先，**是通过ONNX Simplifier(onnxsim)这个外部工具来对resnet18.onnx模型做一个初步的优化，比如shape推导、常量合并等，将其转化为restnet18_opt.onnx。
+​	**首先**，是通过ONNX Simplifier(onnxsim)这个外部工具来对resnet18.onnx模型做一个初步的优化，比如shape推导、常量合并等，将其转化为restnet18_opt.onnx。
 
-​	**其次，**Onnxopt.py这个文件会帮我们做一些onnxsim无法完成的一些功能，包括一些特殊算子的合并，经过Onnxopt.py后转化为final_opt.onnx模型。
+​	**其次**，Onnxopt.py这个文件会帮我们做一些onnxsim无法完成的一些功能，包括一些特殊算子的合并，经过Onnxopt.py后转化为final_opt.onnx模型。
 
-​	**最后，**是使用OnnxConverter.py工具。OnnxConverter.py工具导入的模型是final_opt.onnx，这会使final_opt.onnx模型转化为resnet18_origin.mlir文件。
+​	**最后**，是使用OnnxConverter.py工具。OnnxConverter.py工具导入的模型是final_opt.onnx，这会使final_opt.onnx模型转化为resnet18_origin.mlir文件。
 
 ## Onnxopt.py文件
 
@@ -1300,3 +1300,4 @@ def model_simplify(self, input_shapes=[]):
 
 
 ​		onnx的一些基础知识： [ONNX 基础知识 - 知乎](https://zhuanlan.zhihu.com/p/686126692) 
+
