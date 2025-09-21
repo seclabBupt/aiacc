@@ -1,3 +1,6 @@
+
+@Jabari
+
 ## Onnx模型转化路径
 
 ​	比如resnet18.onnx这个模型，它的转化路径如下：
@@ -1294,5 +1297,6 @@ def model_simplify(self, input_shapes=[]):
         return result
 
 ```
+
 
 ​		onnx的一些基础知识： [ONNX 基础知识 - 知乎](https://zhuanlan.zhihu.com/p/686126692) 
