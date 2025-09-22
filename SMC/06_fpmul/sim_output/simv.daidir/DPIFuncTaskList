@@ -1,9 +1,0 @@
-import_DPI dpi_f16_mul tb_fpmul
-import_DPI dpi_f32_mul tb_fpmul
-import_DPI dpi_get_inexact_flag tb_fpmul
-import_DPI dpi_get_underflow_flag tb_fpmul
-import_DPI dpi_get_overflow_flag tb_fpmul
-import_DPI dpi_get_infinite_flag tb_fpmul
-import_DPI dpi_get_invalid_flag tb_fpmul
-import_DPI dpi_get_exception_flags tb_fpmul
-import_DPI dpi_clear_exception_flags tb_fpmul
