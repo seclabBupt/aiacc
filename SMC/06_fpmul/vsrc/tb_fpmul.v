@@ -1,518 +1,517 @@
-`timescale 1ns/1ps
+`timescale 1ns / 1ps
 
 module tb_fpmul;
 
-// 参数定义
-parameter FP16_WIDTH = 16;
-parameter FP32_WIDTH = 32;
-parameter TEST_COUNT = 50;
+    //------------------------------------------------------------------
+    // 参数定义
+    //------------------------------------------------------------------
+    parameter CLK_PERIOD = 10;
+    parameter TEST_VECTORS_32B = 10000;  // 测试向量数量
+    parameter TEST_VECTORS_16B = 10000;  // 测试向量数量
+    parameter TEST_SPECIAL_CASES = 20000; // 特殊值测试数量
 
-// 输入信号
-reg        inst_valid;           // 指令有效信号
-reg        src_precision;        // 源寄存器精度：0=16bit，1=32bit
-reg        dst_precision;        // 目的寄存器精度：0=16bit，1=32bit
-reg [31:0] dvr_fpmul_s0;         // 第一输入寄存器
-reg [31:0] dvr_fpmul_s1;         // 第二输入寄存器
+    //------------------------------------------------------------------
+    // 测试平台信号
+    //------------------------------------------------------------------
+    reg clk;
+    reg rst_n;
+    reg [127:0] dvr_fpmul_s0;
+    reg [127:0] dvr_fpmul_s1;
+    reg [2:0]   cru_fpmul;
+    wire [127:0] dr_fpmul_d;
 
-// 输出信号
-wire [31:0] dr_fpmul_d;          // 输出寄存器
+    integer pass_count;
+    integer fail_count;
+    integer total_tests;
 
-reg clk;
+    import "DPI-C" function int unsigned dpi_f32_mul(input int unsigned a, input int unsigned b);
+    import "DPI-C" function shortint unsigned dpi_f16_mul(input shortint unsigned a, input shortint unsigned b);
+    
+    // 舍入模式和异常标志相关DPI函数
+    import "DPI-C" function void dpi_set_rounding_mode(input int unsigned mode);
+    import "DPI-C" function int unsigned dpi_get_rounding_mode();
+    import "DPI-C" function void dpi_clear_exception_flags();
+    import "DPI-C" function int unsigned dpi_get_exception_flags();
 
-// DPI-C 导入 SoftFloat 函数
-import "DPI-C" function shortint unsigned dpi_f16_mul(input shortint unsigned a, input shortint unsigned b);
-import "DPI-C" function int unsigned dpi_f32_mul(input int unsigned a, input int unsigned b);
-import "DPI-C" function int unsigned dpi_get_inexact_flag();
-import "DPI-C" function int unsigned dpi_get_underflow_flag();
-import "DPI-C" function int unsigned dpi_get_overflow_flag();
-import "DPI-C" function int unsigned dpi_get_infinite_flag();
-import "DPI-C" function int unsigned dpi_get_invalid_flag();
-import "DPI-C" function int unsigned dpi_get_exception_flags();
-import "DPI-C" function void dpi_clear_exception_flags();
 
-// 文件句柄和计数器
-integer sim_log;
-integer pass_count, fail_count, test_num;
+    initial begin
+        $fsdbDumpfile("fpmul.fsdb");
+        $fsdbDumpvars(0, dut);
+    end
+    //------------------------------------------------------------------
+    // NaN检测函数
+    //------------------------------------------------------------------
+    function is_f32_nan;
+        input [31:0] f32_val;
+        begin
+            is_f32_nan = (f32_val[30:23] == 8'hFF) && (f32_val[22:0] != 23'h0);
+        end
+    endfunction
 
-// 测试用例数组
-reg [15:0] fp16_test_a [0:TEST_COUNT-1];
-reg [15:0] fp16_test_b [0:TEST_COUNT-1];
-reg [31:0] fp32_test_a [0:TEST_COUNT-1];
-reg [31:0] fp32_test_b [0:TEST_COUNT-1];
+    function is_f16_nan;
+        input [15:0] f16_val;
+        begin
+            is_f16_nan = (f16_val[14:10] == 5'h1F) && (f16_val[9:0] != 10'h0);
+        end
+    endfunction
 
-// 期望结果
-reg [15:0] expected_fp16;
-reg [31:0] expected_fp32;
+    //------------------------------------------------------------------
+    // 特殊浮点数值生成函数
+    //------------------------------------------------------------------
+    function [31:0] gen_special_f32;
+        input [3:0] type_sel;  
+        begin
+            case (type_sel)
+                4'b0000: gen_special_f32 = 32'h00000000; // +0.0 (正零)
+                4'b0001: gen_special_f32 = 32'h80000000; // -0.0 (负零)
+                4'b0010: gen_special_f32 = 32'h7F800000; // +Inf (正无穷)
+                4'b0011: gen_special_f32 = 32'hFF800000; // -Inf (负无穷)
+                4'b0100: gen_special_f32 = 32'h7FC00000; // qNaN (静默NaN)
+                4'b0101: gen_special_f32 = 32'h7F800001; // sNaN (信号NaN)
+                4'b0110: gen_special_f32 = 32'h00800000; // 最小正规格化数 (2^-126)
+                4'b0111: gen_special_f32 = 32'h7F7FFFFF; // 最大正规格化数
+                4'b1000: gen_special_f32 = 32'h00000001; // 最小非规格化数
+                4'b1001: gen_special_f32 = 32'h007FFFFF; // 最大非规格化数
+                4'b1010: gen_special_f32 = 32'h80000001; // 最小负非规格化数
+                4'b1011: gen_special_f32 = 32'h807FFFFF; // 最大负非规格化数
+                4'b1100: gen_special_f32 = 32'h3F800000; // 1.0
+                4'b1101: gen_special_f32 = 32'hBF800000; // -1.0
+                4'b1110: gen_special_f32 = 32'h40000000; // 2.0
+                4'b1111: gen_special_f32 = 32'hC0000000; // -2.0
+            endcase
+        end
+    endfunction
 
-// 实例化被测模块
-fpmul uut (
-    .inst_valid(inst_valid),
-    .src_precision(src_precision),
-    .dst_precision(dst_precision),
-    .dvr_fpmul_s0(dvr_fpmul_s0),
-    .dvr_fpmul_s1(dvr_fpmul_s1),
-    .dr_fpmul_d(dr_fpmul_d)
-);
+    function [15:0] gen_special_f16;
+        input [3:0] type_sel;  
+        begin
+            case (type_sel)
+                4'b0000: gen_special_f16 = 16'h0000; // +0.0 (正零)
+                4'b0001: gen_special_f16 = 16'h8000; // -0.0 (负零)
+                4'b0010: gen_special_f16 = 16'h7C00; // +Inf (正无穷)
+                4'b0011: gen_special_f16 = 16'hFC00; // -Inf (负无穷)
+                4'b0100: gen_special_f16 = 16'h7E00; // qNaN (静默NaN)
+                4'b0101: gen_special_f16 = 16'h7C01; // sNaN (信号NaN)
+                4'b0110: gen_special_f16 = 16'h0400; // 最小正规格化数 (2^-14)
+                4'b0111: gen_special_f16 = 16'h7BFF; // 最大正规格化数
+                4'b1000: gen_special_f16 = 16'h0001; // 最小非规格化数
+                4'b1001: gen_special_f16 = 16'h03FF; // 最大非规格化数
+                4'b1010: gen_special_f16 = 16'h8001; // 最小负非规格化数
+                4'b1011: gen_special_f16 = 16'h83FF; // 最大负非规格化数
+                4'b1100: gen_special_f16 = 16'h3C00; // 1.0
+                4'b1101: gen_special_f16 = 16'hBC00; // -1.0
+                4'b1110: gen_special_f16 = 16'h4000; // 2.0
+                4'b1111: gen_special_f16 = 16'hC000; // -2.0
+            endcase
+        end
+    endfunction
 
-// 时钟生成
-initial begin
-    clk = 0;
-    forever #5 clk = ~clk;
-end
+    //------------------------------------------------------------------
+    // 实例化被测设计(DUT)
+    //------------------------------------------------------------------
+    fpmul dut (
+        .clk(clk),
+        .rst_n(rst_n),
+        .dvr_fpmul_s0(dvr_fpmul_s0),
+        .dvr_fpmul_s1(dvr_fpmul_s1),
+        .cru_fpmul(cru_fpmul),
+        .dr_fpmul_d(dr_fpmul_d)
+    );
 
-// FSDB波形转储
-initial begin
-    $fsdbDumpfile("tb_fpmul.fsdb");
-    $fsdbDumpvars(0, tb_fpmul);
-end
+    //------------------------------------------------------------------
+    // 时钟和复位生成
+    //------------------------------------------------------------------
+    initial begin
+        clk = 0;
+        forever #(CLK_PERIOD / 2) clk = ~clk;
+    end
 
-// 初始化测试用例
-initial begin
-    // FP16测试用例初始化
-    initialize_fp16_test_cases();
-    // FP32测试用例初始化  
-    initialize_fp32_test_cases();
-end
+    task apply_reset;
+        begin
+            rst_n = 1'b0;
+            @(posedge clk);
+            rst_n = 1'b1;
+            $display("信息: 系统复位已应用。");
+        end
+    endtask
 
-// FP16测试用例初始化任务
-task initialize_fp16_test_cases;
+    task reset_toggle;
+        begin
+            rst_n = 1'b0;
+            @(posedge clk);
+            rst_n = 1'b1;
+            $display("信息: 系统复位已切换。");
+        end
+    endtask
+
+    // 任务: 测试4路并行32位乘法
+    task test_mode_32bit;
+        reg [127:0] expected_result;
+        reg [127:0] s0_stim, s1_stim;
+        reg [31:0] exp32, act32;
+        reg lane_ok;
+        integer i, lane;
+        begin
+            $display("\n信息: 开始32位模式测试 (%0d个向量)...", TEST_VECTORS_32B);
+            
+            // 设置微指令为32位模式
+            cru_fpmul = 3'b111; // inst_valid=1, src_prec=32b, dst_prec=32b
+
+            for (i = 0; i < TEST_VECTORS_32B; i = i + 1) begin
+                // 生成随机输入并存储
+                s0_stim = {$random, $random, $random, $random};
+                s1_stim = {$random, $random, $random, $random};
+
+                // 应用输入到DUT
+                dvr_fpmul_s0 = s0_stim;
+                dvr_fpmul_s1 = s1_stim;
+                
+                // 使用DPI-C计算每个通道的预期结果
+                expected_result[31:0]   = dpi_f32_mul(s0_stim[31:0],   s1_stim[31:0]);
+                expected_result[63:32]  = dpi_f32_mul(s0_stim[63:32],  s1_stim[63:32]);
+                expected_result[95:64]  = dpi_f32_mul(s0_stim[95:64],  s1_stim[95:64]);
+                expected_result[127:96] = dpi_f32_mul(s0_stim[127:96], s1_stim[127:96]);
+                
+                // 等待一个时钟周期让DUT注册结果
+                @(posedge clk);
+                #1; 
+                
+                lane_ok = 1'b1;
+                
+                // 逐个通道检查并显示详细结果
+                for (lane = 0; lane < 4; lane = lane + 1) begin
+                    exp32 = expected_result[lane*32 +: 32];
+                    act32 = dr_fpmul_d[lane*32 +: 32];
+                    
+                    // 检查预期和实际是否都是NaN
+                    if (is_f32_nan(exp32) && is_f32_nan(act32)) begin
+                        // 两者都是NaN，通过
+                        $display("FP32测试 %0d 通道 %0d: A=%h, B=%h, 预期=%h(NaN), 实际=%h(NaN) 通过(均为NaN)", 
+                            i, lane, 
+                            s0_stim[lane*32 +: 32], 
+                            s1_stim[lane*32 +: 32], 
+                            exp32, act32);
+                    end else begin
+                        // 精确比较
+                        // 显示单个通道结果
+                        $display("FP32测试 %0d 通道 %0d: A=%h, B=%h, 预期=%h, 实际=%h %s", 
+                            i, lane, 
+                            s0_stim[lane*32 +: 32], 
+                            s1_stim[lane*32 +: 32], 
+                            exp32, act32,
+                            (exp32 === act32) ? "通过" : "失败");
+                        
+                        if (exp32 !== act32) lane_ok = 1'b0;
+                    end
+                end
+
+                total_tests = total_tests + 1;
+                if (lane_ok) begin
+                    pass_count = pass_count + 1;
+                end else begin
+                    fail_count = fail_count + 1;
+                    $display("错误: 失败 [32位测试 %0d]: 一个或多个通道失败!", i);
+                end
+            end
+            $display("信息: 32位模式测试完成。");
+        end
+    endtask
+
+    // 任务: 测试8路并行16位乘法
+    task test_mode_16bit;
+        reg [127:0] expected_result;
+        reg [127:0] s0_stim, s1_stim;
+        reg [15:0] exp16, act16;
+        reg lane_ok;
+        integer i, j;
+        begin
+            $display("\n信息: 开始16位模式测试 (%0d个向量)...", TEST_VECTORS_16B);
+            
+            // 设置微指令为16位模式
+            cru_fpmul = 3'b100; // inst_valid=1, src_prec=16b, dst_prec=16b
+            
+            for (i = 0; i < TEST_VECTORS_16B; i = i + 1) begin
+                // 生成随机输入并存储
+                for (j = 0; j < 8; j = j + 1) begin
+                    s0_stim[j*16 +: 16] = $random;
+                    s1_stim[j*16 +: 16] = $random;
+                end
+
+                // 应用输入到DUT
+                dvr_fpmul_s0 = s0_stim;
+                dvr_fpmul_s1 = s1_stim;
+
+                // 使用DPI-C计算8个子字的预期结果
+                for (j = 0; j < 8; j = j + 1) begin
+                    expected_result[j*16 +: 16] = dpi_f16_mul(s0_stim[j*16 +: 16], s1_stim[j*16 +: 16]);
+                end
+
+                // 等待一个时钟周期让DUT注册结果
+                @(posedge clk);
+                #1; // 添加小延迟以避免竞争条件
+                
+                lane_ok = 1'b1;
+                for (j = 0; j < 8; j = j + 1) begin
+                    exp16 = expected_result[j*16 +: 16];
+                    act16 = dr_fpmul_d[j*16 +: 16];
+                    
+                    // 检查预期和实际是否都是NaN
+                    if (is_f16_nan(exp16) && is_f16_nan(act16)) begin
+                        // 两者都是NaN，通过
+                        $display("FP16测试 %0d 通道 %0d: A=%h, B=%h, 预期=%h(NaN), 实际=%h(NaN) 通过(均为NaN)", 
+                            i, j, 
+                            s0_stim[j*16 +: 16], 
+                            s1_stim[j*16 +: 16], 
+                            exp16, act16);
+                    end else begin
+                        // 精确比较
+                        $display("FP16测试 %0d 通道 %0d: A=%h, B=%h, 预期=%h, 实际=%h %s", 
+                            i, j, 
+                            s0_stim[j*16 +: 16], 
+                            s1_stim[j*16 +: 16], 
+                            exp16, act16,
+                            (exp16 === act16) ? "通过" : "失败");
+                        
+                        if (exp16 !== act16) lane_ok = 1'b0;
+                    end
+                end
+
+                total_tests = total_tests + 1;
+                if (lane_ok) begin
+                    pass_count = pass_count + 1;
+                end else begin
+                    fail_count = fail_count + 1;
+                    $display("错误: 失败 [16位测试 %0d]: 一个或多个通道失败!", i);
+                end
+            end
+            $display("信息: 16位模式测试完成。");
+        end
+    endtask
+
+    // 任务: 测试特殊值情况
+    task test_special_cases;
+        reg [127:0] expected_result;
+        reg [127:0] s0_stim, s1_stim;
+        reg [31:0] exp32, act32;
+        reg [15:0] exp16, act16;
+        reg lane_ok;
+        integer i, j;
+        reg [3:0] type_sel0, type_sel1;  
+        begin
+            $display("\n信息: 开始特殊值测试 (%0d个向量)...", TEST_SPECIAL_CASES);
+            
+            // 测试32位特殊值
+            $display("信息: 测试32位特殊值...");
+            cru_fpmul = 3'b111; // 32位模式
+            
+            for (i = 0; i < TEST_SPECIAL_CASES; i = i + 1) begin
+                // 生成特殊值输入
+                for (j = 0; j < 4; j = j + 1) begin
+                    type_sel0 = $random % 16;  
+                    type_sel1 = $random % 16;
+                    s0_stim[j*32 +: 32] = gen_special_f32(type_sel0);
+                    s1_stim[j*32 +: 32] = gen_special_f32(type_sel1);
+                end
+
+                // 应用输入到DUT
+                dvr_fpmul_s0 = s0_stim;
+                dvr_fpmul_s1 = s1_stim;
+                
+                // 使用DPI-C计算预期结果
+                expected_result[31:0]   = dpi_f32_mul(s0_stim[31:0],   s1_stim[31:0]);
+                expected_result[63:32]  = dpi_f32_mul(s0_stim[63:32],  s1_stim[63:32]);
+                expected_result[95:64]  = dpi_f32_mul(s0_stim[95:64],  s1_stim[95:64]);
+                expected_result[127:96] = dpi_f32_mul(s0_stim[127:96], s1_stim[127:96]);
+                
+                // 等待一个时钟周期
+                @(posedge clk);
+                #1;
+
+                // 比较结果
+                lane_ok = 1'b1;
+                for (j = 0; j < 4; j = j + 1) begin
+                    exp32 = expected_result[j*32 +: 32];
+                    act32 = dr_fpmul_d[j*32 +: 32];
+                    
+                    if (is_f32_nan(exp32) && is_f32_nan(act32)) begin
+                        // 两者都是NaN，通过
+                        $display("FP32特殊测试 %0d 通道 %0d: A=%h, B=%h, 预期=NaN, 实际=NaN 通过", 
+                            i, j, 
+                            s0_stim[j*32 +: 32], 
+                            s1_stim[j*32 +: 32]);
+                    end else begin
+                        $display("FP32特殊测试 %0d 通道 %0d: A=%h, B=%h, 预期=%h, 实际=%h %s", 
+                            i, j, 
+                            s0_stim[j*32 +: 32], 
+                            s1_stim[j*32 +: 32], 
+                            exp32, act32,
+                            (exp32 === act32) ? "通过" : "失败");
+                        
+                        if (exp32 !== act32) lane_ok = 1'b0;
+                    end
+                end
+
+                total_tests = total_tests + 1;
+                if (lane_ok) begin
+                    pass_count = pass_count + 1;
+                end else begin
+                    fail_count = fail_count + 1;
+                    $display("错误: 失败 [32位特殊测试 %0d]: 一个或多个通道失败!", i);
+                end
+            end
+
+            // 测试16位特殊值
+            $display("信息: 测试16位特殊值...");
+            cru_fpmul = 3'b100; // 16位模式
+            
+            for (i = 0; i < TEST_SPECIAL_CASES; i = i + 1) begin
+                // 生成特殊值输入
+                for (j = 0; j < 8; j = j + 1) begin
+                    type_sel0 = $random % 4;
+                    type_sel1 = $random % 4;
+                    s0_stim[j*16 +: 16] = gen_special_f16(type_sel0);
+                    s1_stim[j*16 +: 16] = gen_special_f16(type_sel1);
+                end
+
+                // 应用输入到DUT
+                dvr_fpmul_s0 = s0_stim;
+                dvr_fpmul_s1 = s1_stim;
+                
+                // 使用DPI-C计算预期结果
+                for (j = 0; j < 8; j = j + 1) begin
+                    expected_result[j*16 +: 16] = dpi_f16_mul(s0_stim[j*16 +: 16], s1_stim[j*16 +: 16]);
+                end
+                
+                @(posedge clk);
+                #1;
+
+                // 比较结果
+                lane_ok = 1'b1;
+                for (j = 0; j < 8; j = j + 1) begin
+                    exp16 = expected_result[j*16 +: 16];
+                    act16 = dr_fpmul_d[j*16 +: 16];
+                    
+                    if (is_f16_nan(exp16) && is_f16_nan(act16)) begin
+                        // 两者都是NaN，通过
+                        $display("FP16特殊测试 %0d 通道 %0d: A=%h, B=%h, 预期=NaN, 实际=NaN 通过", 
+                            i, j, 
+                            s0_stim[j*16 +: 16], 
+                            s1_stim[j*16 +: 16]);
+                    end else begin
+                        $display("FP16特殊测试 %0d 通道 %0d: A=%h, B=%h, 预期=%h, 实际=%h %s", 
+                            i, j, 
+                            s0_stim[j*16 +: 16], 
+                            s1_stim[j*16 +: 16], 
+                            exp16, act16,
+                            (exp16 === act16) ? "通过" : "失败");
+                        
+                        if (exp16 !== act16) lane_ok = 1'b0;
+                    end
+                end
+
+                total_tests = total_tests + 1;
+                if (lane_ok) begin
+                    pass_count = pass_count + 1;
+                end else begin
+                    fail_count = fail_count + 1;
+                    $display("错误: 失败 [16位特殊测试 %0d]: 一个或多个通道失败!", i);
+                end
+            end
+            $display("信息: 特殊值测试完成。");
+        end
+    endtask
+
+// 任务: 指令测试
+task test_invalid_instruction;
+    reg [127:0] value_valid_before; 
+    reg [127:0] value_valid_after;  
     begin
-        // 基本数值测试
-        fp16_test_a[0] = 16'h3c00; fp16_test_b[0] = 16'h3c00; // 1.0 * 1.0
-        fp16_test_a[1] = 16'h4000; fp16_test_b[1] = 16'h3c00; // 2.0 * 1.0
-        fp16_test_a[2] = 16'h3c00; fp16_test_b[2] = 16'h4000; // 1.0 * 2.0
-        fp16_test_a[3] = 16'h4000; fp16_test_b[3] = 16'h4000; // 2.0 * 2.0
-        fp16_test_a[4] = 16'h3800; fp16_test_b[4] = 16'h3800; // 0.5 * 0.5
+        $display("\n信息: 开始无效指令测试 + cru_fpmul[2]翻转覆盖...");
         
-        // 负数测试
-        fp16_test_a[5] = 16'hbc00; fp16_test_b[5] = 16'h3c00; // -1.0 * 1.0
-        fp16_test_a[6] = 16'h3c00; fp16_test_b[6] = 16'hbc00; // 1.0 * -1.0
-        fp16_test_a[7] = 16'hbc00; fp16_test_b[7] = 16'hbc00; // -1.0 * -1.0
-        fp16_test_a[8] = 16'hc000; fp16_test_b[8] = 16'h4000; // -2.0 * 2.0
-        
-        // 零值测试
-        fp16_test_a[9] = 16'h0000; fp16_test_b[9] = 16'h3c00;  // +0 * 1.0
-        fp16_test_a[10] = 16'h3c00; fp16_test_b[10] = 16'h0000; // 1.0 * +0
-        fp16_test_a[11] = 16'h8000; fp16_test_b[11] = 16'h3c00; // -0 * 1.0
-        fp16_test_a[12] = 16'h0000; fp16_test_b[12] = 16'h0000; // +0 * +0
-        fp16_test_a[13] = 16'h8000; fp16_test_b[13] = 16'h8000; // -0 * -0
-        
-        // 无穷大测试
-        fp16_test_a[14] = 16'h7c00; fp16_test_b[14] = 16'h3c00; // +Inf * 1.0
-        fp16_test_a[15] = 16'h3c00; fp16_test_b[15] = 16'h7c00; // 1.0 * +Inf
-        fp16_test_a[16] = 16'hfc00; fp16_test_b[16] = 16'h3c00; // -Inf * 1.0
-        fp16_test_a[17] = 16'h7c00; fp16_test_b[17] = 16'h7c00; // +Inf * +Inf
-        fp16_test_a[18] = 16'h7c00; fp16_test_b[18] = 16'hfc00; // +Inf * -Inf
-        fp16_test_a[19] = 16'h7c00; fp16_test_b[19] = 16'h0000; // +Inf * 0 (NaN)
-        
-        // NaN测试
-        fp16_test_a[20] = 16'h7c01; fp16_test_b[20] = 16'h3c00; // NaN * 1.0
-        fp16_test_a[21] = 16'h3c00; fp16_test_b[21] = 16'h7c01; // 1.0 * NaN
-        fp16_test_a[22] = 16'h7c01; fp16_test_b[22] = 16'h7c01; // NaN * NaN
-        fp16_test_a[23] = 16'h7fff; fp16_test_b[23] = 16'h3c00; // QNaN * 1.0
-        
-        // 非规格化数测试
-        fp16_test_a[24] = 16'h0001; fp16_test_b[24] = 16'h3c00; // 最小非规格化数 * 1.0
-        fp16_test_a[25] = 16'h03ff; fp16_test_b[25] = 16'h3c00; // 最大非规格化数 * 1.0
-        fp16_test_a[26] = 16'h0001; fp16_test_b[26] = 16'h0001; // 非规格化数 * 非规格化数
-        fp16_test_a[27] = 16'h8001; fp16_test_b[27] = 16'h0001; // 负非规格化数测试
-        
-        // 边界值测试
-        fp16_test_a[28] = 16'h7bff; fp16_test_b[28] = 16'h3c00; // 最大规格化数 * 1.0
-        fp16_test_a[29] = 16'h0400; fp16_test_b[29] = 16'h3c00; // 最小规格化数 * 1.0
-        fp16_test_a[30] = 16'h7bff; fp16_test_b[30] = 16'h7bff; // 最大值相乘（可能溢出）
-        fp16_test_a[31] = 16'h0400; fp16_test_b[31] = 16'h0400; // 最小值相乘（可能下溢）
-        
-        // 特殊数值测试
-        fp16_test_a[32] = 16'h4400; fp16_test_b[32] = 16'h3e00; // 4.0 * 1.5
-        fp16_test_a[33] = 16'h4800; fp16_test_b[33] = 16'h3400; // 8.0 * 0.25
-        fp16_test_a[34] = 16'h5400; fp16_test_b[34] = 16'h2c00; // 64.0 * 0.0625
-        fp16_test_a[35] = 16'h3c01; fp16_test_b[35] = 16'h3c01; // (1+ε) * (1+ε)
-        
-        // 舍入测试用例
-        fp16_test_a[36] = 16'h3bff; fp16_test_b[36] = 16'h4000; // (1-ε) * 2
-        fp16_test_a[37] = 16'h4001; fp16_test_b[37] = 16'h3fff; // 精度边界测试
-        fp16_test_a[38] = 16'h7800; fp16_test_b[38] = 16'h0800; // 大数 * 小数
-        fp16_test_a[39] = 16'h0800; fp16_test_b[39] = 16'h7800; // 小数 * 大数
-        
-        // 指数边界测试
-        fp16_test_a[40] = 16'h7800; fp16_test_b[40] = 16'h7800; // 接近溢出
-        fp16_test_a[41] = 16'h0200; fp16_test_b[41] = 16'h0200; // 接近下溢
-        fp16_test_a[42] = 16'h7a00; fp16_test_b[42] = 16'h0600; // 混合边界
-        fp16_test_a[43] = 16'h7000; fp16_test_b[43] = 16'h1000; // 中等指数测试
-        
-        // 随机测试用例
-        fp16_test_a[44] = 16'h5678; fp16_test_b[44] = 16'h1234; // 随机值1
-        fp16_test_a[45] = 16'habcd; fp16_test_b[45] = 16'h4321; // 随机值2
-        fp16_test_a[46] = 16'h2468; fp16_test_b[46] = 16'h8642; // 随机值3
-        fp16_test_a[47] = 16'h1357; fp16_test_b[47] = 16'h9753; // 随机值4
-        fp16_test_a[48] = 16'hefef; fp16_test_b[48] = 16'h1010; // 随机值5
-        fp16_test_a[49] = 16'h7777; fp16_test_b[49] = 16'h2222; // 随机值6
+
+        cru_fpmul = 3'b111; 
+        dvr_fpmul_s0 = 128'h3f800000_40000000_40400000_40800000; // [1.0, 2.0, 3.0, 4.0]
+        dvr_fpmul_s1 = 128'h3f800000_40000000_40400000_40800000;
+        @(posedge clk); 
+        #1;
+        value_valid_before = dr_fpmul_d;
+        $display("阶段0: 有效指令基准值 = 0x%h", value_valid_before);
+
+        cru_fpmul = 3'b011; 
+        dvr_fpmul_s0 = 128'hDEADBEEF_CAFEBABE_12345678_87654321; 
+        dvr_fpmul_s1 = 128'hFFFFFFFF_EEEEEEEE_DDDDDDDD_CCCCCCCC;
+        @(posedge clk); 
+        #1;
+
+        total_tests = total_tests + 1;
+        if (dr_fpmul_d === value_valid_before) begin
+            pass_count = pass_count + 1;
+            $display("阶段1: 通过 - 无效指令时输出保持基准值 0x%h", dr_fpmul_d);
+        end else begin
+            fail_count = fail_count + 1;
+            $display("阶段1: 失败 - 无效指令时输出意外改变！实际=0x%h, 预期=0x%h", dr_fpmul_d, value_valid_before);
+        end
+
+        $display("信息: 翻转 cru_fpmul[2] 从 0 -> 1(无效→有效)...");
+        cru_fpmul = 3'b111; 
+        dvr_fpmul_s0 = 128'h3f800000_40800000_40400000_40800000; // 新的有效输入 [1.0,4.0,3.0,4.0]
+        dvr_fpmul_s1 = 128'h3f800000_40800000_40400000_40800000;
+        @(posedge clk); 
+        #1;
+        value_valid_after = dr_fpmul_d; 
+
+        total_tests = total_tests + 1;
+        if (value_valid_after !== value_valid_before) begin
+            pass_count = pass_count + 1;
+            $display("阶段2: 通过 - cru_fpmul[2]翻转后，有效指令输出更新为 0x%h", value_valid_after);
+        end else begin
+            fail_count = fail_count + 1;
+            $display("阶段2: 失败 - cru_fpmul[2]翻转后，有效指令输出未更新！仍为 0x%h", value_valid_after);
+        end
+
+        $display("信息: 无效指令测试 + cru_fpmul[2]翻转覆盖完成。");
     end
 endtask
 
-// FP32测试用例初始化任务
-task initialize_fp32_test_cases;
-    begin
-        // 基本数值测试
-        fp32_test_a[0] = 32'h3f800000; fp32_test_b[0] = 32'h3f800000; // 1.0 * 1.0
-        fp32_test_a[1] = 32'h40000000; fp32_test_b[1] = 32'h3f800000; // 2.0 * 1.0
-        fp32_test_a[2] = 32'h3f800000; fp32_test_b[2] = 32'h40000000; // 1.0 * 2.0
-        fp32_test_a[3] = 32'h40000000; fp32_test_b[3] = 32'h40000000; // 2.0 * 2.0
-        fp32_test_a[4] = 32'h3f000000; fp32_test_b[4] = 32'h3f000000; // 0.5 * 0.5
-        
-        // 负数测试
-        fp32_test_a[5] = 32'hbf800000; fp32_test_b[5] = 32'h3f800000; // -1.0 * 1.0
-        fp32_test_a[6] = 32'h3f800000; fp32_test_b[6] = 32'hbf800000; // 1.0 * -1.0
-        fp32_test_a[7] = 32'hbf800000; fp32_test_b[7] = 32'hbf800000; // -1.0 * -1.0
-        fp32_test_a[8] = 32'hc0000000; fp32_test_b[8] = 32'h40000000; // -2.0 * 2.0
-        
-        // 零值测试
-        fp32_test_a[9] = 32'h00000000; fp32_test_b[9] = 32'h3f800000;  // +0 * 1.0
-        fp32_test_a[10] = 32'h3f800000; fp32_test_b[10] = 32'h00000000; // 1.0 * +0
-        fp32_test_a[11] = 32'h80000000; fp32_test_b[11] = 32'h3f800000; // -0 * 1.0
-        fp32_test_a[12] = 32'h00000000; fp32_test_b[12] = 32'h00000000; // +0 * +0
-        fp32_test_a[13] = 32'h80000000; fp32_test_b[13] = 32'h80000000; // -0 * -0
-        
-        // 无穷大测试
-        fp32_test_a[14] = 32'h7f800000; fp32_test_b[14] = 32'h3f800000; // +Inf * 1.0
-        fp32_test_a[15] = 32'h3f800000; fp32_test_b[15] = 32'h7f800000; // 1.0 * +Inf
-        fp32_test_a[16] = 32'hff800000; fp32_test_b[16] = 32'h3f800000; // -Inf * 1.0
-        fp32_test_a[17] = 32'h7f800000; fp32_test_b[17] = 32'h7f800000; // +Inf * +Inf
-        fp32_test_a[18] = 32'h7f800000; fp32_test_b[18] = 32'hff800000; // +Inf * -Inf
-        fp32_test_a[19] = 32'h7f800000; fp32_test_b[19] = 32'h00000000; // +Inf * 0 (NaN)
-        
-        // NaN测试
-        fp32_test_a[20] = 32'h7f800001; fp32_test_b[20] = 32'h3f800000; // NaN * 1.0
-        fp32_test_a[21] = 32'h3f800000; fp32_test_b[21] = 32'h7f800001; // 1.0 * NaN
-        fp32_test_a[22] = 32'h7f800001; fp32_test_b[22] = 32'h7f800001; // NaN * NaN
-        fp32_test_a[23] = 32'h7fffffff; fp32_test_b[23] = 32'h3f800000; // QNaN * 1.0
-        
-        // 非规格化数测试
-        fp32_test_a[24] = 32'h00000001; fp32_test_b[24] = 32'h3f800000; // 最小非规格化数 * 1.0
-        fp32_test_a[25] = 32'h007fffff; fp32_test_b[25] = 32'h3f800000; // 最大非规格化数 * 1.0
-        fp32_test_a[26] = 32'h00000001; fp32_test_b[26] = 32'h00000001; // 非规格化数 * 非规格化数
-        fp32_test_a[27] = 32'h80000001; fp32_test_b[27] = 32'h00000001; // 负非规格化数测试
-        
-        // 边界值测试
-        fp32_test_a[28] = 32'h7f7fffff; fp32_test_b[28] = 32'h3f800000; // 最大规格化数 * 1.0
-        fp32_test_a[29] = 32'h00800000; fp32_test_b[29] = 32'h3f800000; // 最小规格化数 * 1.0
-        fp32_test_a[30] = 32'h7f7fffff; fp32_test_b[30] = 32'h7f7fffff; // 最大值相乘（溢出）
-        fp32_test_a[31] = 32'h00800000; fp32_test_b[31] = 32'h00800000; // 最小值相乘（下溢）
-        
-        // 特殊数值测试
-        fp32_test_a[32] = 32'h40800000; fp32_test_b[32] = 32'h3fc00000; // 4.0 * 1.5
-        fp32_test_a[33] = 32'h41000000; fp32_test_b[33] = 32'h3e800000; // 8.0 * 0.25
-        fp32_test_a[34] = 32'h42800000; fp32_test_b[34] = 32'h3d800000; // 64.0 * 0.0625
-        fp32_test_a[35] = 32'h3f800001; fp32_test_b[35] = 32'h3f800001; // (1+ε) * (1+ε)
-        
-        // 舍入测试用例
-        fp32_test_a[36] = 32'h3f7fffff; fp32_test_b[36] = 32'h40000000; // (1-ε) * 2
-        fp32_test_a[37] = 32'h40000001; fp32_test_b[37] = 32'h3fffffff; // 精度边界测试
-        fp32_test_a[38] = 32'h7f000000; fp32_test_b[38] = 32'h01000000; // 大数 * 小数
-        fp32_test_a[39] = 32'h01000000; fp32_test_b[39] = 32'h7f000000; // 小数 * 大数
-        
-        // 指数边界测试
-        fp32_test_a[40] = 32'h7f000000; fp32_test_b[40] = 32'h7f000000; // 接近溢出
-        fp32_test_a[41] = 32'h01000000; fp32_test_b[41] = 32'h01000000; // 接近下溢
-        fp32_test_a[42] = 32'h7e000000; fp32_test_b[42] = 32'h02000000; // 混合边界
-        fp32_test_a[43] = 32'h60000000; fp32_test_b[43] = 32'h20000000; // 中等指数测试
-        
-        // 随机测试用例
-        fp32_test_a[44] = 32'h56789abc; fp32_test_b[44] = 32'h12345678; // 随机值1
-        fp32_test_a[45] = 32'habcdef01; fp32_test_b[45] = 32'h43218765; // 随机值2
-        fp32_test_a[46] = 32'h24681357; fp32_test_b[46] = 32'h86420975; // 随机值3
-        fp32_test_a[47] = 32'h13579246; fp32_test_b[47] = 32'h97531864; // 随机值4
-        fp32_test_a[48] = 32'hefef1010; fp32_test_b[48] = 32'h10101010; // 随机值5
-        fp32_test_a[49] = 32'h77777777; fp32_test_b[49] = 32'h22222222; // 随机值6
-    end
-endtask
 
-// 主测试流程
-initial begin
-    // 打开日志文件
-    sim_log = $fopen("tb_fpmul.log", "w");
-    if (sim_log == 0) begin
-        $display("错误: 无法打开日志文件");
+
+    initial begin
+        $display("========================================");
+        $display(" FPMUL测试平台启动 ");
+        $display("========================================");
+
+        // 设置SoftFloat舍入模式为向最近偶数舍入
+        dpi_set_rounding_mode(32'h0);  // softfloat_round_near_even = 0
+        dpi_clear_exception_flags();
+        $display("信息: 当前舍入模式码: %0d", dpi_get_rounding_mode());
+
+        pass_count = 0;
+        fail_count = 0;
+        total_tests = 0;
+
+        apply_reset();
+        
+        // 运行测试序列
+        test_mode_32bit();
+        test_mode_16bit();
+        test_special_cases();
+        test_invalid_instruction();
+        reset_toggle();
+
+        // 打印最终摘要
+        $display("========================================");
+        $display(" 测试摘要:");
+        $display("   总测试数: %0d", total_tests);
+        $display("   通过测试: %0d", pass_count);
+        $display("   失败测试: %0d", fail_count);
+        if (fail_count == 0) begin
+            $display("   结果: 所有测试通过");
+        end else begin
+            $display("   结果: 有测试失败");
+        end
+        $display("========================================");
+
         $finish;
     end
-    
-    $fdisplay(sim_log, "FPMUL 测试开始，时间: %t", $time);
-    $fdisplay(sim_log, "========================================");
-    
-    // 初始化计数器
-    pass_count = 0;
-    fail_count = 0;
-    test_num = 0;
-    
-    // 初始化信号
-    inst_valid = 0;
-    src_precision = 0;
-    dst_precision = 0;
-    dvr_fpmul_s0 = 0;
-    dvr_fpmul_s1 = 0;
-    
-    #10;
-    
-    // 测试FP16乘法
-    $fdisplay(sim_log, "\n开始 FP16 乘法测试...");
-    $fdisplay(sim_log, "----------------------------------------");
-    test_fp16_multiplication();
-    
-    // 测试FP32乘法
-    $fdisplay(sim_log, "\n开始 FP32 乘法测试...");
-    $fdisplay(sim_log, "----------------------------------------");
-    test_fp32_multiplication();
-    
-    // 测试指令无效情况
-    $fdisplay(sim_log, "\n测试指令无效情况...");
-    $fdisplay(sim_log, "----------------------------------------");
-    test_invalid_instruction();
-    
-    // 输出测试结果统计
-    print_test_summary();
-    
-    // 关闭文件
-    $fclose(sim_log);
-    
-    $display("测试完成！详细结果请查看 tb_fpmul.log");
-    $finish;
-end
-
-// FP16乘法测试任务
-task test_fp16_multiplication;
-    integer i;
-    begin
-        src_precision = 0;  // 16bit精度
-        dst_precision = 0;  // 16bit精度
-        inst_valid = 1;
-        
-        for (i = 0; i < TEST_COUNT; i = i + 1) begin
-            dvr_fpmul_s0 = {16'h0000, fp16_test_a[i]};
-            dvr_fpmul_s1 = {16'h0000, fp16_test_b[i]};
-            
-            // 获取SoftFloat期望结果
-            expected_fp16 = dpi_f16_mul(fp16_test_a[i], fp16_test_b[i]);
-            
-            #10;
-            
-            // 检查结果
-            check_fp16_result(i, fp16_test_a[i], fp16_test_b[i], dr_fpmul_d[15:0], expected_fp16);
-            
-            test_num = test_num + 1;
-        end
-    end
-endtask
-
-// FP32乘法测试任务
-task test_fp32_multiplication;
-    integer i;
-    begin
-        src_precision = 1;  // 32bit精度
-        dst_precision = 1;  // 32bit精度
-        inst_valid = 1;
-        
-        for (i = 0; i < TEST_COUNT; i = i + 1) begin
-            dvr_fpmul_s0 = fp32_test_a[i];
-            dvr_fpmul_s1 = fp32_test_b[i];
-            
-            // 获取SoftFloat期望结果
-            expected_fp32 = dpi_f32_mul(fp32_test_a[i], fp32_test_b[i]);
-            
-            #10;
-            
-            // 检查结果
-            check_fp32_result(i, fp32_test_a[i], fp32_test_b[i], dr_fpmul_d, expected_fp32);
-            
-            test_num = test_num + 1;
-        end
-    end
-endtask
-
-// 测试指令无效情况
-task test_invalid_instruction;
-    begin
-        // 设置测试数据
-        dvr_fpmul_s0 = 32'h3f800000; // 1.0
-        dvr_fpmul_s1 = 32'h40000000; // 2.0
-        src_precision = 1;
-        dst_precision = 1;
-        
-        // 指令无效
-        inst_valid = 0;
-        #10;
-        
-        if (dr_fpmul_d !== 32'h00000000) begin
-            $fdisplay(sim_log, "错误: 指令无效时输出应为0，实际输出: %h", dr_fpmul_d);
-            fail_count = fail_count + 1;
-        end else begin
-            $fdisplay(sim_log, "通过: 指令无效测试");
-            pass_count = pass_count + 1;
-        end
-        
-        test_num = test_num + 1;
-    end
-endtask
-
-// 检查FP16结果
-task check_fp16_result;
-    input integer test_index;
-    input [15:0] input_a;
-    input [15:0] input_b;
-    input [15:0] actual_result;
-    input [15:0] expected_result;
-    
-    reg is_actual_nan, is_expected_nan;
-    reg match_found, is_inexact;
-    reg [15:0] expected_plus_one, expected_minus_one;
-    integer exception_flags;
-    string flag_info;
-    begin
-        // 获取异常标志
-        exception_flags = dpi_get_exception_flags();
-        is_inexact = (exception_flags & dpi_get_inexact_flag()) != 0;
-        
-        // 解析异常标志
-        flag_info = "";
-        if (exception_flags & dpi_get_inexact_flag()) flag_info = {flag_info, " 不精确"};
-        if (exception_flags & dpi_get_underflow_flag()) flag_info = {flag_info, " 下溢"};
-        if (exception_flags & dpi_get_overflow_flag()) flag_info = {flag_info, " 上溢"};
-        if (exception_flags & dpi_get_infinite_flag()) flag_info = {flag_info, " 无穷大"};
-        if (exception_flags & dpi_get_invalid_flag()) flag_info = {flag_info, " 无效"};
-        if (flag_info == "") flag_info = " 无异常";
-        
-        // 检查NaN情况
-        is_actual_nan = (actual_result[14:10] == 5'b11111) && (actual_result[9:0] != 10'b0);
-        is_expected_nan = (expected_result[14:10] == 5'b11111) && (expected_result[9:0] != 10'b0);
-        
-        match_found = 0;
-        
-        if (is_expected_nan && is_actual_nan) begin
-            match_found = 1;
-        end else if (actual_result === expected_result) begin
-            match_found = 1;
-        end else if (is_inexact) begin
-            // 当结果不精确时，允许最低位±1的误差
-            expected_plus_one = expected_result + 1;
-            expected_minus_one = expected_result - 1;
-            if ((actual_result === expected_plus_one) || (actual_result === expected_minus_one)) begin
-                match_found = 1;
-            end
-        end
-        
-        if (match_found) begin
-            if (is_expected_nan && is_actual_nan) begin
-                $fdisplay(sim_log, "FP16 测试 %0d: 通过 (NaN) - A=%h, B=%h, 期望=%h, 实际=%h | 异常标志:%s", 
-                         test_index, input_a, input_b, expected_result, actual_result, flag_info);
-            end else if (actual_result === expected_result) begin
-                $fdisplay(sim_log, "FP16 测试 %0d: 通过 - A=%h, B=%h, 期望=%h, 实际=%h | 异常标志:%s", 
-                         test_index, input_a, input_b, expected_result, actual_result, flag_info);
-            end else begin
-                $fdisplay(sim_log, "FP16 测试 %0d: 通过 (±1 tolerance) - A=%h, B=%h, 期望=%h, 实际=%h | 异常标志:%s", 
-                         test_index, input_a, input_b, expected_result, actual_result, flag_info);
-            end
-            pass_count = pass_count + 1;
-        end else begin
-            $fdisplay(sim_log, "FP16 测试 %0d: 失败 - A=%h, B=%h, 期望=%h, 实际=%h | 异常标志:%s", 
-                     test_index, input_a, input_b, expected_result, actual_result, flag_info);
-            fail_count = fail_count + 1;
-        end
-        
-        // 清除异常标志
-        dpi_clear_exception_flags();
-    end
-endtask
-
-// 检查FP32结果
-task check_fp32_result;
-    input integer test_index;
-    input [31:0] input_a;
-    input [31:0] input_b;
-    input [31:0] actual_result;
-    input [31:0] expected_result;
-    
-    reg is_actual_nan, is_expected_nan;
-    reg match_found, is_inexact;
-    reg [31:0] expected_plus_one, expected_minus_one;
-    integer exception_flags;
-    string flag_info;
-    begin
-        // 获取异常标志
-        exception_flags = dpi_get_exception_flags();
-        is_inexact = (exception_flags & dpi_get_inexact_flag()) != 0;
-        
-        // 解析异常标志
-        flag_info = "";
-        if (exception_flags & dpi_get_inexact_flag()) flag_info = {flag_info, " 不精确"};
-        if (exception_flags & dpi_get_underflow_flag()) flag_info = {flag_info, " 下溢"};
-        if (exception_flags & dpi_get_overflow_flag()) flag_info = {flag_info, " 上溢"};
-        if (exception_flags & dpi_get_infinite_flag()) flag_info = {flag_info, " 无穷大"};
-        if (exception_flags & dpi_get_invalid_flag()) flag_info = {flag_info, " 无效"};
-        if (flag_info == "") flag_info = " 无异常";
-        
-        // 检查NaN情况
-        is_actual_nan = (actual_result[30:23] == 8'b11111111) && (actual_result[22:0] != 23'b0);
-        is_expected_nan = (expected_result[30:23] == 8'b11111111) && (expected_result[22:0] != 23'b0);
-        
-        match_found = 0;
-        
-        if (is_expected_nan && is_actual_nan) begin
-            match_found = 1;
-        end else if (actual_result === expected_result) begin
-            match_found = 1;
-        end else if (is_inexact) begin
-            // 当结果不精确时，允许最低位±1的误差
-            expected_plus_one = expected_result + 1;
-            expected_minus_one = expected_result - 1;
-            if ((actual_result === expected_plus_one) || (actual_result === expected_minus_one)) begin
-                match_found = 1;
-            end
-        end
-        
-        if (match_found) begin
-            if (is_expected_nan && is_actual_nan) begin
-                $fdisplay(sim_log, "FP32 测试 %0d: 通过 (NaN) - A=%h, B=%h, 期望=%h, 实际=%h | 异常标志:%s", 
-                         test_index, input_a, input_b, expected_result, actual_result, flag_info);
-            end else if (actual_result === expected_result) begin
-                $fdisplay(sim_log, "FP32 测试 %0d: 通过 - A=%h, B=%h, 期望=%h, 实际=%h | 异常标志:%s", 
-                         test_index, input_a, input_b, expected_result, actual_result, flag_info);
-            end else begin
-                $fdisplay(sim_log, "FP32 测试 %0d: 通过 (±1 tolerance) - A=%h, B=%h, 期望=%h, 实际=%h | 异常标志:%s", 
-                         test_index, input_a, input_b, expected_result, actual_result, flag_info);
-            end
-            pass_count = pass_count + 1;
-        end else begin
-            $fdisplay(sim_log, "FP32 测试 %0d: 失败 - A=%h, B=%h, 期望=%h, 实际=%h | 异常标志:%s", 
-                     test_index, input_a, input_b, expected_result, actual_result, flag_info);
-            fail_count = fail_count + 1;
-        end
-        
-        // 清除异常标志
-        dpi_clear_exception_flags();
-    end
-endtask
-
-// 打印测试结果统计
-task print_test_summary;
-    begin
-        $fdisplay(sim_log, "\n========================================");
-        $fdisplay(sim_log, "测试结果统计:");
-        $fdisplay(sim_log, "========================================");
-        $fdisplay(sim_log, "总测试数: %0d", test_num);
-        $fdisplay(sim_log, "通过数: %0d", pass_count);
-        $fdisplay(sim_log, "失败数: %0d", fail_count);
-        $fdisplay(sim_log, "通过率: %0.2f%%", (pass_count * 100.0) / test_num);
-        
-        if (fail_count == 0) begin
-            $fdisplay(sim_log, "\n🎉 所有测试都通过了！");
-            $display("✅ 所有测试都通过了！");
-        end else begin
-            $fdisplay(sim_log, "\n❌ 有 %0d 个测试失败，请检查错误日志", fail_count);
-            $display("❌ 有 %0d 个测试失败，请检查 tb_fpmul_errors.log", fail_count);
-        end
-        
-        $fdisplay(sim_log, "测试结束时间: %t", $time);
-    end
-endtask
 
 endmodule

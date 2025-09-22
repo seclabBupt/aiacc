@@ -1,0 +1,62 @@
+{
+    "std": [
+        "std",
+        "reYIK",
+        "module",
+        1
+    ],
+    "tb_fp32_addtree_5to1": [
+        "tb_fp32_addtree_5to1",
+        "D6FDv",
+        "module",
+        2
+    ],
+    "wallace_tree_5_inputs_0000": [
+        "wallace_tree_5_inputs_0000",
+        "LDqrt",
+        "module",
+        3
+    ],
+    "fp32_packer": [
+        "fp32_packer",
+        "YQa8h",
+        "module",
+        7
+    ],
+    "fp32_unpacker": [
+        "fp32_unpacker",
+        "RwnLv",
+        "module",
+        4
+    ],
+    "final_adder_0000": [
+        "final_adder_0000",
+        "UZnJR",
+        "module",
+        9
+    ],
+    "fp32_aligner_0000": [
+        "fp32_aligner_0000",
+        "nUdus",
+        "module",
+        5
+    ],
+    "fp32_normalizer_rounder": [
+        "fp32_normalizer_rounder",
+        "r2uC3",
+        "module",
+        6
+    ],
+    "full_adder": [
+        "full_adder",
+        "BEdzp",
+        "module",
+        8
+    ],
+    "...MASTER...": [
+        "SIM",
+        "amcQw",
+        "module",
+        10
+    ]
+}

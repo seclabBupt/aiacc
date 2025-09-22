@@ -1,0 +1,137 @@
+0 
+48
++define+DUMP_FSDB
++incdir+../define:../../
++itf+/usr/software/vcs2018/vcs/O-2018.09-SP2/linux64/lib/vcsdp_lite.tab
++v2k
++vcsd1
++vpi
+-Mamsrun=
+-Masflags=
+-Mcc=gcc
+-Mcfl= -pipe -fPIC -I/home/Sunny/SMC/berkeley-softfloat-3-master/source/include -fPIC -O -I/usr/software/vcs2018/vcs/O-2018.09-SP2/include
+-Mcplusplus=g++
+-Mcrt0=
+-Mcrtn=
+-Mcsrc=
+-Mexternalobj=
+-Mldflags=-L/usr/lib/x86_64-linux-gnu -L/lib/x86_64-linux-gnu -Wl,--no-as-needed -Wl,-rpath,/home/Sunny/SMC/04_fp32_addtree_5to1/sim_output -L/home/Sunny/SMC/04_fp32_addtree_5to1/sim_output -lruntime -rdynamic
+-Mobjects= /usr/software/vcs2018/vcs/O-2018.09-SP2/linux64/lib/libvirsim.so /usr/software/vcs2018/vcs/O-2018.09-SP2/linux64/lib/liberrorinf.so /usr/software/vcs2018/vcs/O-2018.09-SP2/linux64/lib/libsnpsmalloc.so /usr/software/vcs2018/vcs/O-2018.09-SP2/linux64/lib/libvfs.so
+-Mout=simv_fp32_addtree
+-Msaverestoreobj=/usr/software/vcs2018/vcs/O-2018.09-SP2/linux64/lib/vcs_save_restore_new.o
+-Msyslibs=/usr/software/verdi/verdi/Verdi_O-2018.09-SP2/share/PLI/VCS/LINUX64/pli.a -ldl
+-Mvcsaceobjs=
+-Mxcflags= -pipe -fPIC -I/usr/software/vcs2018/vcs/O-2018.09-SP2/include
+-P
+-Xufe=2steps
+-cm
+-cm_dir
+-debug_access+all
+-fsdb
+-full64
+-gen_obj
+-kdb
+-o simv_fp32_addtree
+-picarchive
+-sverilog
+-timescale=1ns/1ps
+../vsrc/final_adder.v
+../vsrc/fp32_adder_tree_final.v
+../vsrc/fp32_aligner.v
+../vsrc/fp32_normalizer_rounder.v
+../vsrc/fp32_packer.v
+../vsrc/fp32_unpacker.v
+../vsrc/full_adder.v
+../vsrc/tb_fp32_addtree_5to1.v
+../vsrc/wallace_tree_5_inputs.v
+/usr/software/vcs2018/vcs/O-2018.09-SP2/linux64/bin/vcs1
+/usr/software/verdi/verdi/Verdi_O-2018.09-SP2/share/PLI/VCS/LINUX64/verdi.tab
+coverage_db
+line+cond+fsm+tgl+branch
+63
+sysc_uni_pwd=/home/Sunny/SMC/04_fp32_addtree_5to1/sim_output
+XDG_SESSION_TYPE=tty
+XDG_SESSION_ID=4607
+XDG_SESSION_CLASS=user
+XDG_RUNTIME_DIR=/run/user/1002
+XDG_DATA_DIRS=/usr/local/share:/usr/share:/var/lib/snapd/desktop
+VSCODE_IPC_HOOK_CLI=/run/user/1002/vscode-ipc-42d272c9-2b05-49d7-bfeb-59bf26bcb690.sock
+VSCODE_GIT_IPC_HANDLE=/run/user/1002/vscode-git-42aa95ebe2.sock
+VSCODE_GIT_ASKPASS_NODE=/home/Sunny/.vscode-server/cli/servers/Stable-6f17636121051a53c88d3e605c491d22af2ba755/server/node
+VSCODE_GIT_ASKPASS_MAIN=/home/Sunny/.vscode-server/cli/servers/Stable-6f17636121051a53c88d3e605c491d22af2ba755/server/extensions/git/dist/askpass-main.js
+VSCODE_GIT_ASKPASS_EXTRA_ARGS=
+VMR_MODE_FLAG=64
+VERDI_HOME=/usr/software/verdi/verdi/Verdi_O-2018.09-SP2
+VERDI_DIR=/usr/software/verdi/verdi/Verdi_O-2018.09-SP2
+VCS_TARGET_ARCH=amd64
+VCS_MODE_FLAG=64
+VCS_HOME=/usr/software/vcs2018/vcs/O-2018.09-SP2
+VCS_DEPTH=0
+VCS_ARG_ADDED_FOR_TMP=1
+VCS_ARCH=linux64
+UNAME=/bin/uname
+TOOL_HOME=/usr/software/vcs2018/vcs/O-2018.09-SP2/linux64
+TERM_PROGRAM_VERSION=1.103.2
+TERM_PROGRAM=vscode
+SSL_CERT_FILE=/usr/lib/ssl/certs/ca-certificates.crt
+SSL_CERT_DIR=/usr/lib/ssl/certs
+SSH_CONNECTION=36.112.29.21 7438 10.0.0.1 22
+SSH_CLIENT=36.112.29.21 7438 22
+SPYGLASS_HOME=/usr/software/spyglass/spyglass/SPYGLASS2018.09-SP1/SPYGLASS_HOME
+SNPS_VERDI_INTERNAL_LP_XML_NEW_FLOW=1
+SNPS_VCS_INTERNAL_UBUNTU_PRE_LDFLAGS= -no-pie  -Wl,--no-as-needed 
+SNPS_VCS_INTERNAL_LINKER_NEEDS_NO_AS_NEEDED=1
+SCRNAME=vcs
+SCRIPT_NAME=vcs
+OVA_UUM=0
+NPI_PLATFORM=LINUX64_GNU_472
+NOVAS_INST_DIR=/usr/software/verdi/verdi/Verdi_O-2018.09-SP2
+NOVAS_HOME=/usr/software/verdi/verdi/Verdi_O-2018.09-SP2
+MOTD_SHOWN=pam
+LIBRARY_PATH=/usr/lib/x86_64-linux-gnu
+LESSOPEN=| /usr/bin/lesspipe %s
+LESSCLOSE=/usr/bin/lesspipe %s %s
+LC_TIME=zh_CN.UTF-8
+LC_TELEPHONE=zh_CN.UTF-8
+LC_PAPER=zh_CN.UTF-8
+LC_NUMERIC=zh_CN.UTF-8
+LC_NAME=zh_CN.UTF-8
+LC_MONETARY=zh_CN.UTF-8
+LC_MEASUREMENT=zh_CN.UTF-8
+LC_IDENTIFICATION=zh_CN.UTF-8
+LC_ALL=C
+LC_ADDRESS=zh_CN.UTF-8
+GIT_ASKPASS=/home/Sunny/.vscode-server/cli/servers/Stable-6f17636121051a53c88d3e605c491d22af2ba755/server/extensions/git/dist/askpass.sh
+DVE_HOME=/usr/software/vcs2018/vcs/O-2018.09-SP2/gui/dve
+DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/1002/bus
+CPATH=/usr/include/x86_64-linux-gnu
+CONDA_SHLVL=1
+CONDA_PYTHON_EXE=/home/zwz/miniconda3/bin/python
+CONDA_PROMPT_MODIFIER=(base) 
+CONDA_PREFIX=/home/zwz/miniconda3
+CONDA_EXE=/home/zwz/miniconda3/bin/conda
+CONDA_DEFAULT_ENV=base
+COLORTERM=truecolor
+0
+14
+1754992540 ../../global_defines.v
+1756127901 ../define/fp32_defines.vh
+1755056098 ../vsrc/final_adder.v
+1755588346 ../vsrc/full_adder.v
+1755056062 ../vsrc/fp32_packer.v
+1755056051 ../vsrc/fp32_normalizer_rounder.v
+1755056034 ../vsrc/fp32_aligner.v
+1756121750 ../vsrc/fp32_unpacker.v
+1755851411 ../vsrc/wallace_tree_5_inputs.v
+1756122212 ../vsrc/fp32_adder_tree_final.v
+1756128660 ../vsrc/tb_fp32_addtree_5to1.v
+1551421444 /usr/software/vcs2018/vcs/O-2018.09-SP2/include/cm_vcsd.tab
+1550753332 /usr/software/verdi/verdi/Verdi_O-2018.09-SP2/share/PLI/VCS/LINUX64/verdi.tab
+1551421246 /usr/software/vcs2018/vcs/O-2018.09-SP2/linux64/lib/vcsdp_lite.tab
+4
+1551422344 /usr/software/vcs2018/vcs/O-2018.09-SP2/linux64/lib/libvirsim.so
+1551421792 /usr/software/vcs2018/vcs/O-2018.09-SP2/linux64/lib/liberrorinf.so
+1551421768 /usr/software/vcs2018/vcs/O-2018.09-SP2/linux64/lib/libsnpsmalloc.so
+1551421789 /usr/software/vcs2018/vcs/O-2018.09-SP2/linux64/lib/libvfs.so
+1756128666 simv_fp32_addtree.daidir
+-1 partitionlib

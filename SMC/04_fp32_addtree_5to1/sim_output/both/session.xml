@@ -1,0 +1,31 @@
+<session version="1.1" release="O-2018.09-SP2" timestp="2025-08-25 13:31:08 GMT">
+  <info>
+    <attr name="datetime" value="Mon Aug 25 21:31:09 2025
+"/>
+    <attr name="command" value="urg -dir coverage_db.vdb -report both"/>
+    <attr name="top_instance" value="tb_fp32_addtree_5to1"/>
+  </info>
+  <hvp>
+    <datadef>
+      <metdef name="Line" type="ratio" aggregator="average" builtin="1" />
+      <metdef name="Cond" type="ratio" aggregator="average" builtin="1" />
+      <metdef name="Toggle" type="ratio" aggregator="average" builtin="1" />
+      <metdef name="FSM" type="ratio" aggregator="average" builtin="1" />
+      <metdef name="Branch" type="ratio" aggregator="average" builtin="1" />
+    </datadef>
+  </hvp>
+  <old_coverage>
+  <scope type="top" name="top">
+    <metric name="Line" value="851/870" />
+    <metric name="Cond" value="1906/2016" />
+    <metric name="Toggle" value="101377/105262" />
+    <metric name="Branch" value="939/955" />
+  </scope>
+  <scope type="instance" name="top">
+  </scope>
+  <scope type="group" name="top">
+  </scope>
+  <scope type="assert" name="Statistics">
+  </scope>
+  </old_coverage>
+</session>
