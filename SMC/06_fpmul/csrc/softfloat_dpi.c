@@ -1,12 +1,8 @@
 // SoftFloat DPI-C 接口文件，用于 FPMUL 模块验证
-// 提供 IEEE 754 标准的浮点乘法参考实现
 
 #include <stdio.h>
 #include <stdint.h>
 #include "softfloat.h"
-
-// SoftFloat 使用全局变量来管理舍入模式和异常标志
-// 这些变量在 softfloat.h 中声明为 extern
 
 // 设置SoftFloat的舍入模式
 void set_softfloat_rounding_mode(uint32_t mode) {
@@ -23,29 +19,22 @@ uint32_t get_softfloat_flags() {
     return softfloat_exceptionFlags;
 }
 
-/***
-#define softfloat_flag_inexact   1   // 不精确
-#define softfloat_flag_underflow 2   // 下溢
-#define softfloat_flag_overflow  4   // 上溢
-#define softfloat_flag_infinite  8   // 无穷大
-#define softfloat_flag_invalid   16  // 无效
-***/
-
-// DPI-C 函数实现 - 避免命名冲突，使用不同的函数名
 
 // FP16 乘法函数
 uint16_t dpi_f16_mul(uint16_t a, uint16_t b) {
-    // 清除异常标志
-    softfloat_exceptionFlags = 0;
-    
-    // 转换为 SoftFloat 格式
-    float16_t fa, fb, result;
-    fa.v = a;
-    fb.v = b;
-    
-    // 执行乘法
-    result = f16_mul(fa, fb);
-    
+    float16_t f16_a_val, f16_b_val, result;
+    float32_t f32_a_val, f32_b_val, f32_res;
+
+    f16_a_val.v = a;
+    f16_b_val.v = b;
+
+    f32_a_val = f16_to_f32(f16_a_val);
+    f32_b_val = f16_to_f32(f16_b_val);
+
+    f32_res = f32_mul(f32_a_val, f32_b_val);
+
+    // 返回结果
+    result = f32_to_f16(f32_res);
     return result.v;
 }
 
@@ -55,13 +44,16 @@ uint32_t dpi_f32_mul(uint32_t a, uint32_t b) {
     softfloat_exceptionFlags = 0;
     
     // 转换为 SoftFloat 格式
-    float32_t fa, fb, result;
-    fa.v = a;
-    fb.v = b;
-    
+    float32_t f32_a, f32_b, result;
+    float64_t f64_a, f64_b, f64_res;
+    f32_a.v = a;
+    f32_b.v = b;
+
+    f64_a = f32_to_f64(f32_a);
+    f64_b = f32_to_f64(f32_b);
     // 执行乘法
-    result = f32_mul(fa, fb);
-    
+    f64_res = f64_mul(f64_a, f64_b);
+    result = f64_to_f32(f64_res);
     return result.v;
 }
 
@@ -70,26 +62,6 @@ void dpi_softfloat_raiseFlags(uint32_t flags) {
     softfloat_exceptionFlags |= (uint_fast8_t)flags;
 }
 
-// 获取异常标志常量
-uint32_t dpi_get_inexact_flag() {
-    return softfloat_flag_inexact;
-}
-
-uint32_t dpi_get_underflow_flag() {
-    return softfloat_flag_underflow;
-}
-
-uint32_t dpi_get_overflow_flag() {
-    return softfloat_flag_overflow;
-}
-
-uint32_t dpi_get_infinite_flag() {
-    return softfloat_flag_infinite;
-}
-
-uint32_t dpi_get_invalid_flag() {
-    return softfloat_flag_invalid;
-}
 
 // 获取当前异常标志
 uint32_t dpi_get_exception_flags() {

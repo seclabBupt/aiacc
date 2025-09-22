@@ -290,7 +290,7 @@ FP32边界测试：
 
 ### 3.2 参考模型
 ```
-参考库：Berkeley SoftFloat-3
+参考库：Berkeley SoftFloat
 接口：DPI-C函数调用
 对比精度：位级精确匹配
 异常验证：标志位完全一致

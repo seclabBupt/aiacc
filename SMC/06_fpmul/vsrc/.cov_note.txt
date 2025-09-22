@@ -1,0 +1,1 @@
+Note: To observe internal toggle on pre_shifted_h16_full[24], ensure directed FP16 denorm/normal cycles run and that coverage includes internal RTL nets (or use keep).
