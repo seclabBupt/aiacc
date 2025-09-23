@@ -1,6 +1,0 @@
-@elabcom rc file Version 1.0
-[oh]
-invokeDir = /home/Sunny/SMC/03_fp16_to_fp32_multiplier/sim_output
-hostCommand = -lib /home/Sunny/SMC/03_fp16_to_fp32_multiplier/sim_output/simv.daidir/work -saveLevel -elab /home/Sunny/SMC/03_fp16_to_fp32_multiplier/sim_output/simv.daidir/kdb -simflow -simdir /home/Sunny/SMC/03_fp16_to_fp32_multiplier/sim_output/simv.daidir/kdb_libs -\
-top tb_fp16_to_fp32_multiplier -Lf work +disable_message+C00380+C00381 +disable_message+C00388+C00389 -SNPS_ELABCOM -saveElab
-simType = VCS
